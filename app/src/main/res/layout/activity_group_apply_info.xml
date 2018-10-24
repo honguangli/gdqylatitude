@@ -51,7 +51,7 @@
             android:layout_height="100dp"
             android:background="@color/colorWhite"
             android:layout_marginTop="10dp">
-
+            <!-- 头像 -->
             <ImageView
                 android:id="@+id/iv_group_icon"
                 android:layout_width="60dp"
