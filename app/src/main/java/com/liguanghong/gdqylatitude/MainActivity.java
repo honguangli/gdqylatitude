@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             child.setVisibility(View.INVISIBLE);
         }
         //地图上比例尺
-        mMapView.showScaleControl(true);
+        //mMapView.showScaleControl(true);
         // 隐藏缩放控件
         mMapView.showZoomControls(true);
 
