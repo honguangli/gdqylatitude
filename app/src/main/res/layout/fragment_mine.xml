@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
+
+    </RelativeLayout>
+
+    <!-- 界面主要内容容器 -->
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_above="@id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 个人详情 -->
+        <RelativeLayout
+            android:id="@+id/personal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/personal_head"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/addressbook_light"/>
+
+            <TextView
+                android:id="@+id/personal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/personal_head"
+                android:text="Tom"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/personal_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/personal_head"
+                android:layout_below="@id/personal_name"
+                android:text="ID:2016060060"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+        </RelativeLayout>
+
+        <!-- 动态 -->
+        <RelativeLayout
+            android:id="@+id/dynamic_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personal_info"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@color/colorWhite">
+
+            <!-- 好友动态 -->
+            <RelativeLayout
+                android:id="@+id/dynamic_friends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:id="@+id/dynamic_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dynamic_friends_light"/>
+
+                <TextView
+                    android:id="@+id/dynamic_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/dynamic_icon"
+                    android:text="动态"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/dynamic_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/dynamic_friends"
+                android:background="@color/Gainsboro"/>
+
+            <!-- 我的动态 -->
+            <RelativeLayout
+                android:id="@+id/dynamic_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/dynamic_line"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:id="@+id/dynamic_mine_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dynamic_mine_light"/>
+
+                <TextView
+                    android:id="@+id/dynamic_mine_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/dynamic_mine_icon"
+                    android:text="相册"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- 设置 -->
+        <RelativeLayout
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dynamic_panel"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/setting_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/setting_light"/>
+
+            <TextView
+                android:id="@+id/setting_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/setting_icon"
+                android:text="设置"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!-- 加载底部导航栏 -->
+    <include layout="@layout/bottom"/>
+
+</RelativeLayout>
