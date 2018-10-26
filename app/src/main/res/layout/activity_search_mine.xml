@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="搜索"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
+
+        <!-- 菜单 -->
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/add"/>
+
+    </RelativeLayout>
+
+    <!-- 界面主要内容容器 -->
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/relativelayout_search"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/colorWhite">
+
+            <EditText
+                android:id="@+id/edittext_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="15dp"
+                android:maxLines="1"
+                android:text="T"
+                android:textSize="16sp"
+                android:textColor="@color/Gainsboro"
+                android:background="@drawable/search_edittext"
+                />
+
+            <Button
+                android:id="@+id/button_search_cancel"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="取消"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
+                android:background="@color/colorWhite"/>
+        </RelativeLayout>
+
+        <!--好友 -->
+        <RelativeLayout
+            android:id="@+id/relativelayout_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativelayout_search"
+            android:layout_marginTop="3dp"
+            android:background="@color/colorWhite">
+            
+            
+            <TextView
+                android:id="@+id/textview_search_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="20dp"
+                android:text="好友"
+                android:textColor="@color/colorBF"
+
+                />
+
+            <!-- 好友的ListView -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_search_friend"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/search_friend_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/dynamic_mine_light"
+                />
+                <TextView
+                    android:id="@+id/tv_friend_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/search_friend_icon"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Tom"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_friend_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/search_friend_icon"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:text="来自分组：默认分组"
+                    android:textSize="14sp"
+                    android:textColor="@color/Gainsboro"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 群聊 -->
+        <RelativeLayout
+            android:id="@+id/relativelayout_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativelayout_friend"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite">
+
+
+            <TextView
+                android:id="@+id/textview_search_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="20dp"
+                android:text="群聊"
+                android:textColor="@color/colorBF"
+
+                />
+
+            <!-- 群聊的ListView -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_search_group"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/search_group_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/dynamic_mine_light"
+                    />
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/search_group_icon"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Tom的群聊"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 群聊的ListView -->
+    </RelativeLayout>
+
+</RelativeLayout>
