@@ -18,7 +18,7 @@ public class AddressbookFragment extends Fragment {
     {
         if(view == null)
         {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
+            view = inflater.inflate(R.layout.fragment_mine, container, false);
 
             initView();
             initData();
