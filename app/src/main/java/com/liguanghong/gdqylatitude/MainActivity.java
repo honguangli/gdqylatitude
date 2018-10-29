@@ -1,5 +1,6 @@
 package com.liguanghong.gdqylatitude;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.widget.ZoomControls;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
+import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
@@ -36,78 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        /*
-        MapView mMapView;
-        BaiduMap mBaiduMap;
-        mMapView = (MapView) findViewById(R.id.map);
-        mBaiduMap = mMapView.getMap();
-
-        //隐藏百度地图logo
-        View child = mMapView.getChildAt(1);
-        if (child != null && (child instanceof ImageView || child instanceof ZoomControls)){
-            child.setVisibility(View.INVISIBLE);
-        }
-        //地图上比例尺
-        //mMapView.showScaleControl(true);
-        // 隐藏缩放控件
-        mMapView.showZoomControls(true);
-        */
-        initView();
-        getData();
-
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
-    private void initView(){
-        Fragment mapFragment = new MapFragment();
-        Fragment messageFragment = new MessageFragment();
-        Fragment addressbookFragment = new AddressbookFragment();
-        Fragment mineFragment = new MineFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.contentPanel, mapFragment, mapFragment.getClass().getName());
-        fragmentTransaction.add(R.id.contentPanel, messageFragment, messageFragment.getClass().getName());
-        fragmentTransaction.add(R.id.contentPanel, addressbookFragment, addressbookFragment.getClass().getName());
-        fragmentTransaction.add(R.id.contentPanel, mineFragment, mineFragment.getClass().getName());
-        fragmentTransaction.show(mapFragment);
-        fragmentTransaction.hide(messageFragment);
-        fragmentTransaction.hide(addressbookFragment);
-        fragmentTransaction.hide(mineFragment);
-        fragmentTransaction.commit();
-    }
-
-    private void getData(){
-        new Thread(){
-            public void run(){
-                Log.i("测试", "连接开始");
-                //创建okHttpClient对象
-                OkHttpClient mOkHttpClient = new OkHttpClient();
-                //创建一个Request
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("id","1")
-                        .build();
-                Request request = new Request.Builder()
-                        .url("http://172.17.144.204:8080/ConfigureSSM/admin/queryById.do")
-                        .post(requestBody)
-                        .build();
-                //new call
-                Call call = mOkHttpClient.newCall(request);
-                //请求加入调度
-                call.enqueue(new Callback()
-                {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.i("测试失败", "sss");
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        Log.i("测试", response.body().string().toString());
-                    }
-
-                });
-            }
-        }.start();
-    }
 }

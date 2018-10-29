@@ -133,7 +133,7 @@
                 android:layout_marginLeft="50dp"
                 android:text="拒绝"
                 android:textColor="@color/colorBF"
-                android:background="@drawable/refuse_button"/>
+                android:background="@drawable/white_5_radius"/>
 
             <Button
                 android:id="@+id/bt_agree_notice"
@@ -143,7 +143,7 @@
                 android:layout_marginRight="50dp"
                 android:text="同意"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/notice_botton"/>
+                android:background="@drawable/title_5_radius"/>
         </RelativeLayout>
 
 

@@ -42,7 +42,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"></service>
-
+        <activity android:name=".activitys.HomeActivity"></activity>
     </application>
 
 </manifest>

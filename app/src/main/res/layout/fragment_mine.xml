@@ -194,8 +194,4 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
-    <!-- 加载底部导航栏 -->
-    <include layout="@layout/bottom"/>
-
 </RelativeLayout>

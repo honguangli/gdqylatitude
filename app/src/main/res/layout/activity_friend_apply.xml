@@ -46,7 +46,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"></RelativeLayout>
+            android:layout_height="90dp">
 
         <ImageView
             android:id="@+id/iv_friend_icon"
@@ -56,29 +56,35 @@
             android:layout_centerVertical="true"
             android:src="@drawable/dynamic_mine_light"/>
 
-        <TextView
-            android:id="@+id/tv_friend_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_friend_icon"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Tom"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"
-            />
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:id="@+id/tv_friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tom"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                />
 
-        <TextView
-            android:id="@+id/tv_friend_notice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_friend_icon"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="45dp"
-            android:text="请求加为好友"
-            android:textSize="16sp"
-            android:textColor="@color/Gainsboro"
-            />
+            <TextView
+                android:id="@+id/tv_friend_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请求加为好友"
+                android:textSize="16sp"
+                android:textColor="@color/Gainsboro"
+                />
+
+        </LinearLayout>
+
+
         <Button
             android:id="@+id/bt_friend_notice"
             android:layout_width="70dp"
@@ -88,7 +94,8 @@
             android:layout_marginRight="20dp"
             android:text="同意"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/notice_botton"/>
+            android:background="@drawable/title_5_radius"/>
 
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

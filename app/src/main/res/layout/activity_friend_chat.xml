@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/tv_friendName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Tom"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/tv_friendState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_friendName"
+                android:layout_marginTop="1dp"
+                android:layout_centerInParent="true"
+                android:text="在线"
+                android:textSize="10sp"
+                android:textColor="@color/colorWhite"/>
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/mine_white"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:layout_centerVertical="true"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/add"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/shape_add_white">
+
+                <ImageView
+                    android:id="@+id/bt_add"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/add_gray"
+                    />
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/ed_content"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@+id/add"
+                android:layout_marginLeft="7dp"
+                android:paddingLeft="7dp"
+                android:layout_toLeftOf="@id/tv_send"
+                android:layout_marginRight="7dp"
+                android:layout_centerVertical="true"
+                android:textSize="12sp"
+                android:textColor="@color/colorBF"
+                android:background="@drawable/white_5_radius"/>
+
+
+            <TextView
+                android:id="@+id/tv_send"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:text="发送"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/title_5_radius"
+                android:gravity="center"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+

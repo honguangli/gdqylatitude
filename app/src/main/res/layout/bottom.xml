@@ -32,7 +32,7 @@
                 android:id="@+id/map_iv"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/map"/>
+                android:src="@drawable/map_light"/>
 
             <TextView
                 android:id="@+id/map_tv"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="地图"
                 android:textSize="14sp"
-                android:textColor="@color/colorBF"/>
+                android:textColor="@color/colorTitle"/>
 
         </LinearLayout>
 
@@ -107,7 +107,7 @@
                 android:id="@+id/mine_iv"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/mine_light"/>
+                android:src="@drawable/mine"/>
 
             <TextView
                 android:id="@+id/mine_tv"
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:text="我"
                 android:textSize="14sp"
-                android:textColor="@color/colorTitle"/>
+                android:textColor="@color/colorBF"/>
 
         </LinearLayout>
 
