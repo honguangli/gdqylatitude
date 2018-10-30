@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,22 +175,24 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-        view.getLocationInWindow(location);
-        rawX = location[0] + view.getWidth()/2;
-        rawY=  location[1];
-        QPopuWindow.getInstance(getActivity()).builder
-                .bindView(view, 0)
-                .setPopupItemList(new String[]{"分组管理"})
-                .setPointers(rawX,rawY)
-                .setOnPopuListItemClickListener(new QPopuWindow.OnPopuListItemClickListener() {
-                    @Override
-                    public void onPopuListItemClick(View anchorView, int anchorViewPosition, int position) {
-                        Toast.makeText(getContext(),anchorViewPosition+"---->"+position,Toast.LENGTH_SHORT).show();
-                        Intent fenzu_manage = new Intent(getActivity(), Fenzu_manageActivity.class);
-                        getActivity().startActivityForResult(fenzu_manage,1);
-                    }
-                }).show();;
+        //长按组
+        if(ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP){
+            view.getLocationInWindow(location);
+            rawX = location[0] + view.getWidth()/2;
+            rawY=  location[1];
+            QPopuWindow.getInstance(getActivity()).builder
+                    .bindView(view, 0)
+                    .setPopupItemList(new String[]{"分组管理"})
+                    .setPointers(rawX,rawY)
+                    .setOnPopuListItemClickListener(new QPopuWindow.OnPopuListItemClickListener() {
+                        @Override
+                        public void onPopuListItemClick(View anchorView, int anchorViewPosition, int position) {
+                            Toast.makeText(getContext(),anchorViewPosition+"---->"+position,Toast.LENGTH_SHORT).show();
+                            Intent fenzu_manage = new Intent(getActivity(), Fenzu_manageActivity.class);
+                            getActivity().startActivityForResult(fenzu_manage,1);
+                        }
+                    }).show();;
+        }
         return true;           //默认为false，设为true时，长按/点击事件不会展开Group
     }
 
