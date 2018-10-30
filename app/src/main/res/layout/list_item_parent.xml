@@ -2,9 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="#ffffff"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     tools:ignore="MissingDefaultResource">
 
     <ImageView
@@ -18,10 +20,12 @@
     <TextView
         android:id="@+id/text_parent"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:textColor="#000000"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorBlack"
         android:textSize="18sp"
-        android:text="parent1"
+        android:text="默认分组"
         android:layout_toRightOf="@id/image_parent"
         android:gravity="center"/>
 
