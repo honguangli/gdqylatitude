@@ -51,19 +51,20 @@
             android:id="@+id/search_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:layout_alignParentTop="true">
 
             <EditText
                 android:id="@+id/edittext_search"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp"
                 android:paddingLeft="15dp"
                 android:maxLines="1"
-                android:text="T"
+                android:gravity="center"
+                android:text="搜索"
                 android:textSize="16sp"
                 android:textColor="@color/Gainsboro"
                 android:background="@drawable/search_edittext"
@@ -71,13 +72,20 @@
 
         </RelativeLayout>
 
+        <View
+            android:id="@+id/line1"
+            android:layout_below="@id/search_panel"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorF5"/>
+
         <RelativeLayout
             android:id="@+id/rly_new_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/search_panel"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_below="@id/line1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:background="#ffffff">
 
             <TextView
@@ -88,7 +96,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorBlack"
                 android:text="新朋友"
-                android:textSize="16sp"/>
+                android:textSize="18sp"/>
 
             <ImageView
                 android:layout_width="24dp"
@@ -101,13 +109,20 @@
 
         </RelativeLayout>
 
+        <View
+            android:id="@+id/line2"
+            android:layout_below="@id/rly_new_friends"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorF5"/>
+
         <RelativeLayout
             android:id="@+id/rly_chat_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rly_new_friends"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_below="@id/line2"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:background="#ffffff">
 
             <TextView
@@ -117,7 +132,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/colorBlack"
                 android:text="群聊"
-                android:textSize="16sp"/>
+                android:textSize="18sp"/>
 
             <ImageView
                 android:layout_width="24dp"
@@ -130,12 +145,18 @@
 
         </RelativeLayout>
 
+        <View
+            android:id="@+id/line3"
+            android:layout_below="@id/rly_chat_group"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorF5"/>
+
         <ExpandableListView
             android:id="@+id/expandablelistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rly_chat_group"
-            android:layout_marginBottom="50dp"
+            android:layout_below="@id/line3"
             android:groupIndicator="@null"
             android:divider="@null"
             />

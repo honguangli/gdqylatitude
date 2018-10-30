@@ -14,6 +14,15 @@
         android:layout_height="42dp"
         android:background="@color/colorTitle"
         android:orientation="horizontal">
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft_gray"/>
 
         <!-- 标题 -->
         <TextView
@@ -65,12 +74,13 @@
                 android:background="@drawable/search_edittext"
                 />
 
-            <Button
+            <TextView
                 android:id="@+id/button_search_cancel"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:gravity="center"
                 android:layout_marginRight="10dp"
                 android:text="取消"
                 android:textSize="16sp"

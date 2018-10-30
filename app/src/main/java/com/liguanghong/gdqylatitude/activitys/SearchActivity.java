@@ -6,13 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_search,search_add;
-    private Button button_search_cancel;
+    private TextView button_search_cancel;
     private EditText edittext_search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initSearch(){
-        button_search_cancel = (Button)findViewById(R.id.button_search_cancel);
+        button_search_cancel = (TextView)findViewById(R.id.button_search_cancel);
         backtrack_search = (ImageView) findViewById(R.id.backtrack);
-        search_add = (ImageView) findViewById(R.id.add);
+        search_add = (ImageView) findViewById(R.id.menu);
         edittext_search =(EditText)findViewById(R.id.edittext_search);
 
         button_search_cancel.setOnClickListener(this);
@@ -38,7 +39,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.add:
+            case R.id.menu:
 
                 break;
 

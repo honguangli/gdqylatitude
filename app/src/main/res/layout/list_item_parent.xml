@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:text="默认分组"
         android:layout_toRightOf="@id/image_parent"
         android:gravity="center"/>

@@ -1,4 +1,4 @@
-package com.liguanghong.gdqylatitude.unity;
+package com.liguanghong.gdqylatitude.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -41,9 +41,9 @@ public class QPopuWindow extends PopupWindow {
     private static final int DEFAULT_PRESSED_TEXT_COLOR = Color.WHITE;
     private static final int DEFAULT_TEXT_SIZE = 12;
     private static final int DEFAULT_TEXT_PADDING_LEFT = 16;
-    private static final int DEFAULT_TEXT_PADDING_TOP = 16;
+    private static final int DEFAULT_TEXT_PADDING_TOP = 12;
     private static final int DEFAULT_TEXT_PADDING_RIGHT = 16;
-    private static final int DEFAULT_TEXT_PADDING_BOTTOM = 16;
+    private static final int DEFAULT_TEXT_PADDING_BOTTOM = 12;
     private static final int DEFAULT_NORMAL_BACKGROUND_COLOR = 0xCC000000;
     private static final int DEFAULT_PRESSED_BACKGROUND_COLOR = 0xE7777777;
     private static final int DEFAULT_BACKGROUND_RADIUS = 5;
