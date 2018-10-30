@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource"
+    tools:context=".activitys.Group_infoActivity">
+
+    /*==============群信息=================*/
+
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/dynamic_background"
+        android:orientation="horizontal">
+
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft_gray"/>
+
+
+        <!-- 菜单 -->
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more"/>
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="130dp">
+
+        <TextView
+            android:id="@+id/group_name"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="Tom的群聊"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/group_id"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff"
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="20160607023"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rly_group_all"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="群聊成员"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="35dp"
+                android:text="共25人"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/toright_gray"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:background="#ffffff">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/group_head"
+                android:text="Tom"
+                android:textAlignment="center"
+                android:textColor="@color/colorBF"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:drawableTop="@drawable/group_head"
+                android:text="镜子"
+                android:textAlignment="center"
+                android:textColor="@color/colorBF"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:drawableTop="@drawable/group_head"
+                android:text="嘉"
+                android:textAlignment="center"
+                android:textColor="@color/colorBF"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:drawableTop="@drawable/group_head"
+                android:text="大肥猪"
+                android:textAlignment="center"
+                android:textColor="@color/colorBF"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/invite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:drawableTop="@drawable/group_head"
+                android:text="邀请"
+                android:textAlignment="center"
+                android:textColor="@color/colorTitle"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"/>
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#ffffff"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="群公告"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:background="#ffffff"
+            android:paddingLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="这是群公告！这是群公告！这是群公告！"
+            android:textColor="@color/colorBF"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rly_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="群管理"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="35dp"
+                android:text="设置群资料、管理群成员等"
+                android:textColor="@color/colorBF"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/toright_gray"/>
+        </RelativeLayout>
+
+    </TableLayout>
+
+</RelativeLayout>

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:ignore="MissingDefaultResource">
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -31,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="消息"
+            android:text="签到"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
@@ -43,9 +42,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/more"/>
+            android:src="@drawable/add"/>
 
     </RelativeLayout>
+
 
     <!-- 界面主要内容容器 -->
     <RelativeLayout
@@ -55,9 +55,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </RelativeLayout>
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <!-- 加载底部导航栏 -->
-    <include layout="@layout/bottom"/>
+        </com.baidu.mapapi.map.MapView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

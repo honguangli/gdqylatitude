@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    /*=====================群管理==================tools:context=".activities.ChatguanliActivity"====*/
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft_gray"/>
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="群管理"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
+
+        <!-- 菜单 -->
+        <Button
+            android:id="@+id/menu"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:text="完成"
+            android:textSize="18sp"
+            android:textColor="#ffffff"/>
+
+    </RelativeLayout>
+
+
+    <TableLayout
+        android:id="@+id/TableLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:paddingLeft="20dp"
+            android:text="头像"
+            android:textSize="16sp"
+            android:textColor="#000000"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"/>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:background="#ffffff"
+                android:text="群名称"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:paddingLeft="20dp"
+                android:text="Tom的群组"
+                android:textSize="16sp"
+                android:textColor="@color/Gainsboro"/>
+
+        </TableRow>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"/>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:background="#ffffff"
+                android:text="群公告"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:paddingLeft="20dp"
+                android:text="这是群公告！"
+                android:textSize="16sp"
+                android:textColor="@color/Gainsboro"/>
+
+        </TableRow>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"/>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:background="#ffffff"
+                android:text="群成员管理"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="120dp"
+                    android:background="#ffffff"
+                    android:src="@drawable/toright_gray" />
+
+            </RelativeLayout>
+        </TableRow>
+
+        <View
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:background="#ffffff"
+            android:text="签到管理"
+            android:textSize="16sp"
+            android:textColor="#000000"/>
+
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:background="#ffffff"
+            android:text="解散群组"
+            android:textSize="16sp"
+            android:textColor="#FF4040"/>/>
+
+    </TableLayout>
+
+
+
+</RelativeLayout>

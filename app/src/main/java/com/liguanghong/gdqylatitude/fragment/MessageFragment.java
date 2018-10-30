@@ -18,7 +18,7 @@ public class MessageFragment extends Fragment {
     {
         if(view == null)
         {
-            view = inflater.inflate(R.layout.fragment_mine, container, false);
+            view = inflater.inflate(R.layout.fragment_message, container, false);
 
             initView();
             initData();

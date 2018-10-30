@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:context=".activitys.Group_chatActivity">
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -25,44 +25,29 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/toleft_gray"/>
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/tv_friendName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_friendName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tom"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorWhite"/>
+            android:layout_centerInParent="true"
+            android:text="群聊"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"/>
 
-                <TextView
-                    android:id="@+id/tv_friendState"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="在线"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorWhite"/>
-            </LinearLayout>
-        </RelativeLayout>
+
         <TextView
-            android:id="@+id/tv_data"
+            android:id="@+id/tv_data_group"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/mine_white"
+            android:background="@drawable/group_info"
             android:layout_alignParentRight="true"
             android:layout_marginRight="25dp"
             android:layout_centerVertical="true"
             />
+
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/contentPanel"
         android:layout_below="@+id/topPanel"
@@ -76,7 +61,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/add"
+                android:id="@+id/rly_add_group"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
@@ -95,14 +80,14 @@
 
 
             <EditText
-                android:id="@+id/ed_content"
-                android:layout_width="wrap_content"
+                android:id="@+id/ed_content_group"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_toRightOf="@+id/add"
-                android:layout_marginLeft="7dp"
+                android:layout_marginLeft="55dp"
                 android:paddingLeft="7dp"
                 android:layout_toLeftOf="@id/tv_send"
-                android:layout_marginRight="7dp"
+                android:layout_marginRight="80dp"
                 android:layout_centerVertical="true"
                 android:textSize="12sp"
                 android:textColor="@color/colorBF"
@@ -110,7 +95,7 @@
 
 
             <TextView
-                android:id="@+id/tv_send"
+                android:id="@+id/tv_send_group"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"

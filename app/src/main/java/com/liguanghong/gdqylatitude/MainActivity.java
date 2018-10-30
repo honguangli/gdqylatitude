@@ -36,10 +36,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
+        //SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+    public void onActivityResult(int requestCode,int resultCoded,Intent data){
+        super.onActivityResult(requestCode,resultCoded,data);
+        if (requestCode == 1 && resultCoded == 10){
+            HomeActivity homeActivity = (HomeActivity)getApplicationContext();
+            FragmentManager fragmentManager = homeActivity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.contentPanel,new AddressbookFragment());
+            fragmentTransaction.commit();
+
+        }
     }
 
 }

@@ -1,10 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +12,7 @@ import android.widget.TextView;
 import com.baidu.mapapi.SDKInitializer;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FragmentAdapter;
+import com.liguanghong.gdqylatitude.base.BaseViewPager;
 import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
@@ -35,7 +32,7 @@ import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout map,message,addressbook,mine;
-    private ViewPager vp;
+    private BaseViewPager vp;
     private ImageView iv_map,iv_message,iv_addressbook,iv_mine;
     private TextView tv_map,tv_message,tv_addressbook,tv_mine;
     @Override
@@ -64,6 +61,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void initView(){
         List<Fragment> fragments = new ArrayList<Fragment>();
         Fragment mapFragment = new MapFragment();
@@ -75,7 +77,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fragments.add(addressbookFragment);
         fragments.add(mineFragment);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
-        vp = (ViewPager) findViewById(R.id.viewpager);
+        vp = (BaseViewPager) findViewById(R.id.viewpager);
         vp.setAdapter(adapter);
         map = (LinearLayout)findViewById(R.id.map);
         message = (LinearLayout)findViewById(R.id.message);

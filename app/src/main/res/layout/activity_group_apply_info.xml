@@ -23,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/toleft"/>
+            android:src="@drawable/toleft_gray"/>
 
         <!-- 标题 -->
         <TextView
@@ -59,35 +59,37 @@
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/dynamic_mine_light"/>
-
-            <TextView
-                android:id="@+id/tv_group_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_group_icon"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
-                android:text="Tom的群聊"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_group_icon"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tom的群聊"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
 
-            <TextView
-                android:id="@+id/tv_group_notice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_group_icon"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="55dp"
-                android:text="ID:20160607023"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
+                <TextView
+                    android:id="@+id/tv_group_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID:20160607023"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/right_gray"
+                android:src="@drawable/toright_gray"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"/>

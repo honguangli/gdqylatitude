@@ -36,13 +36,26 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7"></meta-data>
+            android:value="MTx8n5niZvhXsgwAk7pjydWjGdf0p4Bw"></meta-data>
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"></service>
         <activity android:name=".activitys.HomeActivity"></activity>
+        <activity android:name=".activitys.FriendApplyActivity" />
+        <activity android:name=".activitys.GroupActivity" />
+        <activity android:name=".activitys.Group_applyActivity" />
+        <activity android:name=".activitys.SearchActivity" />
+        <activity android:name=".activitys.Fenzu_manageActivity" />
+        <activity android:name=".activitys.Group_createActivity" />
+        <activity android:name=".activitys.Friend_chatActivity" />
+        <activity android:name=".activitys.Friend_infoActivity" />
+        <activity android:name=".activitys.Fenzu_moveActivity" />
+        <activity android:name=".activitys.Modify_remarkActivity" />
+        <activity android:name=".activitys.Group_chatActivity" />
+        <activity android:name=".activitys.Group_infoActivity"></activity>
+
     </application>
 
 </manifest>

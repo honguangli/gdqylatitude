@@ -187,8 +187,6 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     />
-
-
             </RelativeLayout>
         </RelativeLayout>
 

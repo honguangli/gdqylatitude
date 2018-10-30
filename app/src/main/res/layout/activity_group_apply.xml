@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context=".MainActivity">
+    >
+
+    /*===================群聊通知========================*/
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -31,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="好友通知"
+            android:text="群聊通知"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
@@ -46,7 +48,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp">
+            android:layout_height="90dp"></RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_friend_icon"
@@ -56,34 +58,29 @@
             android:layout_centerVertical="true"
             android:src="@drawable/dynamic_mine_light"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_friend_icon"
-            android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            >
-            <TextView
-                android:id="@+id/tv_friend_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tom"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Tom的群聊：吴"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            />
 
-            <TextView
-                android:id="@+id/tv_friend_notice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请求加为好友"
-                android:textSize="16sp"
-                android:textColor="@color/Gainsboro"
-                />
-        </LinearLayout>
-
-
+        <TextView
+            android:id="@+id/tv_friend_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_friend_icon"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="45dp"
+            android:text="申请加入群聊"
+            android:textSize="16sp"
+            android:textColor="@color/Gainsboro"
+            />
         <Button
             android:id="@+id/bt_friend_notice"
             android:layout_width="70dp"
@@ -95,6 +92,7 @@
             android:textColor="@color/colorWhite"
             android:background="@drawable/title_5_radius"/>
 
-        </RelativeLayout>
     </RelativeLayout>
+
+
 </RelativeLayout>

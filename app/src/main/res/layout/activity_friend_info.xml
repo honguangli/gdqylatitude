@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:context=".activitys.Friend_infoActivity">
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/backtrack"
+            android:layout_marginLeft="35dp"
             android:text="详细资料"
             android:textSize="16sp"
             android:textColor="@color/colorWhite"/>
@@ -58,32 +58,30 @@
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/dynamic_mine_light"/>
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/tv_information_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_information_icon"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_information_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tom"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Tom"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                />
 
-                <TextView
-                    android:id="@+id/tv_information_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ID:20160607023"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/tv_information_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_information_icon"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:text="ID:20160607023"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                />
         </RelativeLayout>
 
         <!-- 如果查看我的消息不显示备注 -->
@@ -97,8 +95,10 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rly_beizhu"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
+
                 <TextView
                     android:id="@+id/tv_information_remark"
                     android:layout_width="wrap_content"
@@ -108,7 +108,9 @@
                     android:text="备注"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
+
                 <TextView
+                    android:id="@+id/tv_information_markname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -119,7 +121,8 @@
                     android:textColor="@color/colorBF"
                     />
             </RelativeLayout>
-            <view
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
@@ -127,6 +130,7 @@
                 android:background="@color/colorF5"/>
 
             <RelativeLayout
+                android:id="@+id/rly_fenzu"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView
@@ -138,7 +142,9 @@
                     android:text="分组"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
+
                 <TextView
+                    android:id="@+id/tv_information_groupname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -171,7 +177,9 @@
                     android:text="地区"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
+
                 <TextView
+                    android:id="@+id/tv_information_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -182,7 +190,7 @@
                     android:textColor="@color/colorBF"
                     />
             </RelativeLayout>
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
@@ -193,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView
-                    android:id="@+id/tv_information_signature"
+                    android:id="@+id/tv_information_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -201,7 +209,9 @@
                     android:text="个性签名"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
+
                 <TextView
+                    android:id="@+id/tv_information_signature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -213,7 +223,7 @@
                     />
 
             </RelativeLayout>
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
@@ -260,7 +270,7 @@
                     />
             </RelativeLayout>
         </LinearLayout>
-        <!-- 如果已经是好友就显示发消息按钮 -->
+         <!--如果已经是好友就显示发消息按钮 -->
         <Button
             android:id="@+id/bt_information_send"
             android:layout_width="280dp"
@@ -269,18 +279,6 @@
             android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
             android:text="发消息"
-            android:textSize="14sp"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/title_5_radius"/>
-        <!-- 如果还不是好友就显示添加好友按钮  -->
-        <Button
-            android:id="@+id/bt_information_addfriend"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/LinearLayout_synthesize"
-            android:layout_marginTop="25dp"
-            android:layout_centerHorizontal="true"
-            android:text="添加好友"
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
             android:background="@drawable/title_5_radius"/>

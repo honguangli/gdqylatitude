@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:ignore="MissingDefaultResource">
+
+    /*=================动态发表====================*/
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -31,33 +32,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="消息"
+            android:text="签到管理"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
         <!-- 菜单 -->
-        <ImageView
+        <TextView
             android:id="@+id/menu"
-            android:layout_width="24dp"
+            android:layout_width="40dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/more"/>
+            android:text="发表"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
 
     </RelativeLayout>
 
-    <!-- 界面主要内容容器 -->
     <RelativeLayout
-        android:id="@+id/contentPanel"
-        android:layout_below="@id/topPanel"
-        android:layout_above="@id/bottomPanel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:background="#ffffff"
+        android:layout_marginTop="45dp">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:text="分享新鲜事..."
+            android:textColor="@color/colorBF"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/Gainsboro"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/phone"/>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
-
-    <!-- 加载底部导航栏 -->
-    <include layout="@layout/bottom"/>
 
 </RelativeLayout>

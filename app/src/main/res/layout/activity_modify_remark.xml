@@ -23,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/toleft"/>
+            android:src="@drawable/toleft_gray"/>
 
         <!-- 标题 -->
         <TextView

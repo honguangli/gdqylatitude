@@ -1,76 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:fillViewport="false"
     tools:context=".MainActivity">
 
-    <!-- 顶部栏 -->
-    <RelativeLayout
-        android:id="@+id/topPanel"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="@color/colorTitle"
-        android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:orientation="vertical">
 
-        <!-- 返回 -->
-        <ImageView
-            android:id="@+id/backtrack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/toleft"/>
 
-        <!-- 标题 -->
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/backtrack"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:text="动态"
-            android:textSize="18sp"
-            android:textColor="@color/colorWhite"/>
-
-        <!-- 图片 -->
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="18dp"
-            android:src="@drawable/camera_white"/>
-
-    </RelativeLayout>
-    
-    
-    <RelativeLayout
-        android:id="@+id/fm"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_below="@+id/topPanel">
-
-        <TextView
-            android:id="@+id/tv_bg"
+        <!-- 顶部栏 -->
+        <RelativeLayout
+            android:id="@+id/topPanel"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@drawable/dynamic_background"/>
+            android:layout_height="42dp"
+            android:background="@color/colorTitle"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/dynamic_mine_light"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:layout_alignParentBottom="true"/>
+            <!-- 返回 -->
+            <ImageView
+                android:id="@+id/backtrack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/toleft_gray"/>
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/backtrack"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:text="动态"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"/>
+
+            <!-- 图片 -->
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="18dp"
+                android:src="@drawable/camera"/>
+
+        </RelativeLayout>
 
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_below="@+id/topPanel">
+
+            <TextView
+                android:id="@+id/tv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:background="@drawable/dynamic_background"/>
+
+            <ImageView
+                android:id="@+id/img_headphoto1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/dynamic_friends_light"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentBottom="true"/>
 
 
-</RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/r2"
+            android:layout_below="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/r2_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/img_headphoto2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/dynamic_mine_light"/>
+
+                <TextView
+                    android:id="@+id/tv_friendName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_headphoto2"
+                    android:layout_marginLeft="15dp"
+                    android:text="Tom"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_headphoto2"
+                    android:layout_below="@+id/tv_friendName1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="今天14:25"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBF"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r2_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/r2_1"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_content1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="大学生活完整了，丢饭卡了!!!"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r2_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r2_2"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/img_location1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/location"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_location1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_location1"
+                    android:layout_marginLeft="10dp"
+                    android:text="广轻（南海校区）"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBF"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/r2_4"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r2_3"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/img_praise1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/praise"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_comment1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="40dp"
+                    android:src="@drawable/comment"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_share1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="80dp"
+                    android:src="@drawable/share"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/r2_4"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/colorBF"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/r3"
+            android:layout_below="@+id/r2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/r3_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/img_headphoto3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/dynamic_mine_light"/>
+
+                <TextView
+                    android:id="@+id/tv_friendName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_headphoto3"
+                    android:layout_marginLeft="15dp"
+                    android:text="Tony"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_headphoto3"
+                    android:layout_below="@+id/tv_friendName2"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="今天11:30"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBF"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r3_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/r3_1"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_content2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="emmmmmmmmm"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r3_3"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_below="@id/r3_2"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/img_photo1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/dynamic_mine_light"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_photo2"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/dynamic_mine_light"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_photo3"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/dynamic_mine_light"
+                        />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r3_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r3_3"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/img_location2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/location"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_location2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_location2"
+                    android:layout_marginLeft="10dp"
+                    android:text="广轻（广州校区）"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBF"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/r3_5"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r3_4"
+
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/img_praise2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/praise"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_comment2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="40dp"
+                    android:src="@drawable/comment"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_share2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="80dp"
+                    android:src="@drawable/share"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/r3_5"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/colorBF"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

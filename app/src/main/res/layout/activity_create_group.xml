@@ -23,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/toleft"/>
+            android:src="@drawable/toleft_gray"/>
 
         <!-- 标题 -->
         <TextView
@@ -84,7 +84,7 @@
             android:background="@color/colorTitle"></View>
 
         <Button
-            android:id="@+id/bt_submit"
+            android:id="@+id/btn_submit"
             android:layout_below="@id/ed_chatname"
             android:layout_width="300dp"
             android:layout_height="40dp"
