@@ -81,7 +81,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent group_chat = new Intent(getApplicationContext(),Group_chatActivity.class);
+        Intent group_chat = new Intent(getApplicationContext(),ChatActivity.class);
         startActivityForResult(group_chat,1);
     }
 }

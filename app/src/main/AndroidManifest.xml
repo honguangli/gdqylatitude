@@ -64,6 +64,8 @@
         <activity android:name=".activitys.DynamicMineActivity" />
         <activity android:name=".activitys.DynamicPublicActivity" />
         <activity android:name=".activitys.SearchAllActivity"></activity>
+        <activity android:name=".activitys.FriendsNoticeInfoActivity"/>
+        <activity android:name=".activitys.GroupNoticeInfoActivity"/>
     </application>
 
 </manifest>
