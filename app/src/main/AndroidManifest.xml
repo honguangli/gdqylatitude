@@ -27,8 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +44,8 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activitys.HomeActivity" />
+        <activity android:name=".activitys.HomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".activitys.FriendsNoticeActivity" />
         <activity android:name=".activitys.GroupActivity" />
         <activity android:name=".activitys.GroupNoticeActivity" />
