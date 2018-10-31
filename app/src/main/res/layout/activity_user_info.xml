@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activitys.Friend_infoActivity">
+    tools:context=".activitys.UserInfoActivity">
 
     <!-- 顶部栏 -->
     <RelativeLayout

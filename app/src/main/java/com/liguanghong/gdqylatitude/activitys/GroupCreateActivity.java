@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import com.liguanghong.gdqylatitude.R;
 
 
-public class Group_createActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupCreateActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_create;
     private RelativeLayout rly_add_newgroup;
@@ -20,7 +20,7 @@ public class Group_createActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_group);
+        setContentView(R.layout.activity_group_create);
 
         initGroupCreate();
     }

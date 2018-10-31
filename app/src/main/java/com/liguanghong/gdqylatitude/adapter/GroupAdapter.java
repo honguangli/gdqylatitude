@@ -44,7 +44,7 @@ public class GroupAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.group_adapter,null);
+            view = LayoutInflater.from(context).inflate(R.layout.item_group,null);
             img_chat_head = (ImageView)view.findViewById(R.id.img_chat_head);
             chat_name = (TextView) view.findViewById(R.id.chat_name);
 

@@ -17,11 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.activitys.Fenzu_manageActivity;
-import com.liguanghong.gdqylatitude.activitys.FriendApplyActivity;
-import com.liguanghong.gdqylatitude.activitys.Friend_chatActivity;
+import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
+import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.activitys.GroupActivity;
-import com.liguanghong.gdqylatitude.activitys.SearchActivity;
+import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
@@ -142,13 +142,13 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
 
             case R.id.edittext_search:
                 Toast.makeText(getActivity(),"搜索",Toast.LENGTH_LONG).show();
-                Intent btn_search = new Intent(getActivity(), SearchActivity.class);
+                Intent btn_search = new Intent(getActivity(), SearchMineActivity.class);
                 getActivity().startActivityForResult(btn_search,1);
                 break;
 
             case R.id.rly_new_friends:
                 Toast.makeText(getActivity(),"新朋友",Toast.LENGTH_LONG).show();
-                Intent friend_apply = new Intent(getActivity(), FriendApplyActivity.class);
+                Intent friend_apply = new Intent(getActivity(), FriendsNoticeActivity.class);
                 getActivity().startActivityForResult(friend_apply,1);
                 break;
 
@@ -164,7 +164,7 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 //        String str = "choose"+groupPosition+"-"+childPosition;
 //        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        Intent fenzu_manage = new Intent(getActivity(), Friend_chatActivity.class);
+        Intent fenzu_manage = new Intent(getActivity(), ChatActivity.class);
         getActivity().startActivityForResult(fenzu_manage,1);
 
         return false;
@@ -186,7 +186,7 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
                         @Override
                         public void onPopuListItemClick(View anchorView, int anchorViewPosition, int position) {
                             Toast.makeText(getContext(),anchorViewPosition+"---->"+position,Toast.LENGTH_SHORT).show();
-                            Intent fenzu_manage = new Intent(getActivity(), Fenzu_manageActivity.class);
+                            Intent fenzu_manage = new Intent(getActivity(), FriendsSetManageActivity.class);
                             getActivity().startActivityForResult(fenzu_manage,1);
                         }
                     }).show();;

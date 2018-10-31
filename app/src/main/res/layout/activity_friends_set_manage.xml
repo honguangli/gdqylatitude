@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource"
-    tools:context=".activitys.Fenzu_manageActivity">
+    tools:context=".activitys.FriendsSetManageActivity">
 
     /*===============分组管理=====================*/
 

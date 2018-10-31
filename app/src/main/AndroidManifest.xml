@@ -26,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,29 +38,32 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7"></meta-data>
+            android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
-        <activity android:name=".activitys.HomeActivity"></activity>
-        <activity android:name=".activitys.FriendApplyActivity" />
-        <activity android:name=".activitys.GroupActivity" />
-        <activity android:name=".activitys.Group_applyActivity" />
-        <activity android:name=".activitys.SearchActivity" />
-        <activity android:name=".activitys.Fenzu_manageActivity" />
-        <activity android:name=".activitys.Group_createActivity" />
-        <activity android:name=".activitys.Friend_chatActivity" />
-        <activity android:name=".activitys.Friend_infoActivity" />
-        <activity android:name=".activitys.Fenzu_moveActivity" />
-        <activity android:name=".activitys.Modify_remarkActivity" />
-        <activity android:name=".activitys.Group_chatActivity" />
-        <activity android:name=".activitys.Group_infoActivity"/>
-        <activity android:name=".activitys.SignInActivity"/>
-        <activity android:name=".activitys.SignUpActivity"/>
-        <activity android:name=".activitys.ResetPwdActivity"/>
+            android:process=":remote" />
 
+        <activity android:name=".activitys.HomeActivity" />
+        <activity android:name=".activitys.FriendsNoticeActivity" />
+        <activity android:name=".activitys.GroupActivity" />
+        <activity android:name=".activitys.GroupNoticeActivity" />
+        <activity android:name=".activitys.SearchMineActivity" />
+        <activity android:name=".activitys.FriendsSetManageActivity" />
+        <activity android:name=".activitys.GroupCreateActivity" />
+        <activity android:name=".activitys.ChatActivity" />
+        <activity android:name=".activitys.UserInfoActivity" />
+        <activity android:name=".activitys.FriendsSetChangeActivity" />
+        <activity android:name=".activitys.GroupInfoActivity" />
+        <activity android:name=".activitys.SignInActivity" />
+        <activity android:name=".activitys.SignUpActivity" />
+        <activity android:name=".activitys.ResetPwdActivity" />
+        <activity android:name=".activitys.SettingActivity" />
+        <activity android:name=".activitys.DynamicFriendsActivity" />
+        <activity android:name=".activitys.DynamicMineActivity" />
+        <activity android:name=".activitys.DynamicPublicActivity" />
+        <activity android:name=".activitys.SearchAllActivity"></activity>
     </application>
 
 </manifest>

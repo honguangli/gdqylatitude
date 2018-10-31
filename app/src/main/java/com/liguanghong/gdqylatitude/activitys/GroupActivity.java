@@ -63,12 +63,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         int id = view.getId();
         switch (id){
             case R.id.rly_group_create:         //跳转到新建群聊页面
-                Intent rly_group_create = new Intent(getApplicationContext(),Group_createActivity.class);
+                Intent rly_group_create = new Intent(getApplicationContext(),GroupCreateActivity.class);
                 startActivityForResult(rly_group_create,1);
                 break;
 
             case R.id.rly_group_note:         //跳转到群通知页面
-                Intent re_chat_nota = new Intent(getApplicationContext(),Group_applyActivity.class);
+                Intent re_chat_nota = new Intent(getApplicationContext(),GroupNoticeActivity.class);
                 startActivityForResult(re_chat_nota,1);
                 break;
 

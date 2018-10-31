@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class Fenzu_manageActivity extends AppCompatActivity implements View.OnClickListener {
+public class FriendsSetManageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_fenzu;
     private ImageView img_movegroup;
@@ -21,7 +21,7 @@ public class Fenzu_manageActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fenzu_manage);
+        setContentView(R.layout.activity_friends_set_manage);
 
         initFenzuManage();
     }

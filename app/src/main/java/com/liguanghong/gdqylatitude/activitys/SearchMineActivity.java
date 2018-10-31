@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchMineActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_search,search_add;
     private TextView button_search_cancel;

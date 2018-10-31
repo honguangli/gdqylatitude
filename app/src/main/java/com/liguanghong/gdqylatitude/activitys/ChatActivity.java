@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class Friend_chatActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_friend_chat;                //返回通讯录
     private TextView tv_friendName;                          //好友名称
@@ -27,7 +26,7 @@ public class Friend_chatActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_chat);
+        setContentView(R.layout.activity_chat);
 
         initFriendChat();
     }
@@ -53,7 +52,7 @@ public class Friend_chatActivity extends AppCompatActivity implements View.OnCli
         int id = view.getId();
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
-                Intent friend_info = new Intent(getApplicationContext(), Friend_infoActivity.class);
+                Intent friend_info = new Intent(getApplicationContext(), UserInfoActivity.class);
                 startActivityForResult(friend_info,1);
                 break;
 

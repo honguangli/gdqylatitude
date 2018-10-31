@@ -7,13 +7,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.liguanghong.gdqylatitude.R;
 
-public class FriendApplyActivity  extends AppCompatActivity implements View.OnClickListener {
+public class FriendsNoticeActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tx_name,tx_notice;
     private Button bt_notice;
 
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_friend_apply);
+    setContentView(R.layout.activity_friends_notice);
     initView();
     }
     private void initView()

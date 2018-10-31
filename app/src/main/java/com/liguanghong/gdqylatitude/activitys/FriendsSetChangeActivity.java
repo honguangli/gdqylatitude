@@ -7,14 +7,14 @@ import android.widget.ImageView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class Fenzu_moveActivity extends AppCompatActivity implements View.OnClickListener {
+public class FriendsSetChangeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_fenzu_move;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fenzu_move);
+        setContentView(R.layout.activity_friends_set_change);
 
         initFenzumove();
     }

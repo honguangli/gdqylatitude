@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class Group_infoActivity extends AppCompatActivity {
+public class GroupInfoActivity extends AppCompatActivity {
 
     private ImageView backtrack_group_info;
     private TextView group_name;

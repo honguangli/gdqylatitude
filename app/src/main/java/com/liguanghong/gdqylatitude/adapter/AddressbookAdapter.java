@@ -74,7 +74,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         final int groupPos = groupPosition;
 
         if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_parent, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_friends_set_parent, null);
         }
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image_parent);
@@ -113,7 +113,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         final int childPos = childPosition;
 
         if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_child, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_friends_set_child, null);
         }
         TextView childText = (TextView) convertView.findViewById(R.id.text_child);
         TextView state = (TextView) convertView.findViewById(R.id.state);

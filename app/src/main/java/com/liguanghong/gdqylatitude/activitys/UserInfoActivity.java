@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 
-public class Friend_infoActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack_friend_info;                    //返回聊天界面
     private ImageView iv_information_icon;                      //好友头像
@@ -30,7 +30,7 @@ public class Friend_infoActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_info);
+        setContentView(R.layout.activity_user_info);
 
         initFriendInfo();
     }
@@ -68,7 +68,7 @@ public class Friend_infoActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.rly_fenzu:             //修改分组名
-                Intent fenzu_move = new Intent(getApplicationContext(), Fenzu_moveActivity.class);
+                Intent fenzu_move = new Intent(getApplicationContext(), FriendsSetChangeActivity.class);
                 startActivityForResult(fenzu_move,1);
                 break;
 

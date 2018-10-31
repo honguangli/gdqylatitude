@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource"
-    tools:context=".activitys.Group_infoActivity">
+    tools:context=".activitys.GroupInfoActivity">
 
     /*==============群信息=================*/
 
