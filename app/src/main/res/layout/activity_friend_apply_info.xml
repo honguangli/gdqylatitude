@@ -125,17 +125,19 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_below="@id/relativelayout_prompt"
-            android:layout_marginTop="15dp">
-
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
             <Button
                 android:id="@+id/bt_refuse_notice"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/white_5_radius"
                 android:text="拒绝"
                 android:textColor="@color/colorBF" />
@@ -145,11 +147,11 @@
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="50dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/title_5_radius"
                 android:text="同意"
                 android:textColor="@color/colorWhite" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </RelativeLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context=".activitys.GroupActivity">
 
     /*=================群聊==================*/
@@ -38,71 +39,59 @@
             android:textColor="@color/colorWhite"/>
 
     </RelativeLayout>
-
     <RelativeLayout
-        android:id="@+id/rly_group_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:layout_marginTop="50dp">
-
-        <TextView
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rly_group_note"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorBlack"
+                android:text="通知"
+                android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/toright_gray"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rly_group_create"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:text="通知"
-            android:textSize="16sp"/>
+            android:layout_height="50dp"
+            android:layout_below="@id/rly_group_note">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorBlack"
+                android:text="新建群聊"
+                android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/toright_gray"/>
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/toright_gray"/>
-
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/lv_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rly_group_create"
+            android:divider="@null" />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rly_group_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:layout_marginTop="95dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:text="新建群聊"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/toright_gray"/>
-
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/lv_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:divider="@null"
-        android:layout_marginTop="130dp"
-        android:layout_marginLeft="10dp"/>
-
-
 </RelativeLayout>

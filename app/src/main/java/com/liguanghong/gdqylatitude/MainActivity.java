@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
      * 检查是否已经登录
      */
     private void checkIsLogin(){
-        if(true){
+        if(false){
             //未登录过，跳转登录界面
             signUp();
             startActivity(new Intent(this, SignInActivity.class));

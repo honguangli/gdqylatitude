@@ -59,29 +59,33 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/dynamic_mine_light"/>
 
-            <TextView
-                android:id="@+id/tv_information_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_information_icon"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Tom"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_information_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_information_icon"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:text="ID:20160607023"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
+                <TextView
+                    android:id="@+id/tv_information_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tom"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:id="@+id/tv_information_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID:20160607023"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    />
+
+
+            </LinearLayout>
         </RelativeLayout>
 
         <!-- 如果查看我的消息不显示备注 -->
@@ -215,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/tv_information_signature"
+                    android:layout_toRightOf="@id/tv_information_sign"
                     android:layout_marginLeft="20dp"
                     android:text="啦啦啦啦啦"
                     android:textSize="16sp"
