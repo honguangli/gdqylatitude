@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             //登录成功
-                            User user = ((JSONObject)result.getData()).toJavaObject(User.class);
+                            user = ((JSONObject)result.getData()).toJavaObject(User.class);
                             Log.i("登录操作", user.getUserid() + " : " + user.getLogname());
                         } else{
                             //登录失败
