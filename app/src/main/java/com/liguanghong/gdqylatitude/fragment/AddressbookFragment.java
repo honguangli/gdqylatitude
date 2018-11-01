@@ -25,6 +25,7 @@ import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.activitys.GroupActivity;
+import com.liguanghong.gdqylatitude.activitys.SearchAllActivity;
 import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
 import com.liguanghong.gdqylatitude.unity.FriendsSet;
@@ -173,7 +174,9 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
         int id = view.getId();
         switch (id){
             case R.id.add:
-
+                Toast.makeText(getActivity(),"搜索+",Toast.LENGTH_LONG).show();
+                Intent img_search = new Intent(getActivity(), SearchAllActivity.class);
+                getActivity().startActivityForResult(img_search,1);
                 break;
 
             case R.id.edittext_search:

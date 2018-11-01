@@ -85,7 +85,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.dynamic_friends:
                 Toast.makeText(getActivity(), "您点击了动态", Toast.LENGTH_SHORT);
-                //startActivity(new Intent(getActivity(), DynamicFriendsActivity.class));
+                startActivity(new Intent(getActivity(), DynamicFriendsActivity.class));
                 break;
             case R.id.dynamic_mine:
                 Toast.makeText(getActivity(), "您点击了相册", Toast.LENGTH_SHORT);

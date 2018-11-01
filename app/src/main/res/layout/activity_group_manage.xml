@@ -144,7 +144,7 @@
             </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/RelativeLayout_message"
+            android:id="@+id/rl_group_member_manage"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_below="@id/RelativeLayout_group"
@@ -168,10 +168,10 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/RelativeLayout_sign_message"
+            android:id="@+id/rl_group_sign_manage"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@id/RelativeLayout_message"
+            android:layout_below="@id/rl_group_member_manage"
             android:layout_marginTop="15dp"
             android:background="@color/colorWhite">
             <TextView
@@ -184,10 +184,10 @@
                 android:textColor="@color/colorBlack"/>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/RelativeLayout_dissolve"
+            android:id="@+id/rl_group_dissolve"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@id/RelativeLayout_sign_message"
+            android:layout_below="@id/rl_group_sign_manage"
             android:layout_marginTop="15dp"
             android:background="@color/colorWhite"
             >
