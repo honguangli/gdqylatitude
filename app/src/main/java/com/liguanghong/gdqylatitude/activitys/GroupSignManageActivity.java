@@ -1,6 +1,5 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,8 +7,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class GroupSignManageActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupSignManageActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;                                //返回群管理
     private TextView menu;                                       //完成

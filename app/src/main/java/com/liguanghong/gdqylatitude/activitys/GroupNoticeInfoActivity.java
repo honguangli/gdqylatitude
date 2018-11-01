@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +8,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class GroupNoticeInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupNoticeInfoActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;
     private RelativeLayout relativelayout_id;

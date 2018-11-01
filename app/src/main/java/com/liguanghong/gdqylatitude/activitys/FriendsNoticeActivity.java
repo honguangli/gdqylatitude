@@ -2,7 +2,6 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -10,10 +9,11 @@ import android.widget.ListView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FriendsNoticeAdapter;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
 import java.util.ArrayList;
 
-public class FriendsNoticeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class FriendsNoticeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ListView lv_friend_apply;
     private ImageView backtrack;

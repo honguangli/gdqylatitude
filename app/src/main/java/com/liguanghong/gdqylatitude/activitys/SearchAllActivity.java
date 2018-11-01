@@ -1,6 +1,5 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,8 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class SearchAllActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchAllActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;
     private TextView tv_add_friend;

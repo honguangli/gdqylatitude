@@ -1,13 +1,13 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class FriendsSetChangeActivity extends AppCompatActivity implements View.OnClickListener {
+public class FriendsSetChangeActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack_fenzu_move;
 

@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,11 +10,12 @@ import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.GroupNoticeAdapter;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
 import java.util.ArrayList;
 
 
-public class GroupNoticeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class GroupNoticeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ImageView backtrack2;
     private ListView lv_group_apply;
 

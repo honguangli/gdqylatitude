@@ -22,7 +22,7 @@ public class AppManager {
     /**
      * 单一实例
      */
-    public static AppManager getAppManager() {
+    public static AppManager getInstance() {
         if (instance == null) {
             synchronized (AppManager.class) {
                 if (instance == null) {
@@ -49,6 +49,18 @@ public class AppManager {
     public Activity currentActivity() {
         Activity activity = activityStack.lastElement();
         return activity;
+    }
+
+    /**
+     * 得到指定类名的Activity
+     */
+    public Activity getActivity(Class<?> cls) {
+        for (Activity activity : activityStack) {
+            if (activity.getClass().equals(cls)) {
+                return activity;
+            }
+        }
+        return null;
     }
 
     /**

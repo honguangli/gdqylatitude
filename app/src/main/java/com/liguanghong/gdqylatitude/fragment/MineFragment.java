@@ -2,7 +2,6 @@ package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,9 @@ import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity;
-import com.liguanghong.gdqylatitude.activitys.DynamicMineActivity;
-import com.liguanghong.gdqylatitude.activitys.SettingActivity;
-import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
+import com.liguanghong.gdqylatitude.base.BaseFragment;
 
-import org.w3c.dom.Text;
-
-public class MineFragment extends Fragment implements View.OnClickListener {
-    private View view;
-
+public class MineFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout personInfo;
     private RelativeLayout dyanamicFriends, dynamicMine;
     private RelativeLayout setting;
@@ -33,27 +26,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(view == null)
-        {
-            view = inflater.inflate(R.layout.fragment_mine, container, false);
-
-            initView();
-            initData();
-
-        }
-        else
-        {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null){
-                parent.removeView(view);
-            }
-        }
-
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     //初始化组件
-    private void initView()
+    @Override
+    protected void initView(View view)
     {
         personInfo = view.findViewById(R.id.personal_info);
         dyanamicFriends = view.findViewById(R.id.dynamic_friends);
@@ -69,7 +47,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         setting.setOnClickListener(this);
     }
     //初始化数据
-    private void initData()
+    @Override
+    protected void initData()
     {
         personal_head.setImageResource(R.drawable.head);
         personal_name.setText("Tom");

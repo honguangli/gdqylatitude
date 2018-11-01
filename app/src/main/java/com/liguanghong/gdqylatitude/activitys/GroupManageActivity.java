@@ -1,18 +1,17 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class GroupManageActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupManageActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;                            //返回群组信息界面
     private TextView menu;                                    //完成

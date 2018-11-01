@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.liguanghong.gdqylatitude.MainActivity;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
@@ -28,14 +25,13 @@ import com.liguanghong.gdqylatitude.activitys.GroupActivity;
 import com.liguanghong.gdqylatitude.activitys.SearchAllActivity;
 import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
+import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.unity.FriendsSet;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.util.UserManager;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,9 +45,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AddressbookFragment extends Fragment implements View.OnClickListener, ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
-
-    private View view;
+public class AddressbookFragment extends BaseFragment implements View.OnClickListener, ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
 
     private EditText img_search;
     private ImageView add;
@@ -73,28 +67,12 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-
-        if(view == null)
-        {
-            view = inflater.inflate(R.layout.fragment_addressbook, container, false);
-
-            initView();
-            initData();
-
-        }
-        else
-        {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null){
-                parent.removeView(view);
-            }
-        }
-
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     //初始化组件
-    private void initView()
+    @Override
+    protected void initView(View view)
     {
 
         add = (ImageView) view.findViewById(R.id.add);
@@ -118,7 +96,8 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
 
     //初始化数据
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void initData(){
+    @Override
+    protected void initData(){
 
         User user = UserManager.getAppUser();
         Log.i("通讯录", user.getFriendsid());

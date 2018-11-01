@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.baidu.mapapi.SDKInitializer;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FragmentAdapter;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.base.BaseViewPager;
 import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
@@ -20,7 +21,7 @@ import com.liguanghong.gdqylatitude.fragment.MineFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout map,message,addressbook,mine;
     private BaseViewPager vp;

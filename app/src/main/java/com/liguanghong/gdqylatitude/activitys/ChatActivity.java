@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,8 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack_friend_chat;                //返回通讯录
     private TextView tv_friendName;                          //好友名称

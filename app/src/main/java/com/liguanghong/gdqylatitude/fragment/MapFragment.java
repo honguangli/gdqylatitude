@@ -1,14 +1,10 @@
 package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.icu.text.IDNA;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.alibaba.fastjson.JSONArray;
@@ -27,7 +22,6 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
@@ -37,18 +31,15 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
+import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
-import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,9 +51,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MapFragment extends Fragment {
-
-    private View view;
+public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
     private BaiduMap mBaiduMap;
@@ -81,25 +70,11 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(view == null)
-        {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
-            initView();
-            initData();
-
-        }
-        else
-        {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null){
-                parent.removeView(view);
-            }
-        }
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    //初始化组件
-    private void initView() {
+    @Override
+    protected void initView(View view) {
         mMapView = (MapView)view.findViewById(R.id.map);
         mBaiduMap = mMapView.getMap();
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
@@ -111,7 +86,8 @@ public class MapFragment extends Fragment {
     }
 
     //初始化数据
-    private void initData(){
+    @Override
+    protected void initData(){
         //隐藏百度地图logo
         View child = mMapView.getChildAt(1);
         if (child != null && (child instanceof ImageView || child instanceof ZoomControls)){

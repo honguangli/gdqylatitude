@@ -18,11 +18,13 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.fragment.MineFragment;
 import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.AppManager;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.util.UserManager;
@@ -37,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
      * 检查是否已经登录
      */
     private void checkIsLogin(){
-        if(true){
+        if(false){
             //未登录过，跳转登录界面
             signUp();
             startActivity(new Intent(this, SignInActivity.class));
-            finish();
+            AppManager.getInstance().finishActivity(this);
         } else{
             //已登录过，自动登录，进入主界面
             signIn();
             startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            AppManager.getInstance().finishActivity(this);
         }
     }
 

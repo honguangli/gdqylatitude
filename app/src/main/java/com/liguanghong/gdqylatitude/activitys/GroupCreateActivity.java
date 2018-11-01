@@ -1,6 +1,5 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,9 +7,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
 
-public class GroupCreateActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupCreateActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack_create;
     private RelativeLayout rly_add_newgroup;

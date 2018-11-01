@@ -1,12 +1,11 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class ResetPwdActivity extends AppCompatActivity {
+public class ResetPwdActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

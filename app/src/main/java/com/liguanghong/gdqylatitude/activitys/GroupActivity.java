@@ -2,7 +2,6 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,10 +12,11 @@ import android.widget.RelativeLayout;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.GroupAdapter;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
 import java.util.ArrayList;
 
-public class GroupActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class GroupActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ListView lv_chat;
     private ImageView backtrack1;
     private RelativeLayout rly_group_note,rly_group_create;

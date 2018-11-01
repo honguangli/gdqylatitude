@@ -1,16 +1,15 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class SearchMineActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchMineActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack_search,search_add;
     private TextView button_search_cancel;

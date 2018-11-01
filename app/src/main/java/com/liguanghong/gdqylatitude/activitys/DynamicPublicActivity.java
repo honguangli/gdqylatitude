@@ -1,11 +1,11 @@
 package com.liguanghong.gdqylatitude.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class DynamicPublicActivity extends AppCompatActivity {
+public class DynamicPublicActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
