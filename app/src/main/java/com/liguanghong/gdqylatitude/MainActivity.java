@@ -25,6 +25,7 @@ import com.liguanghong.gdqylatitude.fragment.MineFragment;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
+import com.liguanghong.gdqylatitude.util.UserManager;
 
 import java.io.IOException;
 
@@ -38,8 +39,6 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,22 +46,11 @@ public class MainActivity extends AppCompatActivity {
         checkIsLogin();
     }
 
-    public static User getInstance() {
-        if (user == null) {
-            synchronized (User.class) {
-                if (user == null) {
-                    user = new User();
-                }
-            }
-        }
-        return user;
-    }
-
     /**
      * 检查是否已经登录
      */
     private void checkIsLogin(){
-        if(false){
+        if(true){
             //未登录过，跳转登录界面
             signUp();
             startActivity(new Intent(this, SignInActivity.class));
@@ -96,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             //登录成功
-                            user = ((JSONObject)result.getData()).toJavaObject(User.class);
-                            Log.i("登录操作", user.getUserid() + " : " + user.getLogname());
+                            User user = ((JSONObject)result.getData()).toJavaObject(User.class);
+                            UserManager.addAppUser(user);
+                            Log.i("登录操作", "登录成功：用户ID = " + user.getUserid() + "， 用户名 = " + user.getLogname());
                         } else{
                             //登录失败
                             Log.i("登录操作",  result.getMessage());

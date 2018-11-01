@@ -32,6 +32,7 @@ import com.liguanghong.gdqylatitude.unity.FriendsSet;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
+import com.liguanghong.gdqylatitude.util.UserManager;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
 import org.json.JSONObject;
@@ -119,7 +120,8 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void initData(){
 
-        User user = MainActivity.getInstance();
+        User user = UserManager.getAppUser();
+        Log.i("通讯录", user.getFriendsid());
         friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
         friendsSetName = new ArrayList<String>();
         friendsSetMap = new HashMap<String, List<String>>();
