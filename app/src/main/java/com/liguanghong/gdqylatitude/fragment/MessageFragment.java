@@ -5,11 +5,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
+
+import java.util.ArrayList;
 
 public class MessageFragment extends Fragment {
 
+    private ListView lv_message;
+    private MessageAdapter messageAdapter;
+    private ArrayList<String> list;
     private View view;
 
     @Override
@@ -22,6 +29,10 @@ public class MessageFragment extends Fragment {
 
             initView();
             initData();
+
+            messageAdapter = new MessageAdapter(getContext(),list);
+            lv_message.setAdapter(messageAdapter);
+            messageAdapter.notifyDataSetChanged();
 
         }
         else
@@ -38,11 +49,16 @@ public class MessageFragment extends Fragment {
     //初始化组件
     private void initView()
     {
+        lv_message=(ListView)view.findViewById(R.id.lv_message);
 
     }
     //初始化数据
     private void initData()
     {
-
+        list = new ArrayList<>();
+        for (int i = 0;i < 10 ;i++){
+            list.add(MessageAdapter.name);
+        }
     }
+
 }
