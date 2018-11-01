@@ -1,13 +1,22 @@
 package com.liguanghong.gdqylatitude.fragment;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.icu.text.IDNA;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.alibaba.fastjson.JSONArray;
@@ -20,6 +29,8 @@ import com.baidu.location.Poi;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -32,9 +43,12 @@ import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
+import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
+import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,6 +75,7 @@ public class MapFragment extends Fragment {
     public BDAbstractLocationListener myListener = new MyLocationListener();
     private double latitude;
     private double longitude;
+    private boolean isZoomTo = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,7 +167,11 @@ public class MapFragment extends Fragment {
             try {
                 OverlayOptions option = new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(userList.get(i).getLatitude()), Double.parseDouble(userList.get(i).getLongitude())))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marka));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
+                Marker marker = (Marker) (mBaiduMap.addOverlay(option));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("info", (User)userList.get(i));
+                marker.setExtraInfo(bundle);
                 options.add(option);
             } catch (NullPointerException e) {
                 Log.i("地图标记操作", "解析标记错误，用户userid：" + userList.get(i).getUserid());
@@ -160,8 +179,56 @@ public class MapFragment extends Fragment {
                 continue;
             }
         }
-        //在地图上批量添加
-        mBaiduMap.addOverlays(options);
+        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener()
+        {
+
+            @Override
+            public boolean onMapPoiClick(MapPoi arg0)
+            {
+                return false;
+            }
+
+            @Override
+            public void onMapClick(LatLng arg0)
+            {
+                mBaiduMap.hideInfoWindow();
+
+            }
+        });
+        //对Marker的点击
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public boolean onMarkerClick(Marker marker)
+            {
+                //获得marker中的数据
+                User user = (User)marker.getExtraInfo().get("info");
+
+                //生成一个TextView用户在地图中显示InfoWindow
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
+                TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                logname.setText(user.getLogname());
+                LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
+                getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                    }
+                });
+                //将marker所在的经纬度的信息转化成屏幕上的坐标
+                final LatLng ll = marker.getPosition();
+                Point p = mBaiduMap.getProjection().toScreenLocation(ll);
+                Log.e("测试", "--!" + p.x + " , " + p.y);
+                LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
+                InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
+                //显示InfoWindow
+                mBaiduMap.showInfoWindow(mInfoWindow);
+
+                return true;
+            }
+        });
+
         /*
         //设定中心点坐标
         LatLng cenpt =  new LatLng(latitude, longitude);
@@ -191,7 +258,7 @@ public class MapFragment extends Fragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span=0;
+        int span= 3000;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
@@ -321,23 +388,29 @@ public class MapFragment extends Fragment {
             //更新当前位置
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            //添加位置标记
-            OverlayOptions option = new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marka));
-            //移除标记
-            Marker marker = (Marker)mBaiduMap.addOverlay(option);
-            //marker.remove();
-            MapStatus mMapStatus = new MapStatus.Builder()
-                    //要移动的点
-                    .target(new LatLng(latitude, longitude))
-                    .build();
+            // 开启定位图层
+            mBaiduMap.setMyLocationEnabled(true);
+            // 构造定位数据
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
 
-            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            // 设置定位数据
+            mBaiduMap.setMyLocationData(locData);
+            if(isZoomTo){
+                isZoomTo = false;
+                MapStatus mMapStatus = new MapStatus.Builder()
+                        .target(new LatLng(location.getLatitude(), location.getLongitude()))    //要移动的点
+                        .zoom(18)   //设置缩放级别
+                        .build();
+                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                //更新地图状态
+                mBaiduMap.setMapStatus(mMapStatusUpdate);
+            }
 
-            //改变地图状态
-            mBaiduMap.setMapStatus(mMapStatusUpdate);
             Log.i("BaiduLocationApiDem", sb.toString());
         }
 

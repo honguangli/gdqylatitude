@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.liguanghong.gdqylatitude.MainActivity;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
@@ -23,12 +27,25 @@ import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.activitys.GroupActivity;
 import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
+import com.liguanghong.gdqylatitude.unity.FriendsSet;
+import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class AddressbookFragment extends Fragment implements View.OnClickListener, ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
 
@@ -46,8 +63,9 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     private int rawX;
     private int rawY;
 
-    public static List<String> parentList;
-    public static Map<String,List<String>> map;
+    private List<FriendsSet> friendsSets;
+    private List<String> friendsSetName;
+    private Map<String, List<String>> friendsSetMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,35 +118,53 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void initData(){
 
-        //虚拟数据
-        map = new HashMap<String, List<String>>();
-        parentList = new ArrayList<String>();
+        User user = MainActivity.getInstance();
+        friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
+        friendsSetName = new ArrayList<String>();
+        friendsSetMap = new HashMap<String, List<String>>();
+        for(final FriendsSet friendsSet : friendsSets){
+            friendsSetName.add(friendsSet.getName());
 
-        parentList = new ArrayList<String>();
-        parentList.add("默认分组");
-        parentList.add("我的好友");
-        parentList.add("好友分组1");
+            final List<String> temp = new ArrayList<String>();
+            if(!friendsSet.getFriendsid().equals("")){
+                //该分组下有好友
+                String [] friendsID = friendsSet.getFriendsid().split(",");
+                for(String friendID : friendsID){
+                    //网络访问获取用户信息
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("userid", friendID)
+                            .build();
+                    HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-        List<String> list1 = new ArrayList<String>();
-        list1.add("好友1");
-        list1.add("好友2");
-        list1.add("好友3");
-        map.put("默认分组", list1);
+                        }
 
-        List<String> list2 = new ArrayList<String>();
-        list2.add("好友4");
-        list2.add("好友5");
-        list2.add("好友6");
-        map.put("我的好友", list2);
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                try {
+                                    JsonResult<Object> result = com.alibaba.fastjson.JSONObject.parseObject(response.body().string(), JsonResult.class);
+                                    Log.i("测试输出", "用户："+result.getData().toString());
+                                    User user = com.alibaba.fastjson.JSONObject.parseObject(result.getData().toString(), User.class);
+                                    Log.i("测试输出", "用户名："+user.getLogname());
+                                    temp.add(user.getLogname());
+                                    friendsSetMap.put(friendsSet.getName(), temp);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
 
-        List<String> list3 = new ArrayList<String>();
-        list3.add("好友7");
-        list3.add("好友8");
-        list3.add("好友9");
-        map.put("好友分组1", list3);
-
-        addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext(), parentList, map);
+                            }
+                        }
+                    });
+                }
+            }else {
+                friendsSetMap.put(friendsSet.getName(), temp);
+            }
+        }
+        addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext(), friendsSetName, friendsSetMap);
         expandableListView.setAdapter(addressbookAdapter);
+
     }
 
 
@@ -195,32 +231,32 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
     }
 
     //新增组
-    public static void addGroup(String newGroupName){
-        parentList.add(newGroupName);
+    public void addGroup(String newGroupName){
+        friendsSetName.add(newGroupName);
         List<String> list = new ArrayList<String>();
-        map.put(newGroupName, list);
+        friendsSetMap.put(newGroupName, list);
         addressbookAdapter.notifyDataSetChanged();
     }
 
     //新增子项到指定组
-    public static void addChild(int groupPosition, String newChildName){
-        String groupName = parentList.get(groupPosition);
-        List<String> list = map.get(groupName);
+    public void addChild(int groupPosition, String newChildName){
+        String groupName = friendsSetName.get(groupPosition);
+        List<String> list = friendsSetMap.get(groupName);
         list.add(newChildName);
         addressbookAdapter.notifyDataSetChanged();
     }
 
     //删除指定组
-    public static void deleteGroup(int groupPos){
-        String groupName = parentList.get(groupPos);
-        map.remove(groupName);
-        parentList.remove(groupPos);
+    public void deleteGroup(int groupPos){
+        String groupName = friendsSetName.get(groupPos);
+        friendsSetMap.remove(groupName);
+        friendsSetName.remove(groupPos);
         addressbookAdapter.notifyDataSetChanged();
     }
     //删除指定子项
-    public static void deleteChild(int groupPos, int childPos){
-        String groupName = parentList.get(groupPos);
-        List<String> list = map.get(groupName);
+    public void deleteChild(int groupPos, int childPos){
+        String groupName = friendsSetName.get(groupPos);
+        List<String> list = friendsSetMap.get(groupName);
         list.remove(childPos);
         addressbookAdapter.notifyDataSetChanged();
     }
@@ -230,21 +266,22 @@ public class AddressbookFragment extends Fragment implements View.OnClickListene
         Toast.makeText(getActivity(), String.valueOf(groupPosition)+'-'+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
         if(childPosition<0){
             //修改组名称
-            String groupName = parentList.get(groupPosition);
+            String groupName = friendsSetName.get(groupPosition);
             if(!groupName.equals(modifyName)){
-                map.put(modifyName, map.get(groupName));
-                map.remove(groupName);
-                parentList.set(groupPosition, modifyName);
+                friendsSetMap.put(modifyName, friendsSetMap.get(groupName));
+                friendsSetMap.remove(groupName);
+                friendsSetName.set(groupPosition, modifyName);
             }
 
         }else{
             //修改子项名称
-            String group = parentList.get(groupPosition);
-            List<String> list =map.get(group);
+            String group = friendsSetName.get(groupPosition);
+            List<String> list =friendsSetMap.get(group);
             list.set(childPosition, modifyName);
-            map.put(group, list);
+            friendsSetMap.put(group, list);
         }
         addressbookAdapter.notifyDataSetChanged();
     }
+
 
 }

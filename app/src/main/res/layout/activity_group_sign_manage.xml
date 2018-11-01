@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource">
+    tools:ignore="MissingDefaultResource"
+    tools:context=".activitys.GroupSignManageActivity">
 
     /*===============群签到管理=====================*/
 
@@ -56,6 +57,7 @@
         android:layout_marginTop="40dp">
 
         <RelativeLayout
+            android:id="@+id/rly_group_newsign"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:background="#ffffff">
