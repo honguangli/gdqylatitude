@@ -15,13 +15,12 @@ import com.liguanghong.gdqylatitude.R;
 public class GroupManageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backtrack;                            //返回群组信息界面
-    private Button menu;                                    //完成
+    private TextView menu;                                    //完成
     private EditText et_group_name;                         //群组名
     private EditText et_group_messges;                      //群公告
-    private RelativeLayout rly_gorup_member;                //群成员管理
-    private TextView group_sign;                            //签到管理
-    private TextView group_dissolve;                        //解散群组
-
+    private RelativeLayout rl_group_member_manage;                 //群成员管理
+    private RelativeLayout rl_group_sign_manage;                 //签到管理
+    private RelativeLayout rl_group_dissolve;               //解散群组
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +34,19 @@ public class GroupManageActivity extends AppCompatActivity implements View.OnCli
     private void initGroup_manage(){
 
         backtrack = (ImageView)findViewById(R.id.backtrack);
-        menu = (Button)findViewById(R.id.menu);
+        menu = (TextView)findViewById(R.id.menu);
         et_group_name = (EditText)findViewById(R.id.et_group_name);
-        et_group_messges = (EditText)findViewById(R.id.et_group_messges);
-        rly_gorup_member = (RelativeLayout)findViewById(R.id.rly_gorup_member);
-        group_sign = (TextView)findViewById(R.id.group_sign);
-        group_dissolve = (TextView)findViewById(R.id.group_dissolve);
+        et_group_messges = (EditText)findViewById(R.id.et_group_notice);
+        rl_group_member_manage = (RelativeLayout)findViewById(R.id.rl_group_member_manage);
+        rl_group_sign_manage = (RelativeLayout) findViewById(R.id.rl_group_sign_manage);
+        rl_group_dissolve = (RelativeLayout) findViewById(R.id.rl_group_dissolve);
 
 
         backtrack.setOnClickListener(this);
         menu.setOnClickListener(this);
-        rly_gorup_member.setOnClickListener(this);
-        group_sign.setOnClickListener(this);
-        group_dissolve.setOnClickListener(this);
+        rl_group_member_manage.setOnClickListener(this);
+        rl_group_sign_manage.setOnClickListener(this);
+        rl_group_dissolve.setOnClickListener(this);
 
     }
 
@@ -55,16 +54,16 @@ public class GroupManageActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.group_dissolve:                   //解散群组
+            case R.id.rl_group_dissolve:                   //解散群组
 
                 break;
 
-            case R.id.group_sign:                       //签到管理
+            case R.id.rl_group_sign_manage:                       //签到管理
                 Intent group_sign_manage = new Intent(getApplicationContext(),GroupSignManageActivity.class);
                 startActivityForResult(group_sign_manage,1);
                 break;
 
-            case R.id.rly_gorup_member:                 //群成员管理
+            case R.id.rl_group_member_manage:                 //群成员管理
 
                 break;
 
