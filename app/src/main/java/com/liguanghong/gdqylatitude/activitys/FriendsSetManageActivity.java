@@ -21,13 +21,15 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_set_manage);
-
-        initFenzuManage();
     }
 
-    private void initFenzuManage(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_friends_set_manage;
+    }
 
+    @Override
+    protected void initView() {
         backtrack_fenzu = (ImageView)findViewById(R.id.backtrack);
         img_movegroup = (ImageView)findViewById(R.id.img_movegroup);
 
@@ -38,7 +40,10 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
         img_movegroup.setOnClickListener(this);
         done.setOnClickListener(this);
         rly_addgroup.setOnClickListener(this);
+    }
 
+    @Override
+    protected void initData() {
 
     }
 

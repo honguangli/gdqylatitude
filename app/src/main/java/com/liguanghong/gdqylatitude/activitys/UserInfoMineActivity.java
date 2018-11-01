@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 
-public class DynamicMineActivity extends BaseActivity {
+public class UserInfoMineActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class DynamicMineActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_dynamic_mine;
+        return R.layout.activity_user_info_mine;
     }
 
     @Override

@@ -24,14 +24,15 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_manage);
-
-        initGroup_manage();
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_manage;
+    }
 
-    private void initGroup_manage(){
-
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         menu = (TextView)findViewById(R.id.menu);
         et_group_name = (EditText)findViewById(R.id.et_group_name);
@@ -46,6 +47,10 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
         rl_group_member_manage.setOnClickListener(this);
         rl_group_sign_manage.setOnClickListener(this);
         rl_group_dissolve.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -57,9 +62,9 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.rl_group_sign_manage:                       //签到管理
-                Intent group_sign_manage = new Intent(getApplicationContext(),GroupSignManageActivity.class);
-                startActivityForResult(group_sign_manage,1);
+            case R.id.rl_group_sign_manage:
+                //启动签到管理界面
+                startActivity(new Intent(getApplicationContext(),GroupSignManageActivity.class));
                 break;
 
             case R.id.rl_group_member_manage:                 //群成员管理
@@ -70,8 +75,8 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.backtrack:                        //返回群信息界面
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回群信息界面
                 finish();
                 break;
         }

@@ -25,49 +25,52 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity
-            android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activitys.ChatActivity" />
+        <activity android:name=".activitys.DynamicFriendsActivity" />
+        <activity android:name=".activitys.DynamicMineActivity" />
+        <activity android:name=".activitys.DynamicPublicActivity" />
+        <activity android:name=".activitys.FriendsSetManageActivity" />
+        <activity android:name=".activitys.FriendsSetChangeActivity" />
+        <activity android:name=".activitys.FriendsNoticeActivity" />
+        <activity android:name=".activitys.FriendsNoticeInfoActivity" />
+        <activity android:name=".activitys.GroupActivity" />
+        <activity android:name=".activitys.GroupInfoActivity" />
+        <activity android:name=".activitys.GroupCreateActivity" />
+        <activity android:name=".activitys.GroupManageActivity" />
+        <activity android:name=".activitys.GroupSignManageActivity" />
+        <activity android:name=".activitys.GroupNoticeActivity" />
+        <activity android:name=".activitys.GroupNoticeInfoActivity" />
+        <activity
+            android:name=".activitys.HomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".activitys.ResetPwdActivity" />
+        <activity android:name=".activitys.SearchMineActivity" />
+        <activity android:name=".activitys.SearchAllActivity" />
+        <activity android:name=".activitys.SettingActivity" />
+        <activity android:name=".activitys.SignInActivity" />
+        <activity android:name=".activitys.SignUpActivity" />
+        <activity android:name=".activitys.UserInfoActivity" />
 
+        <!-- 百度地图key配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7" />
 
+        <!-- 百度地图定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activitys.HomeActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
-        <activity android:name=".activitys.FriendsNoticeActivity" />
-        <activity android:name=".activitys.GroupActivity" />
-        <activity android:name=".activitys.GroupNoticeActivity" />
-        <activity android:name=".activitys.SearchMineActivity" />
-        <activity android:name=".activitys.FriendsSetManageActivity" />
-        <activity android:name=".activitys.GroupCreateActivity" />
-        <activity android:name=".activitys.ChatActivity" />
-        <activity android:name=".activitys.UserInfoActivity" />
-        <activity android:name=".activitys.FriendsSetChangeActivity" />
-        <activity android:name=".activitys.GroupInfoActivity" />
-        <activity android:name=".activitys.SignInActivity" />
-        <activity android:name=".activitys.SignUpActivity" />
-        <activity android:name=".activitys.ResetPwdActivity" />
-        <activity android:name=".activitys.SettingActivity" />
-        <activity android:name=".activitys.DynamicFriendsActivity" />
-        <activity android:name=".activitys.DynamicMineActivity" />
-        <activity android:name=".activitys.DynamicPublicActivity" />
-        <activity android:name=".activitys.SearchAllActivity"></activity>
-        <activity android:name=".activitys.FriendsNoticeInfoActivity"/>
-        <activity android:name=".activitys.GroupNoticeInfoActivity"/>
-        <activity android:name=".activitys.GroupManageActivity"/>
-        <activity android:name=".activitys.GroupSignManageActivity"/>
+        <activity android:name=".activitys.UserInfoMineActivity"></activity>
     </application>
 
 </manifest>

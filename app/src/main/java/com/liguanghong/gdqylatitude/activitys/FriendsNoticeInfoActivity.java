@@ -20,12 +20,15 @@ public class FriendsNoticeInfoActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_notice_info);
-
-        initFriend_apply_info();
     }
 
-    private void initFriend_apply_info(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_friends_notice_info;
+    }
+
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         relativelayout_id = (RelativeLayout)findViewById(R.id.relativelayout_id);
         bt_refuse_notice = (Button)findViewById(R.id.bt_refuse_notice);
@@ -35,6 +38,10 @@ public class FriendsNoticeInfoActivity extends BaseActivity implements View.OnCl
         relativelayout_id.setOnClickListener(this);
         bt_refuse_notice.setOnClickListener(this);
         bt_agree_notice.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -50,13 +57,13 @@ public class FriendsNoticeInfoActivity extends BaseActivity implements View.OnCl
 
                 break;
 
-            case R.id.relativelayout_id:                    //查看该申请详情
-                Intent friend_apply_info = new Intent(getApplicationContext(),UserInfoActivity.class);
-                startActivityForResult(friend_apply_info,1);
+            case R.id.relativelayout_id:
+                //启动通知来源界面
+                startActivity(new Intent(this, UserInfoActivity.class));
                 break;
 
-            case R.id.backtrack:                            //返回群通知
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回好友通知界面
                 finish();
                 break;
         }

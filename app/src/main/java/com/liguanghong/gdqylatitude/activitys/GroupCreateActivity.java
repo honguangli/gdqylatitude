@@ -20,12 +20,15 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_create);
-
-        initGroupCreate();
     }
 
-    private void initGroupCreate(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_create;
+    }
+
+    @Override
+    protected void initView() {
         backtrack_create = (ImageView)findViewById(R.id.backtrack);
         rly_add_newgroup = (RelativeLayout)findViewById(R.id.add);
         btn_submit = (Button)findViewById(R.id.btn_submit);
@@ -34,6 +37,11 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
         backtrack_create.setOnClickListener(this);
         rly_add_newgroup.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override
@@ -48,8 +56,8 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.backtrack:         //返回通讯录
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回通讯录界面
                 finish();
                 break;
         }

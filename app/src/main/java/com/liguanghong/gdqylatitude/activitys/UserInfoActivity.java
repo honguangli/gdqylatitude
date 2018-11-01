@@ -30,13 +30,15 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
-
-        initFriendInfo();
     }
 
-    private void initFriendInfo(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_user_info;
+    }
 
+    @Override
+    protected void initView() {
         backtrack_friend_info = (ImageView)findViewById(R.id.backtrack);
         iv_information_icon = (ImageView)findViewById(R.id.iv_information_icon);
 
@@ -59,24 +61,29 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
             case R.id.rly_beizhu:              //修改备注
                 break;
 
-            case R.id.rly_fenzu:             //修改分组名
-                Intent fenzu_move = new Intent(getApplicationContext(), FriendsSetChangeActivity.class);
-                startActivityForResult(fenzu_move,1);
+            case R.id.rly_fenzu:
+                //修改分组名
+                startActivity(new Intent(getApplicationContext(), FriendsSetChangeActivity.class));
                 break;
 
-            case R.id.bt_information_send:                  //返回聊天界面
-                setResult(10);
+            case R.id.bt_information_send:
+                //返回聊天界面
                 finish();
                 break;
 
-            case R.id.backtrack:                //返回聊天界面
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回上一界面
                 finish();
                 break;
 

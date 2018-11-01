@@ -17,12 +17,15 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_mine);
-
-        initSearch();
     }
 
-    private void initSearch(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_search_mine;
+    }
+
+    @Override
+    protected void initView() {
         button_search_cancel = (TextView)findViewById(R.id.button_search_cancel);
         backtrack_search = (ImageView) findViewById(R.id.backtrack);
         search_add = (ImageView) findViewById(R.id.menu);
@@ -31,6 +34,10 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
         button_search_cancel.setOnClickListener(this);
         backtrack_search.setOnClickListener(this);
         search_add.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -46,8 +53,8 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
 
                 break;
 
-            case R.id.backtrack:                 //返回通讯录
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回通讯录界面
                 finish();
                 break;
         }

@@ -14,15 +14,23 @@ public class FriendsSetChangeActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_set_change);
-
-        initFenzumove();
     }
 
-    private void initFenzumove(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_friends_set_change;
+    }
+
+    @Override
+    protected void initView() {
         backtrack_fenzu_move = (ImageView)findViewById(R.id.backtrack);
 
         backtrack_fenzu_move.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override
@@ -30,7 +38,7 @@ public class FriendsSetChangeActivity extends BaseActivity implements View.OnCli
         int id = view.getId();
         switch (id){
             case R.id.backtrack:
-                setResult(10);
+                //销毁当前界面，返回好友详情界面
                 finish();
                 break;
         }

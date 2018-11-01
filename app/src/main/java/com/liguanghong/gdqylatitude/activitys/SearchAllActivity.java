@@ -19,20 +19,26 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_all);
-
-        initSearchAll();
     }
 
-    private void initSearchAll(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_search_all;
+    }
+
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         tv_add_friend = (TextView) findViewById(R.id.tv_add_friend);
         tv_add_group = (TextView)findViewById(R.id.tv_add_group);
         bt_search = (Button)findViewById(R.id.bt_search);
 
-
         backtrack.setOnClickListener(this);
         bt_search.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -41,13 +47,19 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
         int id = view.getId();
         switch (id){
             case R.id.bt_search:
-
+                //执行网络查找
+                search();
                 break;
 
             case R.id.backtrack:
-                setResult(10);
+                //销毁当前界面，返回通讯录界面
                 finish();
                 break;
         }
     }
+
+    private void search(){
+
+    }
+
 }

@@ -15,9 +15,12 @@ import com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
+
     private RelativeLayout personInfo;
-    private RelativeLayout dyanamicFriends, dynamicMine;
+    private RelativeLayout dyanamicFriends;
+    private RelativeLayout dynamicMine;
     private RelativeLayout setting;
+
     private ImageView personal_head;
     private TextView personal_name;
     private TextView personal_id;
@@ -27,6 +30,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                              Bundle savedInstanceState)
     {
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    protected int getLayoutId(){
+        return R.layout.fragment_mine;
     }
 
     //初始化组件
@@ -46,13 +54,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         dynamicMine.setOnClickListener(this);
         setting.setOnClickListener(this);
     }
+
     //初始化数据
     @Override
     protected void initData()
     {
+        
         personal_head.setImageResource(R.drawable.head);
         personal_name.setText("Tom");
         personal_id.setText("5464654564");
+
     }
 
     @Override

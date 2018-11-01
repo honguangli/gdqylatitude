@@ -6,31 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liguanghong.gdqylatitude.R;
-
 public abstract class BaseFragment extends Fragment{
-
-    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(view == null)
-        {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
-            initView(view);
-            initData();
-        }
-        else
-        {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null){
-                parent.removeView(view);
-            }
-        }
+        View view = inflater.inflate(getLayoutId(), container, false);
+        initView(view);
+        initData();
+
         return view;
     }
+
+    /**
+     * 获取布局文件
+     * @return
+     */
+    protected abstract int getLayoutId();
 
     /**
      * 初始化组件

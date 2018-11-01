@@ -10,6 +10,20 @@ public class DynamicPublicActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dynamic_public);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_dynamic_public;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

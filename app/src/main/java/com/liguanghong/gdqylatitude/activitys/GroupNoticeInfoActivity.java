@@ -20,12 +20,15 @@ public class GroupNoticeInfoActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_notice_info);
-
-        initGroup_apply_info();
     }
 
-    private void initGroup_apply_info(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_notice_info;
+    }
+
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         relativelayout_id = (RelativeLayout)findViewById(R.id.relativelayout_id);
         bt_refuse_notice = (Button)findViewById(R.id.bt_refuse_notice);
@@ -35,6 +38,11 @@ public class GroupNoticeInfoActivity extends BaseActivity implements View.OnClic
         relativelayout_id.setOnClickListener(this);
         bt_refuse_notice.setOnClickListener(this);
         bt_agree_notice.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override
@@ -49,13 +57,13 @@ public class GroupNoticeInfoActivity extends BaseActivity implements View.OnClic
 
                 break;
 
-            case R.id.relativelayout_id:                    //查看该申请详情
-                Intent group_apply_info = new Intent(getApplicationContext(),GroupInfoActivity.class);
-                startActivityForResult(group_apply_info,1);
+            case R.id.relativelayout_id:
+                //启动群通知来源界面
+                startActivity(new Intent(getApplicationContext(),GroupInfoActivity.class));
                 break;
 
-            case R.id.backtrack:                            //返回群通知
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回群通知界面
                 finish();
                 break;
         }

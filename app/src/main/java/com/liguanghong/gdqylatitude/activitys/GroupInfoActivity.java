@@ -25,13 +25,15 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_info);
-
-        initGroup_info();
     }
 
-    private void initGroup_info(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_info;
+    }
 
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         menu = (ImageView)findViewById(R.id.menu);
         group_name = (TextView)findViewById(R.id.group_name);
@@ -49,12 +51,17 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.rly_manage:           //群管理
-                Intent group_manage = new Intent(getApplicationContext(), GroupManageActivity.class);
-                startActivityForResult(group_manage,1);
+            case R.id.rly_manage:
+                //启动群管理界面
+                startActivity(new Intent(getApplicationContext(), GroupManageActivity.class));
                 break;
 
             case R.id.rly_group_all:            //查看群成员
@@ -69,8 +76,8 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
 
                 break;
 */
-            case R.id.backtrack:         //返回群聊
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回群聊天界面
                 finish();
                 break;
         }

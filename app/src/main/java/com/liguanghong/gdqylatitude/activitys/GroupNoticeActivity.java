@@ -26,38 +26,41 @@ public class GroupNoticeActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_notice);
-
-        initGroup_apply();
-
-        list = new ArrayList<>();
-        for (int i = 0;i < 3 ;i++){
-            list.add("小明");
-        }
-
-
-        group_noticeAdapter = new GroupNoticeAdapter(getApplicationContext(),list);
-        lv_group_apply.setAdapter(group_noticeAdapter);
-        group_noticeAdapter.notifyDataSetChanged();
-
     }
 
-    private void initGroup_apply(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_notice;
+    }
+
+    @Override
+    protected void initView() {
         backtrack2 = (ImageView)findViewById(R.id.backtrack);
         lv_group_apply = (ListView)findViewById(R.id.lv_group_notice);
 
         backtrack2.setOnClickListener(this);
 
         lv_group_apply.setOnItemClickListener(this);
+    }
 
+    @Override
+    protected void initData() {
+        list = new ArrayList<>();
+        for (int i = 0;i < 3 ;i++){
+            list.add("小明");
+        }
+
+        group_noticeAdapter = new GroupNoticeAdapter(getApplicationContext(),list);
+        lv_group_apply.setAdapter(group_noticeAdapter);
+        group_noticeAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.backtrack:           //返回群聊页面
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回群聊界面
                 finish();
                 break;
         }
@@ -65,8 +68,7 @@ public class GroupNoticeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(getApplicationContext(),"pppppp",Toast.LENGTH_LONG).show();
-        Intent group_apply_info = new Intent(getApplicationContext(),GroupNoticeInfoActivity.class);
-        startActivityForResult(group_apply_info,1);
+        //启动群通知详情界面
+        startActivity(new Intent(getApplicationContext(),GroupNoticeInfoActivity.class));
     }
 }

@@ -12,6 +12,7 @@ public class BaseViewPager extends ViewPager {
     public void setSlide(boolean slide) {
         isSlide = slide;
     }
+
     public BaseViewPager(Context context) {
         super(context);
     }
@@ -19,8 +20,10 @@ public class BaseViewPager extends ViewPager {
     public BaseViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return isSlide;
     }
+
 }

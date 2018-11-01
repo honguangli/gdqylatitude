@@ -70,6 +70,11 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    protected int getLayoutId(){
+        return R.layout.fragment_addressbook;
+    }
+
     //初始化组件
     @Override
     protected void initView(View view)
@@ -99,53 +104,57 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData(){
 
-        User user = UserManager.getAppUser();
-        Log.i("通讯录", user.getFriendsid());
-        friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
-        friendsSetName = new ArrayList<String>();
-        friendsSetMap = new HashMap<String, List<String>>();
-        for(final FriendsSet friendsSet : friendsSets){
-            friendsSetName.add(friendsSet.getName());
+        try{
+            User user = UserManager.getAppUser();
+            Log.i("通讯录", user.getFriendsid());
+            friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
+            friendsSetName = new ArrayList<String>();
+            friendsSetMap = new HashMap<String, List<String>>();
+            for(final FriendsSet friendsSet : friendsSets){
+                friendsSetName.add(friendsSet.getName());
 
-            final List<String> temp = new ArrayList<String>();
-            if(!friendsSet.getFriendsid().equals("")){
-                //该分组下有好友
-                String [] friendsID = friendsSet.getFriendsid().split(",");
-                for(String friendID : friendsID){
-                    //网络访问获取用户信息
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("userid", friendID)
-                            .build();
-                    HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if(response.isSuccessful()){
-                                try {
-                                    JsonResult<Object> result = com.alibaba.fastjson.JSONObject.parseObject(response.body().string(), JsonResult.class);
-                                    Log.i("测试输出", "用户："+result.getData().toString());
-                                    User user = com.alibaba.fastjson.JSONObject.parseObject(result.getData().toString(), User.class);
-                                    Log.i("测试输出", "用户名："+user.getLogname());
-                                    temp.add(user.getLogname());
-                                    friendsSetMap.put(friendsSet.getName(), temp);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
+                final List<String> temp = new ArrayList<String>();
+                if(!friendsSet.getFriendsid().equals("")){
+                    //该分组下有好友
+                    String [] friendsID = friendsSet.getFriendsid().split(",");
+                    for(String friendID : friendsID){
+                        //网络访问获取用户信息
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", friendID)
+                                .build();
+                        HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
 
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                if(response.isSuccessful()){
+                                    try {
+                                        JsonResult<Object> result = com.alibaba.fastjson.JSONObject.parseObject(response.body().string(), JsonResult.class);
+                                        Log.i("测试输出", "用户："+result.getData().toString());
+                                        User user = com.alibaba.fastjson.JSONObject.parseObject(result.getData().toString(), User.class);
+                                        Log.i("测试输出", "用户名："+user.getLogname());
+                                        temp.add(user.getLogname());
+                                        friendsSetMap.put(friendsSet.getName(), temp);
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
+                        });
+                    }
+                }else {
+                    friendsSetMap.put(friendsSet.getName(), temp);
                 }
-            }else {
-                friendsSetMap.put(friendsSet.getName(), temp);
             }
+            addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext(), friendsSetName, friendsSetMap);
+            expandableListView.setAdapter(addressbookAdapter);
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext(), friendsSetName, friendsSetMap);
-        expandableListView.setAdapter(addressbookAdapter);
 
     }
 
@@ -155,37 +164,28 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         int id = view.getId();
         switch (id){
             case R.id.add:
-                Toast.makeText(getActivity(),"搜索+",Toast.LENGTH_LONG).show();
-                Intent img_search = new Intent(getActivity(), SearchAllActivity.class);
-                getActivity().startActivityForResult(img_search,1);
+                startActivity(new Intent(getActivity(), SearchAllActivity.class));
                 break;
 
             case R.id.edittext_search:
-                Toast.makeText(getActivity(),"搜索",Toast.LENGTH_LONG).show();
-                Intent btn_search = new Intent(getActivity(), SearchMineActivity.class);
-                getActivity().startActivityForResult(btn_search,1);
+                startActivity(new Intent(getActivity(), SearchMineActivity.class));
                 break;
 
             case R.id.rly_new_friends:
-                Toast.makeText(getActivity(),"新朋友",Toast.LENGTH_LONG).show();
-                Intent friend_apply = new Intent(getActivity(), FriendsNoticeActivity.class);
-                getActivity().startActivityForResult(friend_apply,1);
+                startActivity(new Intent(getActivity(), FriendsNoticeActivity.class));
                 break;
 
             case R.id.rly_chat_group:
-                Toast.makeText(getActivity(),"群聊",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), GroupActivity.class);
-                getActivity().startActivityForResult(intent,1);
+                startActivity(new Intent(getActivity(), GroupActivity.class));
                 break;
         }
     }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-//        String str = "choose"+groupPosition+"-"+childPosition;
-//        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        Intent fenzu_manage = new Intent(getActivity(), ChatActivity.class);
-        getActivity().startActivityForResult(fenzu_manage,1);
+
+        //启动聊天界面
+        startActivity(new Intent(getActivity(), ChatActivity.class));
 
         return false;
     }
@@ -193,7 +193,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        //长按组
+        //长按分组，显示分组管理窗
         if(ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP){
             view.getLocationInWindow(location);
             rawX = location[0] + view.getWidth()/2;
@@ -205,9 +205,8 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
                     .setOnPopuListItemClickListener(new QPopuWindow.OnPopuListItemClickListener() {
                         @Override
                         public void onPopuListItemClick(View anchorView, int anchorViewPosition, int position) {
-                            Toast.makeText(getContext(),anchorViewPosition+"---->"+position,Toast.LENGTH_SHORT).show();
-                            Intent fenzu_manage = new Intent(getActivity(), FriendsSetManageActivity.class);
-                            getActivity().startActivityForResult(fenzu_manage,1);
+                            //启动分组管理界面
+                            startActivity(new Intent(getActivity(), FriendsSetManageActivity.class));
                         }
                     }).show();;
         }

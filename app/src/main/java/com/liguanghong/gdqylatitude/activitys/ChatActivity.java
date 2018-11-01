@@ -21,18 +21,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private RelativeLayout rly_add;                           //添加图片，位置
     private EditText ed_content;                              //要发送的文字内容
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-
-        initFriendChat();
     }
 
-    private void initFriendChat(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_chat;
+    }
 
+    @Override
+    protected void initView() {
         backtrack_friend_chat = (ImageView)findViewById(R.id.backtrack);
         tv_friendName = (TextView) findViewById(R.id.tv_friendName);
         tv_friendState = (TextView) findViewById(R.id.tv_friendState);
@@ -45,6 +45,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         tv_data.setOnClickListener(this);
         tv_send.setOnClickListener(this);
         rly_add.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override

@@ -19,13 +19,15 @@ public class GroupSignManageActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_sign_manage);
-
-        initGroup_sign_manage();
     }
 
-    private void initGroup_sign_manage(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_sign_manage;
+    }
 
+    @Override
+    protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
         menu = (TextView)findViewById(R.id.menu);
         rly_group_newsign = (RelativeLayout)findViewById(R.id.rly_group_newsign);
@@ -33,6 +35,10 @@ public class GroupSignManageActivity extends BaseActivity implements View.OnClic
         backtrack.setOnClickListener(this);
         menu.setOnClickListener(this);
         rly_group_newsign.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -48,8 +54,8 @@ public class GroupSignManageActivity extends BaseActivity implements View.OnClic
 
                 break;
 
-            case R.id.backtrack:                            //返回群管理
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回群管理界面
                 finish();
                 break;
         }

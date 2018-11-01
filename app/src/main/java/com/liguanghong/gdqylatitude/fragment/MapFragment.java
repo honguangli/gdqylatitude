@@ -74,6 +74,11 @@ public class MapFragment extends BaseFragment {
     }
 
     @Override
+    protected int getLayoutId(){
+        return R.layout.fragment_map;
+    }
+
+    @Override
     protected void initView(View view) {
         mMapView = (MapView)view.findViewById(R.id.map);
         mBaiduMap = mMapView.getMap();
@@ -234,7 +239,7 @@ public class MapFragment extends BaseFragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span= 3000;
+        int span= 0;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 

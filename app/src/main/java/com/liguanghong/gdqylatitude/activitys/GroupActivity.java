@@ -29,24 +29,15 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group);
-
-        initChat();
-
-        list = new ArrayList<>();
-        for (int i = 0;i < 3 ;i++){
-            list.add(GroupAdapter.name);
-        }
-
-        groupAdapter = new GroupAdapter(getApplicationContext(),list);
-        lv_chat.setAdapter(groupAdapter);
-        groupAdapter.notifyDataSetChanged();
-
-
-
     }
 
-    private void initChat(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group;
+    }
+
+    @Override
+    protected void initView() {
         lv_chat = (ListView)findViewById(R.id.lv_chat);
         backtrack1 = (ImageView)findViewById(R.id.backtrack);
         rly_group_note = (RelativeLayout)findViewById(R.id.rly_group_note);
@@ -59,21 +50,33 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void initData() {
+        list = new ArrayList<>();
+        for (int i = 0;i < 3 ;i++){
+            list.add(GroupAdapter.name);
+        }
+
+        groupAdapter = new GroupAdapter(getApplicationContext(),list);
+        lv_chat.setAdapter(groupAdapter);
+        groupAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.rly_group_create:         //跳转到新建群聊页面
-                Intent rly_group_create = new Intent(getApplicationContext(),GroupCreateActivity.class);
-                startActivityForResult(rly_group_create,1);
+            case R.id.rly_group_create:
+                //启动新建群聊界面
+                startActivity(new Intent(getApplicationContext(),GroupCreateActivity.class));
                 break;
 
-            case R.id.rly_group_note:         //跳转到群通知页面
-                Intent re_chat_nota = new Intent(getApplicationContext(),GroupNoticeActivity.class);
-                startActivityForResult(re_chat_nota,1);
+            case R.id.rly_group_note:
+                //启动群通知界面
+                startActivity(new Intent(getApplicationContext(),GroupNoticeActivity.class));
                 break;
 
-            case R.id.backtrack:           //返回通讯录
-                setResult(10);
+            case R.id.backtrack:
+                //销毁当前界面，返回通讯录界面
                 finish();
                 break;
         }
@@ -81,8 +84,8 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent group_chat = new Intent(getApplicationContext(),ChatActivity.class);
-        startActivityForResult(group_chat,1);
+        //启动群聊界面
+        startActivity(new Intent(getApplicationContext(),ChatActivity.class));
     }
 }
 

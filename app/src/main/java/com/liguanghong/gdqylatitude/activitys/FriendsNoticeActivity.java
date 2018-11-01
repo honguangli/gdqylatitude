@@ -24,22 +24,15 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_notice);
-
-        initView();
-
-        list = new ArrayList<>();
-        for (int i = 0;i < 3 ;i++){
-            list.add("小明");
-        }
-
-
-        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext(),list);
-        lv_friend_apply.setAdapter(friendsNoticeAdapter);
-        friendsNoticeAdapter.notifyDataSetChanged();
-
     }
-    private void initView() {
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_friends_notice;
+    }
+
+    @Override
+    protected void initView() {
         lv_friend_apply = (ListView)findViewById(R.id.lv_friend_notice);
         backtrack = (ImageView)findViewById(R.id.backtrack);
 
@@ -47,13 +40,25 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
         lv_friend_apply.setOnItemClickListener(this);
     }
 
+    @Override
+    protected void initData() {
+
+        list = new ArrayList<>();
+        for (int i = 0;i < 3 ;i++){
+            list.add("小明");
+        }
+
+        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext(),list);
+        lv_friend_apply.setAdapter(friendsNoticeAdapter);
+        friendsNoticeAdapter.notifyDataSetChanged();
+    }
+
     //按钮点击监听
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id){
-            case R.id.backtrack:        //返回通讯录
-                setResult(10);
+        switch (v.getId()){
+            case R.id.backtrack:
+                //销毁当前界面，返回通讯录界面
                 finish();
                 break;
         }
@@ -61,7 +66,7 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent friend_apply_info = new Intent(getApplicationContext(),FriendsNoticeInfoActivity.class);
-        startActivityForResult(friend_apply_info,1);
+        //启动好友申请详情界面
+        startActivity(new Intent(getApplicationContext(),FriendsNoticeInfoActivity.class));
     }
 }

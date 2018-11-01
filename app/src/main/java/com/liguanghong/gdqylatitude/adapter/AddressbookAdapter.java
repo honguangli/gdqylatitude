@@ -90,7 +90,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
 //        image_add.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                alertAddDialog(MainActivity.fragment.getActivity(), "新增子项", groupPos);
+//                alertAddDialog(HomeActivity.fragment.getActivity(), "新增子项", groupPos);
 //            }
 //        });
 //        image_delete.setOnClickListener(new OnClickListener() {

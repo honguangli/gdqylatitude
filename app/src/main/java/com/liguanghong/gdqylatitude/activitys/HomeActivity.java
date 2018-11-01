@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,34 +22,43 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
-    private LinearLayout map,message,addressbook,mine;
-    private BaseViewPager vp;
-    private ImageView iv_map,iv_message,iv_addressbook,iv_mine;
-    private TextView tv_map,tv_message,tv_addressbook,tv_mine;
+    private BaseViewPager viewPager;
+
+    private LinearLayout map;
+    private LinearLayout message;
+    private LinearLayout addressbook;
+    private LinearLayout mine;
+
+    private ImageView iv_map;
+    private ImageView iv_message;
+    private ImageView iv_addressbook;
+    private ImageView iv_mine;
+
+    private TextView tv_map;
+    private TextView tv_message;
+    private TextView tv_addressbook;
+    private TextView tv_mine;
+
+    private ImageView iv_current;
+    private TextView tv_current;
+    private int id_current_gray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
-        setContentView(R.layout.activity_home);
-
-        initView();
-        getData();
     }
 
-    private void initView(){
-        List<Fragment> fragments = new ArrayList<Fragment>();
-        Fragment mapFragment = new MapFragment();
-        Fragment messageFragment = new MessageFragment();
-        Fragment addressbookFragment = new AddressbookFragment();
-        Fragment mineFragment = new MineFragment();
-        fragments.add(mapFragment);
-        fragments.add(messageFragment);
-        fragments.add(addressbookFragment);
-        fragments.add(mineFragment);
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
-        vp = (BaseViewPager) findViewById(R.id.viewpager);
-        vp.setAdapter(adapter);
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    protected void initView(){
+
+        viewPager = (BaseViewPager) findViewById(R.id.viewpager);
+
         map = (LinearLayout)findViewById(R.id.map);
         message = (LinearLayout)findViewById(R.id.message);
         addressbook = (LinearLayout)findViewById(R.id.addressbook);
@@ -59,6 +67,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         message.setOnClickListener(this);
         addressbook.setOnClickListener(this);
         mine.setOnClickListener(this);
+
         iv_map = (ImageView)findViewById(R.id.map_iv);
         iv_message = (ImageView)findViewById(R.id.message_iv);
         iv_addressbook = (ImageView)findViewById(R.id.addressbook_iv);
@@ -67,58 +76,69 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tv_message = (TextView)findViewById(R.id.message_tv);
         tv_addressbook = (TextView)findViewById(R.id.addressbook_tv);
         tv_mine = (TextView)findViewById(R.id.mine_tv);
+
     }
+
+    @Override
+    protected void initData(){
+
+        List<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(new MapFragment());
+        fragments.add(new MessageFragment());
+        fragments.add(new AddressbookFragment());
+        fragments.add(new MineFragment());
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
+        viewPager.setAdapter(fragmentAdapter);
+        iv_current = iv_map;
+        tv_current = tv_map;
+        id_current_gray = R.drawable.map;
+
+    }
+
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
+
             case R.id.map:
-                vp.setCurrentItem(0);
-                iv_map.setImageDrawable(getResources().getDrawable(R.drawable.map_light));
-                iv_message.setImageDrawable(getResources().getDrawable(R.drawable.message));
-                iv_addressbook.setImageDrawable(getResources().getDrawable(R.drawable.addressbook));
-                iv_mine.setImageDrawable(getResources().getDrawable(R.drawable.mine));
-                tv_map.setTextColor(getResources().getColor(R.color.colorTitle));
-                tv_message.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_addressbook.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_mine.setTextColor(getResources().getColor(R.color.colorBF));
+                viewPager.setCurrentItem(0, false);
+                changeNavigationBar(iv_map, tv_map, R.drawable.map,  R.drawable.map_light);
                 break;
             case R.id.message:
-                vp.setCurrentItem(1);
-                iv_map.setImageDrawable(getResources().getDrawable(R.drawable.map));
-                iv_message.setImageDrawable(getResources().getDrawable(R.drawable.message_light));
-                iv_addressbook.setImageDrawable(getResources().getDrawable(R.drawable.addressbook));
-                iv_mine.setImageDrawable(getResources().getDrawable(R.drawable.mine));
-                tv_map.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_message.setTextColor(getResources().getColor(R.color.colorTitle));
-                tv_addressbook.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_mine.setTextColor(getResources().getColor(R.color.colorBF));
+                viewPager.setCurrentItem(1, false);
+                changeNavigationBar(iv_message, tv_message, R.drawable.message, R.drawable.message_light);
                 break;
             case R.id.addressbook:
-                vp.setCurrentItem(2);
-                iv_map.setImageDrawable(getResources().getDrawable(R.drawable.map));
-                iv_message.setImageDrawable(getResources().getDrawable(R.drawable.message));
-                iv_addressbook.setImageDrawable(getResources().getDrawable(R.drawable.addressbook_light));
-                iv_mine.setImageDrawable(getResources().getDrawable(R.drawable.mine));
-                tv_map.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_message.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_addressbook.setTextColor(getResources().getColor(R.color.colorTitle));
-                tv_mine.setTextColor(getResources().getColor(R.color.colorBF));
+                viewPager.setCurrentItem(2, false);
+                changeNavigationBar(iv_addressbook, tv_addressbook, R.drawable.addressbook, R.drawable.addressbook_light);
                 break;
             case R.id.mine:
-                vp.setCurrentItem(3);
-                iv_map.setImageDrawable(getResources().getDrawable(R.drawable.map));
-                iv_message.setImageDrawable(getResources().getDrawable(R.drawable.message));
-                iv_addressbook.setImageDrawable(getResources().getDrawable(R.drawable.addressbook));
-                iv_mine.setImageDrawable(getResources().getDrawable(R.drawable.mine_light));
-                tv_map.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_message.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_addressbook.setTextColor(getResources().getColor(R.color.colorBF));
-                tv_mine.setTextColor(getResources().getColor(R.color.colorTitle));
+                viewPager.setCurrentItem(3, false);
+                changeNavigationBar(iv_mine, tv_mine, R.drawable.mine, R.drawable.mine_light);
                 break;
+
         }
-    }
-
-    private void getData(){
 
     }
+
+    /**
+     * 改变底部导航栏显示
+     * @param iv
+     * @param tv
+     * @param id_next_gray
+     * @param id_next_light
+     */
+    private void changeNavigationBar(ImageView iv, TextView tv, int id_next_gray, int id_next_light){
+
+        iv_current.setImageDrawable(getResources().getDrawable(id_current_gray));
+        iv_current = iv;
+        iv_current.setImageDrawable(getResources().getDrawable(id_next_light));
+        id_current_gray = id_next_gray;
+
+        tv_current.setTextColor(getResources().getColor(R.color.colorBF));
+        tv_current = tv;
+        tv_current.setTextColor(getResources().getColor(R.color.colorTitle));
+
+    }
+
 }

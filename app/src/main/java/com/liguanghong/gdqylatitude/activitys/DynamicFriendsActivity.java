@@ -10,6 +10,20 @@ public class DynamicFriendsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dynamic_friends);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_dynamic_friends;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }
