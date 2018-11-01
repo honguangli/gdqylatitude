@@ -51,123 +51,63 @@
 
     </RelativeLayout>
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_above="@id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rly_group_newsign"
-            android:layout_width="fill_parent"
+            android:id="@+id/rly_addgroup"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#ffffff">
-
+            android:background="@color/colorWhite">
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:paddingLeft="10dp"
+                android:id="@+id/iv_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/sign_add"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:paddingLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/iv_add"
                 android:text="新建签到"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"/>
-
         </RelativeLayout>
-
         <View
+            android:id="@+id/view_line"
             android:layout_width="wrap_content"
-            android:layout_height="1dp"/>
-
+            android:layout_height="1dp"
+            android:layout_below="@id/rly_addgroup"
+            android:background="@color/colorF5"/>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#ffffff">
-
+            android:layout_below="@id/view_line"
+            android:background="@color/colorWhite"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_centerVertical="true"
                 android:text="签到1"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"/>
-
             <ImageView
+                android:id="@+id/img_movegroup"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/less"/>
-
         </RelativeLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"/>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:background="#ffffff">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:layout_centerVertical="true"
-                android:text="签到2"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:src="@drawable/less"/>
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"/>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:background="#ffffff">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:layout_centerVertical="true"
-                android:text="签到3"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:src="@drawable/less"/>
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"/>
-
-    </TableLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

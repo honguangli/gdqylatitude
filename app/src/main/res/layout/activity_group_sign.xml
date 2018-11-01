@@ -38,66 +38,26 @@
 
     </RelativeLayout>
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_above="@id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:paddingLeft="15dp"
-            android:background="@color/colorWhite"
-            android:gravity="center_vertical"
-            android:text="签到项目1"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorWhite"
-            android:paddingLeft="15dp"
-            android:gravity="center_vertical"
-            android:text="签到项目2"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@color/colorWhite"
-            android:paddingLeft="15dp"
-            android:gravity="center_vertical"
-            android:text="签到项目3"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@color/colorWhite"
-            android:paddingLeft="15dp"
-            android:gravity="center_vertical"
-            android:text="签到项目4"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"/>
-
-    </TableLayout>
-
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="签到项目4"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>
