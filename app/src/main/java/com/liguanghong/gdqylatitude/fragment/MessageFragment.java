@@ -58,7 +58,7 @@ public class MessageFragment extends BaseFragment {
                 Log.i("测试", "消息Fragment：" + "i:[" + i + "]，l:[" + l + "]");
                 //activity跳转操作
                 //Intent intent = new Intent();
-                //startActivity(intent);
+                startActivity(new Intent(getActivity(), ChatActivity.class));
             }
         });
         messageAdapter.notifyDataSetChanged();

@@ -57,8 +57,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         int id = view.getId();
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
-                Intent friend_info = new Intent(getApplicationContext(), UserInfoActivity.class);
-                startActivityForResult(friend_info,1);
+                startActivity(new Intent(getApplicationContext(), UserInfoActivity.class));
                 break;
 
             case R.id.tv_send:                          //发送消息
@@ -70,7 +69,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.backtrack:            //返回通讯录
-                setResult(10);
                 finish();
                 break;
         }
