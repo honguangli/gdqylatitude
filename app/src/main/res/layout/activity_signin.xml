@@ -54,19 +54,24 @@
 
             <EditText
                 android:id="@+id/login_et_user"
-                android:layout_centerHorizontal="true"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:background="@null"
                 android:hint="请输入用户账号"
-                android:textColorHint="@color/Gainsboro"/>
+                android:textColorHint="@color/Gainsboro"
+                android:textSize="18sp"/>
 
             <View
                 android:id="@+id/view_User"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/login_et_user"
-
-                android:layout_width="340dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_height="1dp"
                 android:background="@color/colorTitle"></View>
 
@@ -74,32 +79,38 @@
                 android:id="@+id/login_et_password"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/view_User"
-                android:layout_centerHorizontal="true"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:background="@null"
                 android:hint="请输入用户密码"
-                android:textColorHint="@color/Gainsboro"/>
+                android:textColorHint="@color/Gainsboro"
+                android:textSize="18sp"/>
 
             <View
                 android:id="@+id/view_password"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/login_et_password"
-
-                android:layout_width="340dp"
+                android:layout_width="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_height="1dp"
                 android:background="@color/colorTitle"></View>
 
             <Button
                 android:id="@+id/login_btn_login"
                 android:layout_below="@id/view_password"
-                android:layout_marginTop="30dp"
-                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
                 android:background="@drawable/shape_signin"
-                android:layout_width="340dp"
-                android:layout_height="38dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:text="登录"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/colorWhite"/>
 
             <TextView

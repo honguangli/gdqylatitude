@@ -66,10 +66,12 @@ public class MainActivity extends AppCompatActivity {
             //未登录过，跳转登录界面
             signUp();
             startActivity(new Intent(this, SignInActivity.class));
+            finish();
         } else{
             //已登录过，自动登录，进入主界面
             signIn();
             startActivity(new Intent(this, HomeActivity.class));
+            finish();
         }
     }
 

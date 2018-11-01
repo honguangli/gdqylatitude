@@ -43,19 +43,24 @@
 
         <EditText
             android:id="@+id/register_et_username"
-            android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:background="@null"
             android:hint="请输入用户名"
-            android:textColorHint="@color/Gainsboro"/>
+            android:textColorHint="@color/Gainsboro"
+            android:textSize="18sp"/>
 
         <View
             android:id="@+id/view_username"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/register_et_username"
-
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="1.5dp"
             android:background="@color/colorTitle"></View>
 
@@ -64,19 +69,24 @@
             android:id="@+id/register_et_password"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/view_username"
-            android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:background="@null"
             android:hint="请输入密码"
-            android:textColorHint="@color/Gainsboro"/>
+            android:textColorHint="@color/Gainsboro"
+            android:textSize="18sp"/>
 
         <View
             android:id="@+id/view_password"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/register_et_password"
-
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="1.5dp"
             android:background="@color/colorTitle"></View>
 
@@ -84,19 +94,24 @@
             android:id="@+id/register_et_ensurepassword"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/view_password"
-            android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:background="@null"
             android:hint="请确定密码"
-            android:textColorHint="@color/Gainsboro"/>
+            android:textColorHint="@color/Gainsboro"
+            android:textSize="18sp"/>
 
         <View
             android:id="@+id/view_ensurepassword"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/register_et_ensurepassword"
-
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="1.5dp"
             android:background="@color/colorTitle"></View>
 
@@ -106,11 +121,13 @@
             android:layout_below="@+id/view_ensurepassword"
             android:background="@drawable/shape_signin"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:layout_width="340dp"
-            android:layout_height="38dp"
+            android:layout_marginTop="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="同意协议并注册"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#ffffff"
             />
 
@@ -133,7 +150,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="《纵横天下服务协"/>
+            android:text="《纵横天下服务协"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/textview3"
             android:layout_below="@id/textview1"
@@ -142,7 +160,8 @@
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="议》、 《隐私权政策》"/>
+            android:text="议》、 《隐私权政策》"
+            android:textSize="16sp"/>
 
 
 
