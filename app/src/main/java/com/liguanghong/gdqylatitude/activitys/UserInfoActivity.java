@@ -63,8 +63,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         int id = view.getId();
         switch (id){
             case R.id.rly_beizhu:              //修改备注
-                Intent modify_remark = new Intent(getApplicationContext(), Modify_remarkActivity.class);
-                startActivityForResult(modify_remark,1);
                 break;
 
             case R.id.rly_fenzu:             //修改分组名
