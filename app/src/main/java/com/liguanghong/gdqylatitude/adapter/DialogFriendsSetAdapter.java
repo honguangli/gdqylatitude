@@ -12,18 +12,18 @@ import com.liguanghong.gdqylatitude.R;
 
 import java.util.ArrayList;
 
-public class GroupAdapter extends BaseAdapter {
+public class DialogFriendsSetAdapter extends BaseAdapter {
     private ArrayList<String> list;
-    Context context;
+    private Context context;
 
-    public ImageView img_chat_head;
-    public TextView chat_name;
+    private TextView item_friends_set_name;
+    private ImageView item_friends_set_check;
 
-    public static String name;
 
-    public GroupAdapter(Context context,ArrayList<String> list){
+    public DialogFriendsSetAdapter(Context context, ArrayList<String> list){
         this.context = context;
         this.list = list;
+
     }
     @Override
     public int getCount() {
@@ -42,16 +42,15 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_group,null);
-        img_chat_head = v.findViewById(R.id.img_chat_head);
-        chat_name = v.findViewById(R.id.chat_name);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_dialod_friends_set_change,null);
 
-
-        name = chat_name.toString();
-
-
+        item_friends_set_name = v.findViewById(R.id.item_friends_set_name);
+        item_friends_set_name.setText(list.get(i));
+        item_friends_set_check = v.findViewById(R.id.item_friends_set_check);
+        if(i == 3){
+            item_friends_set_check.setImageResource(R.drawable.check);
+        }
 
         return v;
     }
 }
-

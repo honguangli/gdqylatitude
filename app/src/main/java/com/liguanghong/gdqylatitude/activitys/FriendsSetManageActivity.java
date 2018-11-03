@@ -1,13 +1,19 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.util.DensityUtil;
 
 public class FriendsSetManageActivity extends BaseActivity implements View.OnClickListener {
 
@@ -17,6 +23,10 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
     private TextView done;
 
     private RelativeLayout rly_addgroup;
+
+    private TextView tv_delete;
+    private TextView tv_cancel;
+    Dialog bottomDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +82,41 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
                 break;
 
             case R.id.img_movegroup:        //删除已有的分组
+                show();
+                break;
 
+            /*
+            删除已有分组
+             */
+            case R.id.tv_delete:        //删除已有的分组
+                Toast.makeText(getApplicationContext(),"删除",Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.tv_cancel:        //取消
+                bottomDialog.dismiss();
                 break;
         }
+    }
+
+    private void show() {
+        bottomDialog = new Dialog(this, R.style.BottomDialog);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_friends_delete, null);
+        bottomDialog.setContentView(contentView);
+
+        tv_delete = (TextView)contentView.findViewById(R.id.tv_delete);
+        tv_cancel = (TextView)contentView.findViewById(R.id.tv_cancel);
+        tv_delete.setText("删除分组");
+        tv_cancel.setVisibility(View.VISIBLE);
+
+        tv_delete.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
+        params.width = getResources().getDisplayMetrics().widthPixels - DensityUtil.dp2px(this, 16f);
+        params.bottomMargin = DensityUtil.dp2px(this, 8f);
+        contentView.setLayoutParams(params);
+        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
+        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        bottomDialog.show();
     }
 }

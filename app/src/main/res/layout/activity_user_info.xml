@@ -35,6 +35,17 @@
             android:text="详细资料"
             android:textSize="16sp"
             android:textColor="@color/colorWhite"/>
+
+        <!-- 菜单 -->
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/more"/>
+
     </RelativeLayout>
 
     <!-- 界面主要内容容器 -->

@@ -44,16 +44,13 @@ public class FriendsNoticeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        View v = LayoutInflater.from(context).inflate(R.layout.item_friends_notice, null);
+        iv_friend_icon = v.findViewById(R.id.iv_friend_icon);
+        tv_friend_name = v.findViewById(R.id.tv_friend_name);
+        tv_friend_notice = v.findViewById(R.id.tv_friend_notice);
+        tv_friend_argee = v.findViewById(R.id.tv_friend_argee);
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_friends_notice, null);
-            iv_friend_icon = (ImageView) view.findViewById(R.id.iv_friend_icon);
-            tv_friend_name = (TextView) view.findViewById(R.id.tv_friend_name);
-            tv_friend_notice = (TextView) view.findViewById(R.id.tv_friend_notice);
-            tv_friend_argee = (TextView) view.findViewById(R.id.tv_friend_argee);
 
-        }
-
-        return view;
+        return v;
     }
 }
