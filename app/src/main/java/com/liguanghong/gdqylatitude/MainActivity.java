@@ -5,6 +5,8 @@ import android.os.Bundle;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.util.SocketClient;
+import com.liguanghong.gdqylatitude.util.UserManager;
 
 
 public class MainActivity extends BaseActivity {
@@ -42,7 +44,7 @@ public class MainActivity extends BaseActivity {
      * 检查是否已经登录
      */
     private void checkIsLogin(){
-        if(false){
+        if(true){
             //未登录过，跳转登录界面
             startActivity(new Intent(this, SignInActivity.class));
             finish();

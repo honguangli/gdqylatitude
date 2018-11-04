@@ -49,7 +49,7 @@ public class MessageAdapter extends BaseAdapter {
         img_headphoto.setImageResource(R.drawable.ic_launcher_background);
         tv_nickname.setText(list.get(i));
         tv_message.setText(list.get(i) + list.get(i));
-        tv_time.setText("15:"+ new Random().nextInt(60));
+        tv_time.setText(new Random().nextInt(25) + ":" + new Random().nextInt(60));
         tv_message_number.setText(""+new Random().nextInt(1000));
 
         return v;

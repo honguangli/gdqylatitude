@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:layout_height="match_parent">
 
 
     <!-- 顶部栏 -->
@@ -36,15 +35,16 @@
         <RelativeLayout
             android:id="@+id/rl_1"
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="180dp"
+            >
 
             <de.hdodenhof.circleimageview.CircleImageView
+
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:src="@drawable/main_background"/>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -53,48 +53,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/login_et_user"
+            <RelativeLayout
+                android:id="@+id/RelativeLayout_etuser"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingLeft="30dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:background="@null"
-                android:hint="请输入用户账号"
-                android:textColorHint="@color/Gainsboro"
-                android:textSize="18sp"/>
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/login_et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="请输入用户账号"
+                    android:textColorHint="@color/Gainsboro"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+            </RelativeLayout>
 
             <View
                 android:id="@+id/view_User"
-                android:layout_below="@+id/login_et_user"
+                android:layout_below="@+id/RelativeLayout_etuser"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_height="1dp"
                 android:background="@color/colorTitle"></View>
 
-            <EditText
-                android:id="@+id/login_et_password"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/view_User"
+            <RelativeLayout
+                android:id="@+id/RelativeLayout_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@+id/view_User"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingLeft="30dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:background="@null"
-                android:hint="请输入用户密码"
-                android:textColorHint="@color/Gainsboro"
-                android:textSize="18sp"/>
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/login_et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="请输入用户密码"
+                    android:textColorHint="@color/Gainsboro"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+
+            </RelativeLayout>
 
             <View
                 android:id="@+id/view_password"
-                android:layout_below="@+id/login_et_password"
+                android:layout_below="@+id/RelativeLayout_password"
                 android:layout_width="match_parent"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
@@ -107,15 +120,15 @@
                 android:layout_marginTop="35dp"
                 android:background="@drawable/shape_signin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="登录"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorWhite"/>
 
             <TextView
-                android:id="@+id/login_btn_forgetpassword"
+                android:id="@+id/forgotpassword"
                 android:layout_below="@+id/login_btn_login"
                 android:layout_marginTop="15dp"
                 android:layout_alignLeft="@+id/login_btn_login"
@@ -123,11 +136,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="忘记密码?"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/colorTitle"/>
 
             <TextView
-                android:id="@+id/login_btn_register"
+                android:id="@+id/to_register"
                 android:layout_below="@+id/login_btn_login"
                 android:layout_marginTop="15dp"
                 android:layout_alignRight="@+id/login_btn_login"
@@ -135,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="新用户注册"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/colorTitle"/>
 
         </RelativeLayout>

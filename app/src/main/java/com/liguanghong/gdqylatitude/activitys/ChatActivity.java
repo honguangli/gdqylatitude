@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.liguanghong.gdqylatitude.util.SocketClient;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.util.UserManager;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
@@ -45,6 +47,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         tv_data.setOnClickListener(this);
         tv_send.setOnClickListener(this);
         rly_add.setOnClickListener(this);
+
     }
 
     @Override

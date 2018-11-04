@@ -3,6 +3,7 @@ package com.liguanghong.gdqylatitude.util;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -13,14 +14,33 @@ import okhttp3.RequestBody;
  */
 public class HttpUtil {
 
-    private static final String url = "http://172.17.146.220:8080/GdqyLatitude/";
+    private static final String addr = "172.17.146.220";                  //服务器ip地址
+    private static final Integer apiPort = 8080;                            //服务器api端口
+    private static final Integer socketPort = 8888;                         //服务器聊天端口
+    private static final String projectName = "GdqyLatitude";             //项目名称
 
     /**
-     * 获取基本URL
+     * 获取ApiURL
      * @return
      */
-    public static String getUrl(){
-        return url;
+    public static String getApiUrl(){
+        return "http://" + addr + ":" + apiPort + "/" + projectName + "/";
+    }
+
+    public static String getAddr() {
+        return addr;
+    }
+
+    public static Integer getApiPort() {
+        return apiPort;
+    }
+
+    public static Integer getSocketPort() {
+        return socketPort;
+    }
+
+    public static String getProjectName() {
+        return projectName;
     }
 
     /**
@@ -35,7 +55,7 @@ public class HttpUtil {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
         Request request = new Request.Builder()
-                .url(url+path+param)
+                .url(getApiUrl()+path+param)
                 .build();
         okHttpClient.newCall(request).enqueue(callback);
     }
@@ -52,7 +72,7 @@ public class HttpUtil {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
         Request request = new Request.Builder()
-                .url(url+path)
+                .url(getApiUrl()+path)
                 .post(requestBody)
                 .build();
         okHttpClient.newCall(request).enqueue(callback);

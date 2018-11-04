@@ -3,7 +3,10 @@ package com.liguanghong.gdqylatitude.util;
 import com.liguanghong.gdqylatitude.unity.User;
 
 public class UserManager {
+
     private static User appUser;
+
+    private static SocketClient socketClient;
 
     /**
      * 获取用户
@@ -18,6 +21,14 @@ public class UserManager {
     }
 
     /**
+     * 获取用户socket
+     * @return
+     */
+    public static SocketClient getSocketClient(){
+        return socketClient;
+    }
+
+    /**
      * 添加用户
      * @param newUser
      */
@@ -29,7 +40,22 @@ public class UserManager {
      * 移除用户
      */
     public static void removeAppUser(){
+        appUser = null;
+    }
 
+    /**
+     * 添加用户socket
+     */
+    public static void addSocketClient(){
+        if(socketClient == null || !SocketClient.isRunnable())
+            socketClient = new SocketClient();
+    }
+
+    /**
+     * 移除用户socket
+     */
+    public static void removeSocketClient(){
+        socketClient = null;
     }
 
 }
