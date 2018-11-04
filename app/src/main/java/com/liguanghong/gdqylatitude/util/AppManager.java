@@ -3,7 +3,6 @@ package com.liguanghong.gdqylatitude.util;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Stack;
 

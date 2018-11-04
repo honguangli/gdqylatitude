@@ -5,27 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.FriendsManager;
 
 import java.util.List;
-import java.util.Map;
 
 public class AddressbookAdapter extends BaseExpandableListAdapter {
     private List<String> parentList;
-    private Map<String,List<User>> map;
     private Context context;
-    private EditText edit_modify;
 
     //构造函数
-    public AddressbookAdapter(Context context, List<String> parentList, Map<String,List<User>> map) {
+    public AddressbookAdapter(Context context, List<String> parentList) {
         this.context = context;
         this.parentList = parentList;
-        this.map = map;
     }
 
     //获取分组数
@@ -37,7 +32,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
         String groupName = parentList.get(groupPosition);
-        int childCount = map.get(groupName).size();
+        int childCount = FriendsManager.getFriends().get(groupName).size();
         return childCount;
     }
     //获取当前组对象
@@ -50,7 +45,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         String groupName = parentList.get(groupPosition);
-        String chidlName = map.get(groupName).get(childPosition).getLogname();
+        String chidlName = FriendsManager.getFriends().get(groupName).get(childPosition).getLogname();
         return chidlName;
     }
     //获取组ID
@@ -79,27 +74,12 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         }
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image_parent);
-//        Button image_add = (Button) convertView.findViewById(R.id.img_add);
-//        ImageView image_delete = (ImageView) convertView.findViewById(R.id.image_delete);
 
         if(isExpanded){
             image.setImageResource(R.drawable.todown_gray);
         }else{
             image.setImageResource(R.drawable.toright_gray);
         }
-
-//        image_add.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertAddDialog(HomeActivity.fragment.getActivity(), "新增子项", groupPos);
-//            }
-//        });
-//        image_delete.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                GroupListFragment.deleteGroup(groupPos);
-//            }
-//        });
 
 
         TextView parentText = (TextView) convertView.findViewById(R.id.text_parent);
@@ -121,15 +101,8 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         ImageView image_head = (ImageView) convertView.findViewById(R.id.image_head);
         ImageView img_state = (ImageView) convertView.findViewById(R.id.img_state);
         String parentName = parentList.get(groupPosition);
-        String childName = map.get(parentName).get(childPosition).getLogname();
+        String childName = FriendsManager.getFriends().get(parentName).get(childPosition).getLogname();
         childText.setText(childName);
-
-//        image_delete.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                GroupListFragment.deleteChild(groupPos, childPos);
-//            }
-//        });
         return convertView;
     }
 
@@ -137,21 +110,5 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
-    //弹新增子项对话框
-//    public void alertAddDialog(Context context, String title, int currentGroup){
-//        final int group = currentGroup;
-//
-//        dialog = new ModifyDialog(context, title, null);
-//        edit_modify = dialog.getEditText();
-//        dialog.setOnClickCommitListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                GroupListFragment.addChild(group, edit_modify.getText().toString());
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.show();
-//    }
 }
 

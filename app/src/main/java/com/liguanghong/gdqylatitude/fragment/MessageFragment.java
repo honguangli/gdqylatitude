@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,15 @@ import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.ConversationManager;
+import com.liguanghong.gdqylatitude.util.FriendsManager;
+import com.liguanghong.gdqylatitude.util.UserManager;
 
 public class MessageFragment extends BaseFragment {
 
     private ListView lv_message;
     private MessageAdapter messageAdapter;
-    private Map<Integer, List<Chatmessage>> chatmessageMap;
     private static Handler messageHandler;
 
     @Override
@@ -47,24 +43,21 @@ public class MessageFragment extends BaseFragment {
     protected void initView(View view)
     {
         lv_message = (ListView)view.findViewById(R.id.message_list);
-
     }
     //初始化数据
     @Override
     protected void initData()
     {
-        chatmessageMap = new HashMap<Integer, List<Chatmessage>>();
-
-
-        messageAdapter = new MessageAdapter(getContext(), chatmessageMap);
+        messageAdapter = new MessageAdapter(getContext());
         lv_message.setAdapter(messageAdapter);
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("测试", "消息Fragment：" + "i:[" + i + "]，l:[" + l + "]");
-                //activity跳转操作
-                //Intent intent = new Intent();
-                startActivity(new Intent(getActivity(), ChatActivity.class));
+                User user = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
+                //activity跳转操作，注意：启动ChatActivity时必须传User对象
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("friendInfo", user);
+                startActivity(intent);
             }
         });
         messageAdapter.notifyDataSetChanged();
@@ -76,21 +69,10 @@ public class MessageFragment extends BaseFragment {
                       Chatmessage chatmessage = (Chatmessage)message.obj;
                       if(chatmessage.getIssingle()){
                           //私聊
-                          List<Chatmessage> list = chatmessageMap.get(chatmessage.getSenderid());
-                          if(list != null)
-                              list.add(chatmessage);
-                          else {
-                              list = new ArrayList<Chatmessage>();
-                              list.add(chatmessage);
-                              chatmessageMap.put(chatmessage.getSenderid(), list);
-                          }
+                          ConversationManager.addChatmessage(chatmessage);
                       } else{
                           //群聊
-                          List<Chatmessage> list = chatmessageMap.get(chatmessage.getReceivergroupid());
-                          if(list != null)
-                              list.add(chatmessage);
-                          else
-                              chatmessageMap.put(chatmessage.getSenderid(), list);
+
                       }
                       messageAdapter.notifyDataSetChanged();
                       break;

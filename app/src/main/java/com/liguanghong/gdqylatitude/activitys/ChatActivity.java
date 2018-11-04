@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.SocketClient;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
@@ -23,7 +24,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private RelativeLayout rly_add;                           //添加图片，位置
     private EditText ed_content;                              //要发送的文字内容
 
-    private Integer friendID;                                   //好友ID
+    private User friend;                                   //好友ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        friendID = this.getIntent().getIntExtra("friendsID", 0);;
+        friend = (User)this.getIntent().getSerializableExtra("friendInfo");;
+        tv_friendName.setText(friend.getLogname());
+        if(friend.getStatu() == 2){
+            tv_friendState.setText("在线");
+        }else{
+            tv_friendState.setText("离线");
+        }
     }
 
     @Override
@@ -66,7 +73,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.tv_send:                          //发送消息
-                UserManager.getSocketClient().sendMsg(true, 0, ed_content.getText().toString(), friendID);
+                UserManager.getSocketClient().sendMsg(true, 0, ed_content.getText().toString(), friend.getUserid());
                 break;
 
             case R.id.add:                          //添加图片，地理位置

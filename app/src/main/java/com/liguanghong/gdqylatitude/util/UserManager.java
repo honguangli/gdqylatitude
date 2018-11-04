@@ -1,11 +1,22 @@
 package com.liguanghong.gdqylatitude.util;
 
+
+import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.unity.User;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 用户管理类
+ */
 public class UserManager {
 
+    //登录用户
     private static User appUser;
-
+    //登录用户socket端
     private static SocketClient socketClient;
 
     /**
@@ -21,14 +32,6 @@ public class UserManager {
     }
 
     /**
-     * 获取用户socket
-     * @return
-     */
-    public static SocketClient getSocketClient(){
-        return socketClient;
-    }
-
-    /**
      * 添加用户
      * @param newUser
      */
@@ -41,6 +44,14 @@ public class UserManager {
      */
     public static void removeAppUser(){
         appUser = null;
+    }
+
+    /**
+     * 获取用户socket
+     * @return
+     */
+    public static SocketClient getSocketClient(){
+        return socketClient;
     }
 
     /**
