@@ -23,6 +23,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private RelativeLayout rly_add;                           //添加图片，位置
     private EditText ed_content;                              //要发送的文字内容
 
+    private Integer friendID;                                   //好友ID
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
+        friendID = this.getIntent().getIntExtra("friendsID", 0);;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.tv_send:                          //发送消息
-
+                UserManager.getSocketClient().sendMsg(true, 0, ed_content.getText().toString(), friendID);
                 break;
 
             case R.id.add:                          //添加图片，地理位置

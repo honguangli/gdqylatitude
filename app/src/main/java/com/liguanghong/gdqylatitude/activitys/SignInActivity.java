@@ -144,6 +144,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      */
     private void navigateToHome(){
         startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
     /**

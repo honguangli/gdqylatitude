@@ -2,6 +2,8 @@ package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +15,20 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
+import com.liguanghong.gdqylatitude.unity.Chatmessage;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MessageFragment extends BaseFragment {
 
     private ListView lv_message;
     private MessageAdapter messageAdapter;
-    private ArrayList<String> list;
+    private Map<Integer, List<Chatmessage>> chatmessageMap;
+    private static Handler messageHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,12 +53,10 @@ public class MessageFragment extends BaseFragment {
     @Override
     protected void initData()
     {
-        list = new ArrayList<>();
-        for (int i = 0;i < 10 ;i++){
-            list.add("用户"+i);
-            Log.i("测试", "消息Fragment：" + "用户名：[" + list.get(i) + "]");
-        }
-        messageAdapter = new MessageAdapter(getContext(),list);
+        chatmessageMap = new HashMap<Integer, List<Chatmessage>>();
+
+
+        messageAdapter = new MessageAdapter(getContext(), chatmessageMap);
         lv_message.setAdapter(messageAdapter);
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,6 +69,42 @@ public class MessageFragment extends BaseFragment {
         });
         messageAdapter.notifyDataSetChanged();
 
+        messageHandler = new Handler(){
+          public void handleMessage(Message message){
+              switch (message.what){
+                  case 200:
+                      Chatmessage chatmessage = (Chatmessage)message.obj;
+                      if(chatmessage.getIssingle()){
+                          //私聊
+                          List<Chatmessage> list = chatmessageMap.get(chatmessage.getSenderid());
+                          if(list != null)
+                              list.add(chatmessage);
+                          else {
+                              list = new ArrayList<Chatmessage>();
+                              list.add(chatmessage);
+                              chatmessageMap.put(chatmessage.getSenderid(), list);
+                          }
+                      } else{
+                          //群聊
+                          List<Chatmessage> list = chatmessageMap.get(chatmessage.getReceivergroupid());
+                          if(list != null)
+                              list.add(chatmessage);
+                          else
+                              chatmessageMap.put(chatmessage.getSenderid(), list);
+                      }
+                      messageAdapter.notifyDataSetChanged();
+                      break;
+              }
+          }
+        };
+
+    }
+
+    public static void addMessage(Chatmessage chatmessage){
+        Message message = new Message();
+        message.what = 200;
+        message.obj = chatmessage;
+        messageHandler.sendMessage(message);
     }
 
 }

@@ -47,8 +47,13 @@ public class UserManager {
      * 添加用户socket
      */
     public static void addSocketClient(){
-        if(socketClient == null || !SocketClient.isRunnable())
+
+        if(socketClient == null || !SocketClient.isRunnable()){
             socketClient = new SocketClient();
+            Thread socketThread = new Thread(socketClient);
+            socketThread.start();
+        }
+
     }
 
     /**

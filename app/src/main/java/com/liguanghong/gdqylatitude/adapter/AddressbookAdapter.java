@@ -10,18 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.List;
 import java.util.Map;
 
 public class AddressbookAdapter extends BaseExpandableListAdapter {
     private List<String> parentList;
-    private Map<String,List<String>> map;
+    private Map<String,List<User>> map;
     private Context context;
     private EditText edit_modify;
 
     //构造函数
-    public AddressbookAdapter(Context context, List<String> parentList, Map<String,List<String>> map) {
+    public AddressbookAdapter(Context context, List<String> parentList, Map<String,List<User>> map) {
         this.context = context;
         this.parentList = parentList;
         this.map = map;
@@ -49,7 +50,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         String groupName = parentList.get(groupPosition);
-        String chidlName = map.get(groupName).get(childPosition);
+        String chidlName = map.get(groupName).get(childPosition).getLogname();
         return chidlName;
     }
     //获取组ID
@@ -120,7 +121,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         ImageView image_head = (ImageView) convertView.findViewById(R.id.image_head);
         ImageView img_state = (ImageView) convertView.findViewById(R.id.img_state);
         String parentName = parentList.get(groupPosition);
-        String childName = map.get(parentName).get(childPosition);
+        String childName = map.get(parentName).get(childPosition).getLogname();
         childText.setText(childName);
 
 //        image_delete.setOnClickListener(new OnClickListener() {
