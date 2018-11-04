@@ -17,7 +17,7 @@ import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
-import com.liguanghong.gdqylatitude.util.UserManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 
 import java.io.IOException;
 

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
-import com.liguanghong.gdqylatitude.util.SocketClient;
-import com.liguanghong.gdqylatitude.util.UserManager;
 
 
 public class MainActivity extends BaseActivity {

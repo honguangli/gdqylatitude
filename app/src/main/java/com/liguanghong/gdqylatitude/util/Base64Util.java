@@ -2,7 +2,7 @@ package com.liguanghong.gdqylatitude.util;
 
 import java.io.UnsupportedEncodingException;
 
-public class Base64 {
+public class Base64Util {
     //加密
     public static String getBase64(String str){
         byte[] b=null;

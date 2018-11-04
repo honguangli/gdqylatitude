@@ -16,9 +16,8 @@ import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.unity.User;
-import com.liguanghong.gdqylatitude.util.ConversationManager;
-import com.liguanghong.gdqylatitude.util.FriendsManager;
-import com.liguanghong.gdqylatitude.util.UserManager;
+import com.liguanghong.gdqylatitude.manager.ConversationManager;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 public class MessageFragment extends BaseFragment {
 

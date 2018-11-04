@@ -2,9 +2,8 @@ package com.liguanghong.gdqylatitude.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import com.liguanghong.gdqylatitude.util.AppManager;
+import com.liguanghong.gdqylatitude.manager.AppManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

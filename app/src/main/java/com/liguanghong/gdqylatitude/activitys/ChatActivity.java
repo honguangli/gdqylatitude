@@ -9,10 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.unity.User;
-import com.liguanghong.gdqylatitude.util.SocketClient;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
-import com.liguanghong.gdqylatitude.util.UserManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
@@ -73,7 +72,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.tv_send:                          //发送消息
-                UserManager.getSocketClient().sendMsg(true, 0, ed_content.getText().toString(), friend.getUserid());
+                UserManager.getSocketClientManager().sendMsg(true, 0, ed_content.getText().toString(), friend.getUserid());
                 break;
 
             case R.id.add:                          //添加图片，地理位置

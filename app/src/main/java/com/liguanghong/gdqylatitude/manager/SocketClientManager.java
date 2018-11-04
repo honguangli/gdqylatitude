@@ -1,4 +1,4 @@
-package com.liguanghong.gdqylatitude.util;
+package com.liguanghong.gdqylatitude.manager;
 
 import android.util.Log;
 
@@ -14,9 +14,10 @@ import java.util.Date;
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
 
 
-public class SocketClient implements Runnable{
+public class SocketClientManager implements Runnable{
 	
 	private Socket clientSocket;
     private PrintWriter out;
@@ -28,7 +29,7 @@ public class SocketClient implements Runnable{
 	}
 
 	public static void setRunnable(boolean runnable) {
-		SocketClient.runnable = runnable;
+		SocketClientManager.runnable = runnable;
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class SocketClient implements Runnable{
 	private void registerSocket() throws IOException{
 		try {
 			clientSocket = new Socket(HttpUtil.getAddr(), HttpUtil.getSocketPort());
-			SocketClient.setRunnable(true);
+			SocketClientManager.setRunnable(true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()),true);
 
@@ -117,7 +118,7 @@ public class SocketClient implements Runnable{
 		}
 
 		//socket正常退出或者异常退出后，将socketclient状态设置为false，便于重启socket服务
-		SocketClient.setRunnable(false);
+		SocketClientManager.setRunnable(false);
     }
 
 }

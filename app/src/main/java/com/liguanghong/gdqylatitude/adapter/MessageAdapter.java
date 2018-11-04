@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
-import com.liguanghong.gdqylatitude.util.ConversationManager;
-import com.liguanghong.gdqylatitude.util.FriendsManager;
-import com.liguanghong.gdqylatitude.util.UserManager;
+import com.liguanghong.gdqylatitude.manager.ConversationManager;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -42,7 +41,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = LayoutInflater.from(context).inflate(R.layout.list_item_message,null);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_chat_message,null);
 
         ImageView img_headphoto = (ImageView)v.findViewById(R.id.img_headphoto);
         TextView tv_nickname = (TextView) v.findViewById(R.id.tv_nickname);

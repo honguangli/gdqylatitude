@@ -57,8 +57,6 @@ public class MapFragment extends BaseFragment {
     private BaiduMap mBaiduMap;
 
     private List<User> userList;
-    private List<User> friendsList;
-    private List<User> strangerList;
     private List<OverlayOptions> options;
     public LocationClient mLocationClient;
     public BDAbstractLocationListener myListener = new MyLocationListener();

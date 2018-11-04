@@ -12,7 +12,12 @@ import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity;
+import com.liguanghong.gdqylatitude.activitys.DynamicMineActivity;
+import com.liguanghong.gdqylatitude.activitys.SettingActivity;
+import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.User;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
@@ -59,10 +64,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData()
     {
-        
+        User user = UserManager.getAppUser();
         personal_head.setImageResource(R.drawable.head);
-        personal_name.setText("Tom");
-        personal_id.setText("5464654564");
+        personal_name.setText(user.getLogname());
+        personal_id.setText(user.getUserid() + "");
 
     }
 
@@ -70,20 +75,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.personal_info:
-                Toast.makeText(getActivity(), "您点击了用户信息", Toast.LENGTH_SHORT);
-                //startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 break;
             case R.id.dynamic_friends:
-                Toast.makeText(getActivity(), "您点击了动态", Toast.LENGTH_SHORT);
                 startActivity(new Intent(getActivity(), DynamicFriendsActivity.class));
                 break;
             case R.id.dynamic_mine:
-                Toast.makeText(getActivity(), "您点击了相册", Toast.LENGTH_SHORT);
-                //startActivity(new Intent(getActivity(), DynamicMineActivity.class));
+                startActivity(new Intent(getActivity(), DynamicMineActivity.class));
                 break;
             case R.id.setting:
-                Toast.makeText(getActivity(), "您点击了设置", Toast.LENGTH_SHORT);
-                //startActivity(new Intent(getActivity(), SettingActivity.class));
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
     }

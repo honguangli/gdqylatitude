@@ -1,13 +1,7 @@
-package com.liguanghong.gdqylatitude.util;
+package com.liguanghong.gdqylatitude.manager;
 
 
-import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.unity.User;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 用户管理类
@@ -17,7 +11,7 @@ public class UserManager {
     //登录用户
     private static User appUser;
     //登录用户socket端
-    private static SocketClient socketClient;
+    private static SocketClientManager socketClientManager;
 
     /**
      * 获取用户
@@ -50,8 +44,8 @@ public class UserManager {
      * 获取用户socket
      * @return
      */
-    public static SocketClient getSocketClient(){
-        return socketClient;
+    public static SocketClientManager getSocketClientManager(){
+        return socketClientManager;
     }
 
     /**
@@ -59,9 +53,9 @@ public class UserManager {
      */
     public static void addSocketClient(){
 
-        if(socketClient == null || !SocketClient.isRunnable()){
-            socketClient = new SocketClient();
-            Thread socketThread = new Thread(socketClient);
+        if(socketClientManager == null || !SocketClientManager.isRunnable()){
+            socketClientManager = new SocketClientManager();
+            Thread socketThread = new Thread(socketClientManager);
             socketThread.start();
         }
 
@@ -71,7 +65,7 @@ public class UserManager {
      * 移除用户socket
      */
     public static void removeSocketClient(){
-        socketClient = null;
+        socketClientManager = null;
     }
 
 }

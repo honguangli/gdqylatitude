@@ -1,4 +1,4 @@
-package com.liguanghong.gdqylatitude.util;
+package com.liguanghong.gdqylatitude.manager;
 
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
 

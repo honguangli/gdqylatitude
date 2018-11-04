@@ -43,8 +43,8 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_group,null);
-        img_chat_head = v.findViewById(R.id.img_chat_head);
-        chat_name = v.findViewById(R.id.chat_name);
+        img_chat_head = v.findViewById(R.id.group_head);
+        chat_name = v.findViewById(R.id.group_name);
 
 
         name = chat_name.toString();

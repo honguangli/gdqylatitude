@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/dynamic_friends"
-                android:background="@color/Gainsboro"/>
+                android:background="@color/colorF5"/>
 
             <!-- 我的动态 -->
             <RelativeLayout

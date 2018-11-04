@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.util.FriendsManager;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 import java.util.List;
 
