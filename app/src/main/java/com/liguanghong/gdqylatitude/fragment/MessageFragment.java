@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.liguanghong.gdqylatitude.R;
@@ -64,16 +65,9 @@ public class MessageFragment extends BaseFragment {
         messageHandler = new Handler(){
           public void handleMessage(Message message){
               switch (message.what){
-                  case 200:
-                      Chatmessage chatmessage = (Chatmessage)message.obj;
-                      if(chatmessage.getIssingle()){
-                          //私聊
-                          ConversationManager.addChatmessage(chatmessage);
-                      } else{
-                          //群聊
-
-                      }
-                      messageAdapter.notifyDataSetChanged();
+                  case 222:
+                      if(messageAdapter != null)
+                          messageAdapter.notifyDataSetChanged();
                       break;
               }
           }
@@ -81,11 +75,8 @@ public class MessageFragment extends BaseFragment {
 
     }
 
-    public static void addMessage(Chatmessage chatmessage){
-        Message message = new Message();
-        message.what = 200;
-        message.obj = chatmessage;
-        messageHandler.sendMessage(message);
+    public static Handler getMessageHandler(){
+        return messageHandler;
     }
 
 }
