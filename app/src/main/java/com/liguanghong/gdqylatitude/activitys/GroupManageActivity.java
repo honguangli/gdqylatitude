@@ -68,7 +68,7 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.rl_group_member_manage:                 //群成员管理
-
+                startActivity(new Intent(getApplicationContext(),GroupLeaguerManageActivity.class));
                 break;
 
             case R.id.menu:                                 //完成

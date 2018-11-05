@@ -11,43 +11,39 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/img_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/ic_edit" />
-
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_title"
             android:text="修改备注"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"/>
 
     </RelativeLayout>
 
+
     <EditText
-        android:id="@+id/et_remark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/et_content"
+        android:layout_width="250dp"
+        android:layout_height="36dp"
         android:layout_below="@id/dialog_title"
-        android:paddingTop="30dp"
-        android:paddingBottom="20dp"
         android:textAlignment="center"
+        android:layout_centerHorizontal="true"
         android:hint="请输入备注名称"
-        android:textSize="16sp"
-        android:textColor="@color/colorBF"
-        android:background="@null"/>
+        android:textColorHint="@color/colorBF"
+        android:textSize="14sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/search_edittext"/>
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/et_remark"
-        android:background="@color/colorBF"/>
+        android:layout_below="@id/et_content"
+        android:background="@color/Gainsboro"/>
 
     <LinearLayout
         android:id="@+id/operatorPanel"
@@ -70,7 +66,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorBF"/>
+            android:background="@color/Gainsboro"/>
 
         <TextView
             android:id="@+id/sure"
