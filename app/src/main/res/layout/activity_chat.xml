@@ -62,13 +62,25 @@
             android:layout_centerVertical="true"
             />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/contentPanel"
         android:layout_below="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ListView
+            android:id="@+id/message_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:divider="@null"
+            android:layout_above="@id/contentPanel_bottomPanel">
+
+        </ListView>
+
         <RelativeLayout
+            android:id="@+id/contentPanel_bottomPanel"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
@@ -90,6 +102,7 @@
                     android:background="@drawable/add_gray"
                     />
             </RelativeLayout>
+
             <EditText
                 android:id="@+id/ed_content"
                 android:layout_width="wrap_content"
@@ -118,7 +131,6 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
 
 </RelativeLayout>
 

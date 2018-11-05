@@ -1,5 +1,7 @@
 package com.liguanghong.gdqylatitude.manager;
 
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
+import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
 
 import java.util.ArrayList;
@@ -15,6 +17,10 @@ public class ConversationManager {
     //会话列表
     private static Map<Integer, List<Chatmessage>> chatmessageMap = new LinkedHashMap<Integer, List<Chatmessage>>();
 
+    /**
+     * 接收消息
+     * @param chatmessage
+     */
     public static void addChatmessage(Chatmessage chatmessage){
         List<Chatmessage> chatmessageList = chatmessageMap.get(chatmessage.getSenderid());
         if(chatmessageList == null){
@@ -24,6 +30,12 @@ public class ConversationManager {
         } else{
             chatmessageList.add(chatmessage);
         }
+
+        if(MessageFragment.getMessageHandler() != null)
+            MessageFragment.getMessageHandler().sendEmptyMessage(222);
+        if(ChatActivity.getChatHandler() != null)
+            ChatActivity.getChatHandler().sendEmptyMessage(222);
+
     }
 
     /**
@@ -39,7 +51,9 @@ public class ConversationManager {
      * @param chatmessageName
      * @return
      */
-    public static List<Chatmessage> getChatmessageListByName(String chatmessageName){
+    public static List<Chatmessage> getChatmessageListByName(Integer chatmessageName){
+        if(chatmessageMap.get(chatmessageName) == null)
+            return new ArrayList<Chatmessage>();
         return chatmessageMap.get(chatmessageName);
     }
 

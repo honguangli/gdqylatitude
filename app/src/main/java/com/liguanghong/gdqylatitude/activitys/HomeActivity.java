@@ -89,6 +89,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         fragments.add(new MineFragment());
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(fragmentAdapter);
+        viewPager.setOffscreenPageLimit(4);
         iv_current = iv_map;
         tv_current = tv_map;
         id_current_gray = R.drawable.map;

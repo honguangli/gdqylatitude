@@ -63,7 +63,7 @@ public class SocketClientManager implements Runnable{
 			while(runnable) {
 				Chatmessage chatmessage = JSONObject.parseObject(msg, Chatmessage.class);
 				Log.i("聊天", chatmessage.getSenderid() + "】发给【" + chatmessage.getReceiveruserid() + "】内容：" + chatmessage.getData() );
-				MessageFragment.addMessage(chatmessage);
+				ConversationManager.addChatmessage(chatmessage);
 				msg = in.readLine();
 			}
 		} catch (IOException e){

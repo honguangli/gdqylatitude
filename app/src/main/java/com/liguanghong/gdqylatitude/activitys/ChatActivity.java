@@ -2,16 +2,29 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
+import com.liguanghong.gdqylatitude.fragment.MessageFragment;
+import com.liguanghong.gdqylatitude.manager.ConversationManager;
+import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
@@ -22,6 +35,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_send;                                 //发送消息
     private RelativeLayout rly_add;                           //添加图片，位置
     private EditText ed_content;                              //要发送的文字内容
+    private ListView message_listView;
+    private ChatAdapter chatAdapter;
+    private static Handler chatHandler;
 
     private User friend;                                   //好友ID
 
@@ -44,6 +60,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         tv_send = (TextView) findViewById(R.id.tv_send);
         rly_add = (RelativeLayout)findViewById(R.id.add);
         ed_content = (EditText) findViewById(R.id.ed_content);
+        message_listView = (ListView) findViewById(R.id.message_listView);
 
         backtrack_friend_chat.setOnClickListener(this);
         tv_data.setOnClickListener(this);
@@ -54,6 +71,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
+        chatHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 222:
+                        if(chatAdapter != null)
+                            chatAdapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        };
+
         friend = (User)this.getIntent().getSerializableExtra("friendInfo");;
         tv_friendName.setText(friend.getLogname());
         if(friend.getStatu() == 2){
@@ -61,6 +90,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         }else{
             tv_friendState.setText("离线");
         }
+        List<Chatmessage> chatmessageList = ConversationManager.getChatmessageListByName(friend.getUserid());
+        chatAdapter = new ChatAdapter(this, chatmessageList);
+        message_listView.setAdapter(chatAdapter);
+        chatAdapter.notifyDataSetChanged();
+    }
+
+    public static Handler getChatHandler(){
+        return chatHandler;
     }
 
     @Override
@@ -84,4 +121,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
+    private void addFriendMessage(String text){
+
+    }
+
+    private void addMineMessage(){
+
+    }
+
 }
