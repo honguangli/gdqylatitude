@@ -1,12 +1,26 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.adapter.DynamicFriendsAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.view.FadingScrollView;
 
-public class DynamicFriendsActivity extends BaseActivity {
+import java.util.ArrayList;
 
+public class DynamicFriendsActivity extends BaseActivity implements View.OnClickListener {
+
+    private ImageView backtrack;
+    private RelativeLayout topPanel;
+    private FadingScrollView fadingScrollView;
+    private ListView listView;
+    private ArrayList<String> list;
+    DynamicFriendsAdapter dynamicFriendsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +33,38 @@ public class DynamicFriendsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        backtrack = findViewById(R.id.backtrack);
+        topPanel = findViewById(R.id.topPanel);
+        //topPanel.setAlpha(0); //设置标题栏的透明度
 
+        fadingScrollView = findViewById(R.id.nac_root);
+        fadingScrollView.smoothScrollTo(0, 0);  //设置刚进入页面就在顶部
+        fadingScrollView.setFadingView(topPanel);       //设置标题栏
+        fadingScrollView.setFadingHeightView(findViewById(R.id.nac_image)); //图片及其高度
+
+        backtrack.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+        list = new ArrayList<String>();
+        for (int i = 0; i < 10;i++){
+            list.add("Tom"+(i+1));
+        }
+        dynamicFriendsAdapter = new DynamicFriendsAdapter(this,list);
+        listView = findViewById(R.id.lv);
+        listView.setAdapter(dynamicFriendsAdapter);
+        dynamicFriendsAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id)
+        {
+            case R.id.backtrack:
+                finish();
+                break;
+        }
     }
 }
