@@ -75,6 +75,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:divider="@null"
+            android:listSelector="@android:color/transparent"
             android:layout_above="@id/contentPanel_bottomPanel">
 
         </ListView>

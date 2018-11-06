@@ -45,12 +45,13 @@
         <activity android:name=".activitys.GroupInfoActivity" />
         <activity android:name=".activitys.GroupCreateActivity" />
         <activity android:name=".activitys.GroupManageActivity" />
+        <activity android:name=".activitys.GroupLeaguerManageActivity" />
         <activity android:name=".activitys.GroupSignManageActivity" />
         <activity android:name=".activitys.GroupNoticeActivity" />
         <activity android:name=".activitys.GroupNoticeInfoActivity" />
         <activity
             android:name=".activitys.HomeActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activitys.ResetPwdActivity" />
         <activity android:name=".activitys.SearchMineActivity" />
         <activity android:name=".activitys.SearchAllActivity" />
@@ -58,6 +59,8 @@
         <activity android:name=".activitys.SignInActivity" />
         <activity android:name=".activitys.SignUpActivity" />
         <activity android:name=".activitys.UserInfoActivity" />
+        <activity android:name=".activitys.UserInfoMineActivity" />
+        <activity android:name=".activitys.PermissionsActivity"></activity>
 
         <!-- 百度地图key配置 -->
         <meta-data
@@ -70,7 +73,6 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activitys.UserInfoMineActivity"></activity>
     </application>
 
 </manifest>

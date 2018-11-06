@@ -18,6 +18,7 @@ import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
@@ -76,22 +77,23 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             public void handleMessage(Message message){
                 switch (message.what){
                     case 222:
-                        if(chatAdapter != null)
+                        if(chatAdapter != null) {
                             chatAdapter.notifyDataSetChanged();
+                            message_listView.setSelection(chatAdapter.getCount()-1);
+                        }
                         break;
                 }
             }
         };
 
-        friend = (User)this.getIntent().getSerializableExtra("friendInfo");;
+        friend = (User)this.getIntent().getSerializableExtra("friendInfo");
         tv_friendName.setText(friend.getLogname());
-        if(friend.getStatu() == 2){
+        if(friend.getStatu().equals(2)){
             tv_friendState.setText("在线");
         }else{
             tv_friendState.setText("离线");
         }
-        List<Chatmessage> chatmessageList = ConversationManager.getChatmessageListByName(friend.getUserid());
-        chatAdapter = new ChatAdapter(this, chatmessageList);
+        chatAdapter = new ChatAdapter(this, friend.getUserid());
         message_listView.setAdapter(chatAdapter);
         chatAdapter.notifyDataSetChanged();
     }
@@ -105,11 +107,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         int id = view.getId();
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
-                startActivity(new Intent(getApplicationContext(), UserInfoActivity.class));
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                intent.putExtra("friendInfo", friend);
+                startActivity(intent);
                 break;
 
             case R.id.tv_send:                          //发送消息
-                UserManager.getSocketClientManager().sendMsg(true, 0, ed_content.getText().toString(), friend.getUserid());
+                UserManager.getSocketClientManager().sendMsg(true, MessageType.TEXT, ed_content.getText().toString(), friend.getUserid());
+                ed_content.setText(null);
                 break;
 
             case R.id.add:                          //添加图片，地理位置
@@ -120,14 +125,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
         }
-    }
-
-    private void addFriendMessage(String text){
-
-    }
-
-    private void addMineMessage(){
-
     }
 
 }

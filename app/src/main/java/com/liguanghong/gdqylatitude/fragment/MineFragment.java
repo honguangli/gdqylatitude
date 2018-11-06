@@ -15,6 +15,7 @@ import com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity;
 import com.liguanghong.gdqylatitude.activitys.DynamicMineActivity;
 import com.liguanghong.gdqylatitude.activitys.SettingActivity;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
+import com.liguanghong.gdqylatitude.activitys.UserInfoMineActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
@@ -75,7 +76,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.personal_info:
-                startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                startActivity(new Intent(getActivity(), UserInfoMineActivity.class));
                 break;
             case R.id.dynamic_friends:
                 startActivity(new Intent(getActivity(), DynamicFriendsActivity.class));

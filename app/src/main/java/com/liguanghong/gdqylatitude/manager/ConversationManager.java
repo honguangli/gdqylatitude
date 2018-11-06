@@ -21,15 +21,28 @@ public class ConversationManager {
      * 接收消息
      * @param chatmessage
      */
-    public static void addChatmessage(Chatmessage chatmessage){
-        List<Chatmessage> chatmessageList = chatmessageMap.get(chatmessage.getSenderid());
-        if(chatmessageList == null){
-            chatmessageList = new ArrayList<Chatmessage>();
-            chatmessageList.add(chatmessage);
-            chatmessageMap.put(chatmessage.getSenderid(), chatmessageList);
+    public static void addChatmessage(Chatmessage chatmessage, boolean isSingle, boolean isMine){
+        List<Chatmessage> chatmessageList;
+        if(!isMine){
+            chatmessageList = chatmessageMap.get(chatmessage.getSenderid());
+            if(chatmessageList == null){
+                chatmessageList = new ArrayList<Chatmessage>();
+                chatmessageList.add(chatmessage);
+                chatmessageMap.put(chatmessage.getSenderid(), chatmessageList);
+            } else{
+                chatmessageList.add(chatmessage);
+            }
         } else{
-            chatmessageList.add(chatmessage);
+            chatmessageList = chatmessageMap.get(chatmessage.getReceiveruserid());
+            if(chatmessageList == null){
+                chatmessageList = new ArrayList<Chatmessage>();
+                chatmessageList.add(chatmessage);
+                chatmessageMap.put(chatmessage.getReceiveruserid(), chatmessageList);
+            } else{
+                chatmessageList.add(chatmessage);
+            }
         }
+
 
         if(MessageFragment.getMessageHandler() != null)
             MessageFragment.getMessageHandler().sendEmptyMessage(222);

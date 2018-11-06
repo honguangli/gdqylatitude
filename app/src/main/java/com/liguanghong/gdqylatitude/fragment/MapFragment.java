@@ -145,7 +145,7 @@ public class MapFragment extends BaseFragment {
         for (int i = 0; i < userList.size(); i++) {
             try {
                 OverlayOptions option = new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(userList.get(i).getLatitude()), Double.parseDouble(userList.get(i).getLongitude())))
+                        .position(new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude()))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
                 Marker marker = (Marker) (mBaiduMap.addOverlay(option));
                 Bundle bundle = new Bundle();

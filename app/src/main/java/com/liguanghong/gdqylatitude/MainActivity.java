@@ -1,13 +1,31 @@
 package com.liguanghong.gdqylatitude;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
+import com.liguanghong.gdqylatitude.activitys.PermissionsActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.util.PermissionsUtil;
 
 
 public class MainActivity extends BaseActivity {
+
+    private static final int REQUEST_CODE = 0; // 请求码
+    private PermissionsUtil permissionsUtil; // 权限检测器
+
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,21 +39,58 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
     }
 
     @Override
     protected void initData() {
-        new Thread(){
-            public void run(){
-                try{
-                    Thread.sleep(500);
-                    checkIsLogin();
-                } catch (Exception e){
-                    e.printStackTrace();
+        permissionsUtil = new PermissionsUtil(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (permissionsUtil.lacksPermissions(PERMISSIONS)) {
+            // 缺少权限时, 进入权限配置页面
+            startPermissionsActivity();
+        } else{
+            // 含有全部权限时，检查是否登录过
+            new Thread(){
+                public void run(){
+                    try{
+                        Thread.sleep(300);
+                        checkIsLogin();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }.start();
+            }.start();
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
+            finish();
+        } else{
+            // 含有全部权限时，检查是否登录过
+            new Thread(){
+                public void run(){
+                    try{
+                        Thread.sleep(300);
+                        checkIsLogin();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
     }
 
     /**

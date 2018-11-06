@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,30 +10,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 import java.util.ArrayList;
 
 public class DialogFriendsSetAdapter extends BaseAdapter {
-    private ArrayList<String> list;
+
     private Context context;
+    private int userid;
 
-    private TextView item_friends_set_name;
-    private ImageView item_friends_set_check;
-
-
-    public DialogFriendsSetAdapter(Context context, ArrayList<String> list){
+    public DialogFriendsSetAdapter(Context context, int userid){
         this.context = context;
-        this.list = list;
+        this.userid = userid;
 
     }
     @Override
     public int getCount() {
-        return list.size();
+        return FriendsManager.getFriendsSetNameList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return FriendsManager.getFriendsSetNameList().get(i);
     }
 
     @Override
@@ -43,11 +42,11 @@ public class DialogFriendsSetAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_dialod_friends_set_change,null);
-
-        item_friends_set_name = v.findViewById(R.id.item_friends_set_name);
-        item_friends_set_name.setText(list.get(i));
-        item_friends_set_check = v.findViewById(R.id.item_friends_set_check);
-        if(i == 3){
+        TextView item_friends_set_name = v.findViewById(R.id.item_friends_set_name);
+        item_friends_set_name.setText(FriendsManager.getFriendsSetNameList().get(i));
+        ImageView item_friends_set_check = v.findViewById(R.id.item_friends_set_check);
+        Log.i("用户信息", "i="+i + " : index=" + FriendsManager.getFriendsSetIndex(userid));
+        if(i == FriendsManager.getFriendsSetIndex(userid)){
             item_friends_set_check.setImageResource(R.drawable.check);
         }
 

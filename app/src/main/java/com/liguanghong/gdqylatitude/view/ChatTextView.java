@@ -19,7 +19,7 @@ public class ChatTextView extends AppCompatTextView {
     private int mBorderRadius;
     private int mCornerPosition;
     public static final int CORNER_LEFT = 1; //left
-    public static final int CORNER_RIGHT = 0; //left
+    public static final int CORNER_RIGHT = 0; //right
     private static final int BODER_RADIUS_DEFAULT = 5;
 
     private Paint mBitmapPaint;

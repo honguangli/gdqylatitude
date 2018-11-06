@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.DialogFriendsSetAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 
 import java.util.ArrayList;
@@ -44,11 +46,11 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private RelativeLayout rly_beizhu,rly_fenzu;
 
+    private User friend;
 
     //分组
     private ListView dialog_lv;
     private TextView tv_delete;
-    private ArrayList<String> list;
     private Dialog bottomDialog;
     private View groupchangeView;
     private View menuView;
@@ -95,13 +97,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
 
-        list = new ArrayList<>();
-        //虚拟数据
-        for (int i = 0;i < 10 ;i++){
-            list.add("好友分组" + (i+1));
-        }
+        friend = (User)this.getIntent().getSerializableExtra("friendInfo");
 
-        dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), list);
+        tv_information_name.setText(friend.getLogname());
+        tv_information_id.setText(friend.getUserid()+"");
+        tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getUserid()));
+
+        dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getUserid());
         dialogFriendsSetAdapter.notifyDataSetChanged();
 
         bottomDialog = new Dialog(this, R.style.BottomDialog);
@@ -144,7 +146,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.tv_delete:
-                Toast.makeText(getApplicationContext(),"删除好友",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"删除好友",Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -165,7 +167,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             View mView = dialogFriendsSetAdapter.getView(0, null, dialog_lv);    //得到每项的界面view
             mView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)); //得到一个view的大小
-            params.height = dialogFriendsSetAdapter.getCount() > 5 ?  mView.getMeasuredHeight() * 5: mView.getMeasuredHeight() * dialogFriendsSetAdapter.getCount();
+            params.height = dialogFriendsSetAdapter.getCount() > 5 ?
+                    mView.getMeasuredHeight() * 5 + DensityUtil.dp2px(this, 16f)
+                    : mView.getMeasuredHeight() * dialogFriendsSetAdapter.getCount() + DensityUtil.dp2px(this, 16f);
         }
         params.bottomMargin = DensityUtil.dp2px(this, 8f);
         contentView.setLayoutParams(params);
@@ -201,6 +205,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(getApplicationContext(),"ListView",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),FriendsManager.getFriendsSetNameList().get(i), Toast.LENGTH_SHORT).show();
     }
 }

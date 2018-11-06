@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
@@ -52,11 +53,26 @@ public class MessageAdapter extends BaseAdapter {
 
         List<Chatmessage> chatmessageList = (List<Chatmessage>)getItem(i);
 
+        Chatmessage chatmessage = chatmessageList.get(chatmessageList.size() - 1);
+        if(!chatmessage.getIssingle()){
+            //群聊
+
+        } else{
+            //私聊
+            if(chatmessage.getSenderid().equals(UserManager.getAppUser().getUserid())){
+                //用户本人先发的消息
+                tv_nickname.setText(FriendsManager.getFriendByID(chatmessage.getReceiveruserid()).getLogname());
+            } else{
+                //好友先发的消息
+                tv_nickname.setText(FriendsManager.getFriendByID(chatmessage.getSenderid()).getLogname());
+            }
+        }
+
+
         try {
-            tv_nickname.setText(FriendsManager.getFriendByID(chatmessageList.get(chatmessageList.size() - 1).getSenderid()).getLogname());
-            tv_message.setText(new String(chatmessageList.get(chatmessageList.size() - 1).getData(), "utf-8"));
+            tv_message.setText(new String(chatmessage.getData(), "utf-8"));
             SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd HH:mm");
-            String a2 =dateformat.format(chatmessageList.get(chatmessageList.size() - 1).getSendtime());
+            String a2 = dateformat.format(chatmessage.getSendtime());
             tv_time.setText(a2);
             tv_message_number.setText(chatmessageList.size() + "");
         } catch (UnsupportedEncodingException e) {

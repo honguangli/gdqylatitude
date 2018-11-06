@@ -1,7 +1,10 @@
 package com.liguanghong.gdqylatitude.manager;
 
+import android.util.Log;
+
 import com.liguanghong.gdqylatitude.unity.User;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,26 @@ import java.util.Map;
 public class FriendsManager {
     //好友列表
     private static Map<String, List<User>> friends = new LinkedHashMap<String, List<User>>();;
+
+    /**
+     * 设置通讯录
+     * @param friends
+     */
+    public static void setFriends(Map<String, List<User>> friends){
+        FriendsManager.friends.putAll(friends);
+    }
+
+    /**
+     * 获取好友分组名列表
+     * @return
+     */
+    public static List<String> getFriendsSetNameList(){
+        List<String> friendsSetNameList = new ArrayList<String>();
+        for (Map.Entry<String, List<User>> entry : getFriends().entrySet()) {
+           friendsSetNameList.add(entry.getKey());
+        }
+        return friendsSetNameList;
+    }
 
     /**
      * 获取好友列表
@@ -40,12 +63,48 @@ public class FriendsManager {
         friend.setUserid(friendID);
         for (Map.Entry<String, List<User>> entry : getFriends().entrySet()) {
             for(User user : entry.getValue()){
-                if(friendID == user.getUserid()){
+                if(user.getUserid().equals(friendID)){
                     return user;
                 }
             }
         }
         return null;
+    }
+
+    /**
+     * 获取指定好友所在分组名
+     * @param friendID
+     * @return
+     */
+    public static String getFriendsSetNameByID(Integer friendID){
+        String friendsSetName = null;
+        for (Map.Entry<String, List<User>> entry : getFriends().entrySet()) {
+            for(User user : entry.getValue()){
+                if(user.getUserid().equals(friendID)){
+                    friendsSetName = entry.getKey();
+                    return friendsSetName;
+                }
+            }
+        }
+        return friendsSetName;
+    }
+
+    /**
+     * 获取指定好友所在分组下标。ps：下标从0开始递增
+     * @param friendID
+     * @return
+     */
+    public static int getFriendsSetIndex(Integer friendID){
+        int index = 0;
+        for (Map.Entry<String, List<User>> entry : getFriends().entrySet()) {
+            for(User user : entry.getValue()){
+                if(user.getUserid().equals(friendID)){
+                    return index;
+                }
+            }
+            index++;
+        }
+        return index;
     }
 
     public static void addFriendsSet(String setName, List<User> setList){

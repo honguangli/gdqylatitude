@@ -10,41 +10,41 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.List;
 
 public class AddressbookAdapter extends BaseExpandableListAdapter {
-    private List<String> parentList;
+
     private Context context;
 
     //构造函数
-    public AddressbookAdapter(Context context, List<String> parentList) {
+    public AddressbookAdapter(Context context) {
         this.context = context;
-        this.parentList = parentList;
     }
 
     //获取分组数
     @Override
     public int getGroupCount() {
-        return parentList.size();
+        return FriendsManager.getFriendsSetNameList().size();
     }
     //获取当前组的子项数
     @Override
     public int getChildrenCount(int groupPosition) {
-        String groupName = parentList.get(groupPosition);
+        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
         int childCount = FriendsManager.getFriends().get(groupName).size();
         return childCount;
     }
     //获取当前组对象
     @Override
     public Object getGroup(int groupPosition) {
-        String groupName = parentList.get(groupPosition);
+        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
         return groupName;
     }
     //获取当前子项对象
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String groupName = parentList.get(groupPosition);
+        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
         String chidlName = FriendsManager.getFriends().get(groupName).get(childPosition).getLogname();
         return chidlName;
     }
@@ -83,7 +83,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
 
 
         TextView parentText = (TextView) convertView.findViewById(R.id.text_parent);
-        parentText.setText(parentList.get(groupPosition));
+        parentText.setText(FriendsManager.getFriendsSetNameList().get(groupPosition));
         return convertView;
     }
     //子项视图初始化
@@ -96,13 +96,25 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_friends_set_child, null);
         }
+
         TextView childText = (TextView) convertView.findViewById(R.id.text_child);
         TextView state = (TextView) convertView.findViewById(R.id.state);
         ImageView image_head = (ImageView) convertView.findViewById(R.id.image_head);
         ImageView img_state = (ImageView) convertView.findViewById(R.id.img_state);
-        String parentName = parentList.get(groupPosition);
-        String childName = FriendsManager.getFriends().get(parentName).get(childPosition).getLogname();
-        childText.setText(childName);
+
+        String parentName = FriendsManager.getFriendsSetNameList().get(groupPosition);
+
+        User user = FriendsManager.getFriends().get(parentName).get(childPosition);
+
+        image_head.setImageResource(R.drawable.dynamic_background);
+        childText.setText(user.getLogname());
+        if(user.getStatu().equals(2)){
+            state.setText("在线");
+            img_state.setImageResource(R.drawable.state_light);
+        } else{
+            state.setText("离线");
+            img_state.setImageResource(R.drawable.state_gainsboro);
+        }
         return convertView;
     }
 

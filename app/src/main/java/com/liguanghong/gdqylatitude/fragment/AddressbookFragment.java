@@ -4,7 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
@@ -35,7 +39,9 @@ import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -52,11 +58,12 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
 
     private ExpandableListView expandableListView;
     private AddressbookAdapter addressbookAdapter;
-    private List<String> friendsSetName;
 
-    int[] location = new  int[2] ;
+    private int[] location = new  int[2] ;
     private int rawX;
     private int rawY;
+
+    private Handler addressbookHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,54 +105,42 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void initData(){
-        try{
-            User user = UserManager.getAppUser();
-            List<FriendsSet> friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
-            friendsSetName = new ArrayList<String>();
-            for(final FriendsSet friendsSet : friendsSets){
-                friendsSetName.add(friendsSet.getName());
 
-                final List<User> temp = new ArrayList<User>();
-                if(!friendsSet.getFriendsid().equals("")){
-                    //该分组下有好友
-                    String [] friendsID = friendsSet.getFriendsid().split(",");
-                    for(String friendID : friendsID){
-                        //网络访问获取用户信息
-                        RequestBody requestBody = new FormBody.Builder()
-                                .add("userid", friendID)
-                                .build();
-                        HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                if(response.isSuccessful()){
-                                    try {
-                                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                                        User user = JSONObject.parseObject(result.getData().toString(), User.class);
-                                        temp.add(user);
-                                        FriendsManager.addFriendsSet(friendsSet.getName(), temp);
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }
-                        });
-                    }
-                }else {
-                    FriendsManager.addFriendsSet(friendsSet.getName(), temp);
+        addressbookHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 200:
+                        addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext());
+                        expandableListView.setAdapter(addressbookAdapter);
+                        break;
                 }
             }
-            addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext(), friendsSetName);
-            expandableListView.setAdapter(addressbookAdapter);
+        };
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        //网络访问获取用户信息
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .build();
+        HttpUtil.postEnqueue("user/findfriends", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("通讯录", "失败了");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        Map<String, List<User>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<User>>>() {});
+                        FriendsManager.setFriends(friends);
+                        addressbookHandler.sendEmptyMessage(200);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
+                }
+            }
+        });
     }
 
     @Override
@@ -172,7 +167,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        String setName = friendsSetName.get(groupPosition);
+        String setName = FriendsManager.getFriendsSetNameList().get(groupPosition);
         User user = FriendsManager.getFriendsBySetName(setName).get(childPosition);
         //启动聊天界面
         Intent intent = new Intent(getActivity(), ChatActivity.class);
@@ -260,6 +255,58 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         addressbookAdapter.notifyDataSetChanged();
     }
     */
+
+    /*
+        private void test(){
+        try{
+            User user = UserManager.getAppUser();
+            List<FriendsSet> friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
+            friendsSetName = new ArrayList<String>();
+            for(final FriendsSet friendsSet : friendsSets){
+                friendsSetName.add(friendsSet.getName());
+
+                final List<User> temp = new ArrayList<User>();
+                if(!friendsSet.getFriendsid().equals("")){
+                    //该分组下有好友
+                    String [] friendsID = friendsSet.getFriendsid().split(",");
+                    for(String friendID : friendsID){
+                        //网络访问获取用户信息
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", friendID)
+                                .build();
+                        HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                if(response.isSuccessful()){
+                                    try {
+                                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                                        User user = JSONObject.parseObject(result.getData().toString(), User.class);
+                                        temp.add(user);
+                                        FriendsManager.addFriendsSet(friendsSet.getName(), temp);
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
+                        });
+                    }
+                }else {
+                    FriendsManager.addFriendsSet(friendsSet.getName(), temp);
+                }
+            }
+            addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext());
+            expandableListView.setAdapter(addressbookAdapter);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+     */
 
 
 }

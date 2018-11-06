@@ -63,7 +63,7 @@ public class SocketClientManager implements Runnable{
 			while(runnable) {
 				Chatmessage chatmessage = JSONObject.parseObject(msg, Chatmessage.class);
 				Log.i("聊天", chatmessage.getSenderid() + "】发给【" + chatmessage.getReceiveruserid() + "】内容：" + chatmessage.getData() );
-				ConversationManager.addChatmessage(chatmessage);
+				ConversationManager.addChatmessage(chatmessage, chatmessage.getIssingle(), false);
 				msg = in.readLine();
 			}
 		} catch (IOException e){
@@ -82,15 +82,16 @@ public class SocketClientManager implements Runnable{
 	public void sendMsg(final boolean isSingle, final Integer type, final String msg, final Integer toId){
 	    new Thread(){
 	        public void run(){
-                Chatmessage msgJson = new Chatmessage();
-				msgJson.setIssingle(isSingle);
-				msgJson.setSenderid(UserManager.getAppUser().getUserid());
-				msgJson.setType(type);
-				msgJson.setData(msg.getBytes(Charset.forName("utf-8")));
-				msgJson.setSendtime(new Date());
-				msgJson.setReceiveruserid(toId);
-				Log.i("聊天", "发送消息："+JSONObject.toJSON(msgJson));
-                out.println(JSONObject.toJSON(msgJson));
+                Chatmessage chatmessage = new Chatmessage();
+				chatmessage.setIssingle(isSingle);
+				chatmessage.setSenderid(UserManager.getAppUser().getUserid());
+				chatmessage.setType(type);
+				chatmessage.setData(msg.getBytes(Charset.forName("utf-8")));
+				chatmessage.setSendtime(new Date());
+				chatmessage.setReceiveruserid(toId);
+				Log.i("聊天", "发送消息："+JSONObject.toJSON(chatmessage));
+				ConversationManager.addChatmessage(chatmessage, chatmessage.getIssingle(), true);
+                out.println(JSONObject.toJSON(chatmessage));
                 out.flush();
             }
         }.start();

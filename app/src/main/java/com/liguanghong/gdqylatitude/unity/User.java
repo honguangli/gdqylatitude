@@ -25,9 +25,9 @@ public class User implements Serializable {
 
     private String city;
 
-    private String latitude;
+    private Double latitude;
 
-    private String longitude;
+    private Double longitude;
 
     private String friendsid;
 
@@ -125,20 +125,20 @@ public class User implements Serializable {
         this.city = city == null ? null : city.trim();
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude == null ? null : latitude.trim();
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude == null ? null : longitude.trim();
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getFriendsid() {
