@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -51,7 +52,7 @@ import okhttp3.Response;
 
 public class AddressbookFragment extends BaseFragment implements View.OnClickListener, ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
 
-    private EditText img_search;
+    private TextView img_search;
     private ImageView add;
     private RelativeLayout rly_new_friends;
     private RelativeLayout rly_chat_group;
@@ -63,7 +64,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     private int rawX;
     private int rawY;
 
-    private Handler addressbookHandler;
+    private static Handler addressbookHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +84,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     {
 
         add = (ImageView) view.findViewById(R.id.add);
-        img_search = (EditText) view.findViewById(R.id.edittext_search);
+        img_search = (TextView) view.findViewById(R.id.edittext_search);
         rly_new_friends = (RelativeLayout) view.findViewById(R.id.rly_new_friends);
         rly_chat_group = (RelativeLayout)view.findViewById(R.id.rly_chat_group);
 
@@ -171,7 +172,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         User user = FriendsManager.getFriendsBySetName(setName).get(childPosition);
         //启动聊天界面
         Intent intent = new Intent(getActivity(), ChatActivity.class);
-        intent.putExtra("friendInfo", user);
+        intent.putExtra("userinfo", user);
         startActivity(intent);
         return false;
     }
@@ -197,6 +198,10 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
                     }).show();;
         }
         return true;           //默认为false，设为true时，长按/点击事件不会展开Group
+    }
+
+    public static Handler getAddressbookHandler(){
+        return addressbookHandler;
     }
 
     /*

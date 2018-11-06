@@ -2,6 +2,8 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -17,10 +19,8 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     private ListView lv_friend_apply;
     private ImageView backtrack;
-
-    private ArrayList<String> list;
-    FriendsNoticeAdapter friendsNoticeAdapter;
-
+    private FriendsNoticeAdapter friendsNoticeAdapter;
+    private static Handler friendsNoticeHandler;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +42,17 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-
-        list = new ArrayList<>();
-        for (int i = 0;i < 3 ;i++){
-            list.add("小明");
-        }
-
-        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext(),list);
+        friendsNoticeHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 222:
+                        if(friendsNoticeAdapter != null)
+                            friendsNoticeAdapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        };
+        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext());
         lv_friend_apply.setAdapter(friendsNoticeAdapter);
         friendsNoticeAdapter.notifyDataSetChanged();
     }
@@ -68,5 +72,9 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         //启动好友申请详情界面
         startActivity(new Intent(getApplicationContext(),FriendsNoticeInfoActivity.class));
+    }
+
+    public static Handler getFriendsNoticeHandler(){
+        return friendsNoticeHandler;
     }
 }

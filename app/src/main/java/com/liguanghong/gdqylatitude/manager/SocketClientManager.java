@@ -12,8 +12,10 @@ import java.nio.charset.Charset;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSONObject;
+import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 
 
@@ -62,8 +64,26 @@ public class SocketClientManager implements Runnable{
 			String msg = in.readLine();
 			while(runnable) {
 				Chatmessage chatmessage = JSONObject.parseObject(msg, Chatmessage.class);
-				Log.i("聊天", chatmessage.getSenderid() + "】发给【" + chatmessage.getReceiveruserid() + "】内容：" + chatmessage.getData() );
-				ConversationManager.addChatmessage(chatmessage, chatmessage.getIssingle(), false);
+				if(chatmessage.getType().equals(MessageType.LOGOUT)){
+					//强制登出
+					HomeActivity.getHomeHandler().sendEmptyMessage(222);
+				} else if(chatmessage.getType().equals(MessageType.FRIENDONLINE)){
+					//好友上线通知
+					FriendsManager.setFriendsStatus(chatmessage.getSenderid(), 2);
+				} else if(chatmessage.getType().equals(MessageType.FRIENDOFFLINE)){
+					//好友下线通知
+					FriendsManager.setFriendsStatus(chatmessage.getSenderid(), 1);
+				} else if(chatmessage.getType() > 0 && chatmessage.getType() < 5){
+					//聊天消息
+					Log.i("聊天", chatmessage.getSenderid() + "】发给【" + chatmessage.getReceiveruserid() + "】内容：" + chatmessage.getData() );
+					ConversationManager.addChatmessage(chatmessage, chatmessage.getIssingle(), false);
+				} else if(chatmessage.getType() > 14 && chatmessage.getType() < 18){
+					//好友申请通知
+					NoticeManager.addFriendsNotice(chatmessage);
+				} else if(chatmessage.getType() > 17 && chatmessage.getType() < 21){
+					//群聊通知
+					NoticeManager.addGroupNotice(chatmessage);
+				}
 				msg = in.readLine();
 			}
 		} catch (IOException e){

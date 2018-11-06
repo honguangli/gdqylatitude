@@ -86,7 +86,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             }
         };
 
-        friend = (User)this.getIntent().getSerializableExtra("friendInfo");
+        friend = (User)this.getIntent().getSerializableExtra("userinfo");
         tv_friendName.setText(friend.getLogname());
         if(friend.getStatu().equals(2)){
             tv_friendState.setText("在线");
@@ -108,7 +108,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
                 Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
-                intent.putExtra("friendInfo", friend);
+                intent.putExtra("userinfo", friend);
                 startActivity(intent);
                 break;
 

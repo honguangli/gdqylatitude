@@ -182,7 +182,7 @@ public class MapFragment extends BaseFragment {
             public boolean onMarkerClick(Marker marker)
             {
                 //获得marker中的数据
-                User user = (User)marker.getExtraInfo().get("info");
+                final User user = (User)marker.getExtraInfo().get("info");
 
                 //生成一个TextView用户在地图中显示InfoWindow
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
@@ -192,7 +192,9 @@ public class MapFragment extends BaseFragment {
                 getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                        intent.putExtra("userinfo", user);
+                        startActivity(intent);
                     }
                 });
                 //将marker所在的经纬度的信息转化成屏幕上的坐标

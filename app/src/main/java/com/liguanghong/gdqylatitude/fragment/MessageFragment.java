@@ -56,7 +56,7 @@ public class MessageFragment extends BaseFragment {
                 User user = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
                 //activity跳转操作，注意：启动ChatActivity时必须传User对象
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("friendInfo", user);
+                intent.putExtra("userinfo", user);
                 startActivity(intent);
             }
         });

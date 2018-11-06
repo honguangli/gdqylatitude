@@ -1,5 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +46,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_current;
     private int id_current_gray;
 
+    private static Handler homeHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData(){
+
+        homeHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 222:
+                        //强制登出
+                        logout();
+                        break;
+                }
+            }
+        };
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new MapFragment());
@@ -140,6 +156,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tv_current = tv;
         tv_current.setTextColor(getResources().getColor(R.color.colorTitle));
 
+    }
+
+    /**
+     * 强制登出
+     */
+    private void logout(){
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    public static Handler getHomeHandler(){
+        return homeHandler;
     }
 
 }

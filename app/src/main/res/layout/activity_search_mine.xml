@@ -67,7 +67,7 @@
                 android:layout_marginBottom="5dp"
                 android:paddingLeft="15dp"
                 android:maxLines="1"
-                android:text="T"
+                android:hint="请输入关键字"
                 android:textSize="16sp"
                 android:textColor="@color/Gainsboro"
                 android:background="@drawable/search_edittext"

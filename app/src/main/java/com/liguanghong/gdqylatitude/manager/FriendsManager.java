@@ -1,7 +1,7 @@
 package com.liguanghong.gdqylatitude.manager;
 
-import android.util.Log;
-
+import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
+import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class FriendsManager {
     //好友列表
-    private static Map<String, List<User>> friends = new LinkedHashMap<String, List<User>>();;
+    private static Map<String, List<User>> friends = new LinkedHashMap<String, List<User>>();
 
     /**
      * 设置通讯录
@@ -22,6 +22,23 @@ public class FriendsManager {
      */
     public static void setFriends(Map<String, List<User>> friends){
         FriendsManager.friends.putAll(friends);
+    }
+
+    /**
+     * 设置好友状态
+     * @param friendID
+     * @param status
+     */
+    public static void setFriendsStatus(Integer friendID, Integer status){
+        for (Map.Entry<String, List<User>> entry : getFriends().entrySet()) {
+            for(User user : entry.getValue()){
+                if(user.getUserid().equals(friendID)){
+                    user.setStatu(status);
+                }
+            }
+        }
+        if(AddressbookFragment.getAddressbookHandler() != null)
+            AddressbookFragment.getAddressbookHandler().sendEmptyMessage(200);
     }
 
     /**

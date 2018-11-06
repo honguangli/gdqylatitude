@@ -59,19 +59,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/personal_head"
+                android:layout_centerVertical="true"
                 android:text="Tom"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"/>
 
-            <TextView
-                android:id="@+id/personal_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/personal_head"
-                android:layout_below="@id/personal_name"
-                android:text="ID:2016060060"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"/>
+            <!--<TextView-->
+                <!--android:id="@+id/personal_id"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/personal_head"-->
+                <!--android:layout_below="@id/personal_name"-->
+                <!--android:text="ID:2016060060"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textColor="@color/colorBlack"/>-->
 
         </RelativeLayout>
 

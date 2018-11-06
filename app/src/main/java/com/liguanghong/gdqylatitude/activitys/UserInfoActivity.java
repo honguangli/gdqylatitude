@@ -75,7 +75,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         iv_information_icon = (ImageView)findViewById(R.id.iv_information_icon);
 
         tv_information_name = (TextView)findViewById(R.id.tv_information_name);
-        tv_information_id = (TextView)findViewById(R.id.tv_information_id);
+        //tv_information_id = (TextView)findViewById(R.id.tv_information_id);
         tv_information_markname = (TextView)findViewById(R.id.tv_information_markname);
         tv_information_groupname = (TextView)findViewById(R.id.tv_information_groupname);
         tv_information_city = (TextView)findViewById(R.id.tv_information_city);
@@ -97,10 +97,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
 
-        friend = (User)this.getIntent().getSerializableExtra("friendInfo");
+        friend = (User)this.getIntent().getSerializableExtra("userinfo");
 
         tv_information_name.setText(friend.getLogname());
-        tv_information_id.setText(friend.getUserid()+"");
+        //tv_information_id.setText(friend.getUserid()+"");
         tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getUserid()));
 
         dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getUserid());
@@ -146,7 +146,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.tv_delete:
-                Toast.makeText(getApplicationContext(),"删除好友",Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -205,6 +204,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(getApplicationContext(),FriendsManager.getFriendsSetNameList().get(i), Toast.LENGTH_SHORT).show();
+
     }
 }

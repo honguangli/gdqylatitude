@@ -32,12 +32,12 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return ConversationManager.getChatmessageListByIndex(i);
+        return ConversationManager.getChatmessageListByIndex(getCount() - i - 1);
     }
 
     @Override
     public long getItemId(int i) {
-        return ConversationManager.getChatmessageNameByIndex(i);
+        return ConversationManager.getChatmessageNameByIndex(getCount() - i - 1);
     }
 
     @Override

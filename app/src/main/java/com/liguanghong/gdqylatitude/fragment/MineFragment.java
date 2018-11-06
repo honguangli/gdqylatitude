@@ -53,7 +53,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         setting = view.findViewById(R.id.setting);
         personal_head = view.findViewById(R.id.personal_head);
         personal_name = view.findViewById(R.id.personal_name);
-        personal_id = view.findViewById(R.id.personal_id);
+        //personal_id = view.findViewById(R.id.personal_id);
 
         personInfo.setOnClickListener(this);
         dyanamicFriends.setOnClickListener(this);
@@ -68,7 +68,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         User user = UserManager.getAppUser();
         personal_head.setImageResource(R.drawable.head);
         personal_name.setText(user.getLogname());
-        personal_id.setText(user.getUserid() + "");
+        //personal_id.setText(user.getUserid() + "");
 
     }
 
