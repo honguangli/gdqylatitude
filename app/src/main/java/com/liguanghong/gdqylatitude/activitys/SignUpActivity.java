@@ -1,7 +1,18 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
@@ -18,7 +29,14 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SignUpActivity extends BaseActivity {
+public class SignUpActivity extends BaseActivity implements View.OnClickListener{
+
+    private TextView signupTextview;
+    private EditText etUsername;
+    private EditText etPassword;
+    private EditText etSurepassword;
+    private Button btnAgree;
+    private ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +51,52 @@ public class SignUpActivity extends BaseActivity {
     @Override
     protected void initView() {
 
+        signupTextview = findViewById(R.id.signup_textview);
+        etUsername = findViewById(R.id.register_et_username);
+        etPassword = findViewById(R.id.register_et_password);
+        etSurepassword = findViewById(R.id.register_et_ensurepassword);
+        btnAgree = findViewById(R.id.register_btn_argee);
+        ivBack = findViewById(R.id.register_backtrack);
+
+        btnAgree.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
+
+        setText();
+
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    /**
+     * 设置TextView文字
+     */
+    private void setText(){
+        SpannableString spannableString = new SpannableString("已阅读并同意以下协议   《纵横天下服务协议》、《隐私权政策》");
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 10, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        signupTextview.setText(spannableString);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+            case R.id.register_btn_argee:
+                if ((etPassword.getText().toString()).equals(etSurepassword.getText().toString())){
+                    //signUp(etUsername.getText().toString(),etPassword.getText().toString());
+
+                }else{
+                    Toast.makeText(this,"密码不一致，请重新输入！",Toast.LENGTH_SHORT).show();
+                    etSurepassword.setText(null);
+                }
+                break;
+            case R.id.register_backtrack:
+                startActivity(new Intent(this,SignInActivity.class));
+                break;
+        }
     }
 
     /**
@@ -77,5 +136,6 @@ public class SignUpActivity extends BaseActivity {
             }
         });
     }
+
 
 }

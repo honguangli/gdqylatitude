@@ -112,9 +112,10 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
-                    android:text="Tom"
+                    android:hint="Tom"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBF"
+                    android:textColorHint="@color/colorBF"
+                    android:textColor="@color/colorBlack"
                     />
             </RelativeLayout>
             <View
@@ -147,9 +148,10 @@
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
                     android:background="@null"
-                    android:text="男"
+                    android:hint="男"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBF"
+                    android:textColorHint="@color/colorBF"
+                    android:textColor="@color/colorBlack"
                     />
 
             </RelativeLayout>
@@ -183,9 +185,10 @@
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
                     android:background="@null"
-                    android:text="Tom"
+                    android:hint="Tom"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBF"/>
+                    android:textColorHint="@color/colorBF"
+                    android:textColor="@color/colorBlack"/>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -220,9 +223,10 @@
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
                     android:background="@null"
-                    android:text="12345678910"
+                    android:hint="12345678910"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBF"
+                    android:textColorHint="@color/colorBF"
+                    android:textColor="@color/colorBlack"
 
                     />
             </RelativeLayout>
@@ -256,9 +260,10 @@
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
                     android:background="@null"
-                    android:text="123456789@qq.com"
+                    android:hint="123456789@qq.com"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBF"
+                    android:textColorHint="@color/colorBF"
+                    android:textColor="@color/colorBlack"
                     />
             </RelativeLayout>
         </LinearLayout>

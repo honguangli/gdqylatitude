@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +32,13 @@ import okhttp3.Response;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
+    private boolean isHide = true;
     private EditText et_name;
     private EditText et_password;
     private Button btn_login;
     private TextView toRegister;
     private TextView forgotPassword;
+    private ImageView ivPassword;
     private static Handler loginHandler;
 
     @Override
@@ -53,10 +58,12 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         btn_login = findViewById(R.id.login_btn_login);
         toRegister = findViewById(R.id.to_register);
         forgotPassword = findViewById(R.id.forgotpassword);
+        ivPassword = findViewById(R.id.login_iv_password);
 
         btn_login.setOnClickListener(this);
         toRegister.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
+        ivPassword.setOnClickListener(this);
     }
 
     @Override
@@ -87,6 +94,23 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             case R.id.forgotpassword:
                 startActivity(new Intent(this, ResetPwdActivity.class));
                 break;
+            case R.id.login_iv_password:
+                checkPassword();
+                break;
+        }
+    }
+    /* *
+     *修改密码隐藏
+     */
+    private void checkPassword(){
+        if(isHide){
+            ivPassword.setImageResource(R.drawable.pass);
+            et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            isHide = false;
+        }else{
+            ivPassword.setImageResource(R.drawable.hintpass);
+            et_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            isHide = true;
         }
     }
 
