@@ -46,7 +46,7 @@
                 android:id="@+id/LinearLayout_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
+                android:paddingTop="10dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/LinearLayout_add_friend"
@@ -59,14 +59,15 @@
                         android:id="@+id/tv_add_friend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
                         android:text="找人"
                         android:textColor="@color/colorBlack"/>
-                    <RelativeLayout
-                        android:id="@+id/RelativeLayout_friend_line"
+                    <View
+                        android:id="@+id/search_selcet_user"
                         android:layout_width="70dp"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="@color/colorTitle">
-                    </RelativeLayout>
+                    </View>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/LinearLayout_add_group"
@@ -79,16 +80,17 @@
                         android:id="@+id/tv_add_group"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:paddingBottom="10dp"
                         android:gravity="center"
                         android:text="找群"
                         android:textColor="@color/colorBlack"/>
-                    <RelativeLayout
-                        android:id="@+id/RelativeLayout_group_line"
+                    <View
+                        android:id="@+id/search_selcet_group"
                         android:layout_width="70dp"
-                        android:layout_height="2dp"
-                        android:background="@color/colorTitle">
-                    </RelativeLayout>
+                        android:layout_height="1dp"
+                        android:background="@color/colorTitle"
+                        android:visibility="gone">
+                    </View>
                 </LinearLayout>
             </LinearLayout>
         <RelativeLayout
@@ -96,82 +98,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/LinearLayout_add">
-            <RelativeLayout
+            <View
                 android:id="@+id/RelativeLayout_line_top"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorBF">
-            </RelativeLayout>
+                android:background="@color/Gainsboro">
+            </View>
             <RelativeLayout
                 android:id="@+id/RelativeLayout_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:layout_below="@id/RelativeLayout_line_top">
 
-                <RelativeLayout
+                <EditText
+                    android:id="@+id/keyword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_toLeftOf="@id/bt_search"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:paddingLeft="20dp"
-                        android:text="T"
-                        android:textColor="@color/colorBF"
-                        android:background="@drawable/search_edittext"/>
-                    <Button
-                        android:id="@+id/bt_search"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:text="查找"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorWhite"
-                        android:background="@drawable/title_10_radius"/>
-                </RelativeLayout>
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@id/bt_search"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="20dp"
+                    android:hint="请输入关键字"
+                    android:textColorHint="@color/Gainsboro"
+                    android:textColor="@color/colorBlack"
+                    android:background="@drawable/search_edittext"/>
+                <Button
+                    android:id="@+id/bt_search"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:text="查找"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@drawable/title_10_radius"/>
+
             </RelativeLayout>
-            <RelativeLayout
+            <View
                 android:id="@+id/RelativeLayout_line_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/RelativeLayout_search"
-                android:background="@color/colorBF">
-            </RelativeLayout>
+                android:background="@color/Gainsboro">
+            </View>
         </RelativeLayout>
-        <!-- 找人或者群聊的ListView -->
-        <RelativeLayout
+
+        <ListView
+            android:id="@+id/search_all_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/RelativeLayout_search_info"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-
-            <ImageView
-                android:id="@+id/search_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/dynamic_mine_light"
-                />
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/search_icon"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:text="Tom的群聊"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                />
-
-
-        </RelativeLayout>
+            android:divider="@null">
+        </ListView>
 
     </RelativeLayout>
+
 </RelativeLayout>
