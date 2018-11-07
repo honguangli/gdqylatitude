@@ -68,8 +68,9 @@
                 android:paddingLeft="15dp"
                 android:maxLines="1"
                 android:hint="请输入关键字"
+                android:textColorHint="@color/Gainsboro"
                 android:textSize="16sp"
-                android:textColor="@color/Gainsboro"
+                android:textColor="@color/colorBlack"
                 android:background="@drawable/search_edittext"
                 />
 
@@ -105,101 +106,81 @@
                 android:paddingLeft="20dp"
                 android:text="好友"
                 android:textColor="@color/colorBF"
-
-                />
+                android:visibility="gone"/>
 
             <!-- 好友的ListView -->
-            <RelativeLayout
+            <ListView
+                android:id="@+id/friendsListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_search_friend"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/search_friend_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/dynamic_mine_light"
-                />
-                <TextView
-                    android:id="@+id/tv_friend_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/search_friend_icon"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Tom"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_friend_notice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/search_friend_icon"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp"
-                    android:text="来自分组：默认分组"
-                    android:textSize="14sp"
-                    android:textColor="@color/Gainsboro"
-                    />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 群聊 -->
-        <RelativeLayout
-            android:id="@+id/relativelayout_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/relativelayout_friend"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorWhite">
-
+                android:divider="@null">
+            </ListView>
 
             <TextView
-                android:id="@+id/textview_search_group"
+                android:id="@+id/search_more"
+                android:layout_below="@id/friendsListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingLeft="20dp"
-                android:text="群聊"
-                android:textColor="@color/colorBF"
+                android:padding="5dp"
+                android:gravity="center"
+                android:text="查看更多"
+                android:textColor="@color/Gainsboro"
+                android:textSize="16sp"
+                android:visibility="gone"/>
 
-                />
-
-            <!-- 群聊的ListView -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_search_group"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/search_group_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-                <TextView
-                    android:id="@+id/tv_group_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/search_group_icon"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Tom的群聊"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    />
-            </RelativeLayout>
         </RelativeLayout>
 
-        <!-- 群聊的ListView -->
+        <!--&lt;!&ndash; 群聊 &ndash;&gt;-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/relativelayout_group"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/relativelayout_friend"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:background="@color/colorWhite">-->
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/textview_search_group"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:text="群聊"-->
+                <!--android:textColor="@color/colorBF"-->
+
+                <!--/>-->
+
+            <!--&lt;!&ndash; 群聊的ListView &ndash;&gt;-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/textview_search_group"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/search_group_icon"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:src="@drawable/dynamic_mine_light"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_group_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toRightOf="@id/search_group_icon"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:text="Tom的群聊"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
+        <!--</RelativeLayout>-->
+
     </RelativeLayout>
 
 </RelativeLayout>
