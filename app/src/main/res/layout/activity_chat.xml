@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    tools:context=".activitys.ChatActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/re">
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -129,10 +133,61 @@
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/title_5_radius"
                 android:gravity="center"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorF5"
+                android:layout_below="@+id/tv_send"/>
+
         </RelativeLayout>
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/contentPanel_bottomPanel_hint"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp">
+
+
+        <TextView
+            android:id="@+id/hint_tv_pic"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:drawableTop="@drawable/chatting_pic_icon"
+            android:drawablePadding="3dp"
+            android:text="照片"
+            android:textSize="14sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/hint_tv_phone"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@+id/hint_tv_pic"
+            android:drawableTop="@drawable/chat_phone"
+            android:drawablePadding="3dp"
+            android:text="相机"
+            android:textSize="14sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/hint_tv_location"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@+id/hint_tv_phone"
+            android:drawableTop="@drawable/chatting_site_icon"
+            android:drawablePadding="3dp"
+            android:text="定位"
+            android:textSize="14sp"
+            android:gravity="center"/>
+
+
+    </RelativeLayout>
+
 </RelativeLayout>
-
-
