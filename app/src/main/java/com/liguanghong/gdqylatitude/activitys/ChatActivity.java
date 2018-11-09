@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,6 +111,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         hint_tv_location.setOnClickListener(this);
         message_listView.setOnTouchListener(this);
 
+//        aboutIntent();
     }
 
     @Override
@@ -174,7 +176,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.hint_tv_pic:                  //调用相册
-
+                Intent photo=new Intent(ChatActivity.this,SelectPhotoActivity.class);
+                startActivityForResult(photo,10);
                 break;
 
             case R.id.hint_tv_phone:                //调用相机
@@ -219,4 +222,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         }
         return false;
     }
+
+    //获取照片返回该界面
+//    private void aboutIntent() {
+//        Intent intent = getIntent();
+//        List<String> photoSelect = (List<String>) intent.getSerializableExtra("photo");
+//        if (photoSelect!=null) {
+//            Log.e("mDatas",photoSelect.toString());
+//            final SimpleAdapter mAdapter = new SimpleAdapter(this, photoSelect);
+//            mListView.setAdapter(mAdapter);
+//            mListView.setLayoutManager(new GridLayoutManager(this,3));
+//        }
+//    }
 }
