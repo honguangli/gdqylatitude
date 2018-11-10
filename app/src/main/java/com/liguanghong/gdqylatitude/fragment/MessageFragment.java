@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
-import com.liguanghong.gdqylatitude.unity.Chatmessage;
 import com.liguanghong.gdqylatitude.unity.User;
-import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 public class MessageFragment extends BaseFragment {

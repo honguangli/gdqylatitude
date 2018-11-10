@@ -37,7 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.ChatActivity" />
+        <activity android:name=".activitys.ChatActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".activitys.DynamicFriendsActivity" />
         <activity android:name=".activitys.DynamicMineActivity" />
         <activity android:name=".activitys.DynamicPublicActivity" />
@@ -66,6 +67,7 @@
         <activity android:name=".activitys.UserInfoActivity" />
         <activity android:name=".activitys.UserInfoMineActivity" />
         <activity android:name=".activitys.PermissionsActivity"></activity>
+        <activity android:name=".util.ChatClientActivity"/>
 
         <!-- 百度地图key配置 -->
         <meta-data

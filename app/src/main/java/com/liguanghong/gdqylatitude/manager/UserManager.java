@@ -10,8 +10,6 @@ public class UserManager {
 
     //登录用户
     private static User appUser;
-    //登录用户socket端
-    private static SocketClientManager socketClientManager;
 
     /**
      * 获取用户
@@ -38,34 +36,6 @@ public class UserManager {
      */
     public static void removeAppUser(){
         appUser = null;
-    }
-
-    /**
-     * 获取用户socket
-     * @return
-     */
-    public static SocketClientManager getSocketClientManager(){
-        return socketClientManager;
-    }
-
-    /**
-     * 添加用户socket
-     */
-    public static void addSocketClient(){
-
-        if(socketClientManager == null || !SocketClientManager.isRunnable()){
-            socketClientManager = new SocketClientManager();
-            Thread socketThread = new Thread(socketClientManager);
-            socketThread.start();
-        }
-
-    }
-
-    /**
-     * 移除用户socket
-     */
-    public static void removeSocketClient(){
-        socketClientManager = null;
     }
 
 }

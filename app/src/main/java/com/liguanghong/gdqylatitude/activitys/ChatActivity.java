@@ -5,36 +5,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
-import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
-import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.manager.WebSocketManager;
+import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.nio.charset.Charset;
 
-import cn.dreamtobe.kpswitch.util.KPSwitchConflictUtil;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
 
@@ -157,8 +151,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.tv_send:                          //发送消息
-                UserManager.getSocketClientManager().sendMsg(true, MessageType.TEXT, ed_content.getText().toString(), friend.getUserid());
-                ed_content.setText(null);
+                if(ed_content.getText().toString().trim() != null) {
+                    ChatMsg chatMsg = new ChatMsg();
+                    chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+                    chatMsg.setReceiverid(friend.getUserid());
+                    chatMsg.setIssingle(true);
+                    chatMsg.setType(MessageType.TEXT);
+                    chatMsg.setData(ed_content.getText().toString().getBytes(Charset.forName("UTF-8")));
+                    WebSocketManager.sendMsg(chatMsg);
+                    ConversationManager.sendMsg(chatMsg);
+                    ed_content.setText(null);
+                }
                 break;
 
             case R.id.add:                          //添加图片，地理位置
@@ -214,14 +217,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    //点击屏幕软键盘隐藏，底部栏隐藏
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            closeRoot();
-            KPSwitchConflictUtil.hidePanelAndKeyboard(contentPanel_bottomPanel_hint);
-        }
+        inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);//隐藏软键盘
+        closeRoot();
         return false;
     }
+
+//    @Override
+//    //点击屏幕软键盘隐藏，底部栏隐藏
+//    public boolean onTouch(View view, MotionEvent motionEvent) {
+//        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//            closeRoot();
+//            KPSwitchConflictUtil.hidePanelAndKeyboard(contentPanel_bottomPanel_hint);
+//        }
+//        return false;
+//    }
 
     //获取照片返回该界面
 //    private void aboutIntent() {

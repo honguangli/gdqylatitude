@@ -10,25 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.manager.FriendsManager;
-import com.liguanghong.gdqylatitude.manager.NoticeManager;
-import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.manager.NoticesManager;
+import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.User;
-import com.liguanghong.gdqylatitude.util.HttpUtil;
-import com.liguanghong.gdqylatitude.util.JsonResult;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class FriendsNoticeAdapter extends BaseAdapter {
     Context context;
@@ -39,12 +27,12 @@ public class FriendsNoticeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return NoticeManager.getFriendsNotice().size();
+        return NoticesManager.getFriendNotices().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return NoticeManager.getFriendNoticeByIndex(i);
+        return NoticesManager.getNoticesByIndex(i);
     }
 
     @Override
@@ -62,9 +50,9 @@ public class FriendsNoticeAdapter extends BaseAdapter {
         TextView tv_friend_notice = v.findViewById(R.id.tv_friend_notice);
         TextView tv_friend_argee = v.findViewById(R.id.tv_friend_argee);
 
-        Map.Entry<User, Chatmessage> entry = (Map.Entry<User, Chatmessage>)getItem(i);
+        Map.Entry<User, ChatMsg> entry = (Map.Entry<User, ChatMsg>)getItem(i);
         User user = entry.getKey();
-        Chatmessage chatmessage = entry.getValue();
+        ChatMsg chatmessage = entry.getValue();
 
         iv_friend_icon.setImageResource(R.drawable.dynamic_background);
         tv_friend_name.setText(user.getLogname());
@@ -77,7 +65,7 @@ public class FriendsNoticeAdapter extends BaseAdapter {
             tv_friend_argee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NoticeManager.changeFriendsNotice(i, 17);
+                    //NoticesManager.changeFriendsNotice(i, 17);
                 }
             });
         } else if(chatmessage.getType().equals(16)){

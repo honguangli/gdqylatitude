@@ -17,10 +17,13 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+
+import org.java_websocket.client.WebSocketClient;
 
 import java.io.IOException;
 
@@ -144,7 +147,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
                             //添加到用户管理
                             UserManager.addAppUser(user);
-                            UserManager.addSocketClient();
+                            //UserManager.addSocketClient();
+                            WebSocketManager.connect(user.getUserid());
                             loginHandler.sendEmptyMessage(200);
                         } else{
                             //登录失败

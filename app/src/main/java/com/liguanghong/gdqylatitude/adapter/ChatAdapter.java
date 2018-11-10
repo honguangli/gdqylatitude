@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
-import com.liguanghong.gdqylatitude.unity.Chatmessage;
+import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.view.ChatTextView;
 
@@ -30,12 +31,14 @@ public class ChatAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return ConversationManager.getChatmessageListByName(friendID).size();
+        Log.i("聊天count", ConversationManager.getMsgMap().size()+":"+ConversationManager.getMsgList(friendID).size()+"" );
+        return ConversationManager.getMsgList(friendID).size();
     }
 
     @Override
     public Object getItem(int i) {
-        return ConversationManager.getChatmessageListByName(friendID).get(i);
+        Log.i("聊天item", ConversationManager.getMsgList(friendID).get(i).getSenderid()+"" );
+        return ConversationManager.getMsgList(friendID).get(i);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class ChatAdapter extends BaseAdapter {
         RelativeLayout.LayoutParams imglayoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(context, 36f), DensityUtil.dp2px(context, 36f));
         RelativeLayout.LayoutParams tvlayoutParms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        if(((Chatmessage)getItem(i)).getSenderid().equals(UserManager.getAppUser().getUserid())){
+        if(((ChatMsg)getItem(i)).getSenderid().equals(UserManager.getAppUser().getUserid())){
             //用户本人发的消息
             imglayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             imglayoutParams.setMargins(0, 0, DensityUtil.dp2px(context, 10f), 0);
@@ -87,7 +90,7 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         try {
-            tv.setText(new String(((Chatmessage)getItem(i)).getData(), "utf-8"));
+            tv.setText(new String(((ChatMsg)getItem(i)).getData(), "utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

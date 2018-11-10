@@ -27,6 +27,10 @@ public class HttpUtil {
         return "http://" + addr + ":" + apiPort + "/" + projectName + "/";
     }
 
+    public static String getWebSocketAddress(){
+        return "ws://" + addr + ":" + apiPort + "/" + projectName + "/websocket/";
+    }
+
     public static String getAddr() {
         return addr;
     }
