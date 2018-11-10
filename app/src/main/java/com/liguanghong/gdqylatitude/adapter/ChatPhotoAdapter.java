@@ -76,7 +76,6 @@ public  class ChatPhotoAdapter extends BaseAdapter {
                     finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
                     finalVh.mSelect.setChecked(true);
                 }
-
             }
         });
         if (mSelectImg.contains(filePath)){

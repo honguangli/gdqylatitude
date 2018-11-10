@@ -2,6 +2,8 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
@@ -31,6 +34,8 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -61,6 +66,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     private InputMethodManager inputMethodManager;      //用于隐藏软键盘
     private TranslateAnimation mShowAction;             //补间动画，用于底部弹出栏
+
+    private final int CAMERA_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +188,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.hint_tv_phone:                //调用相机
-
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
 
             case R.id.hint_tv_location:             //获取位置信息
@@ -216,22 +224,42 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     //点击屏幕软键盘隐藏，底部栏隐藏
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            closeRoot();
-            KPSwitchConflictUtil.hidePanelAndKeyboard(contentPanel_bottomPanel_hint);
-        }
+        inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);//隐藏软键盘
+        closeRoot();
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Toast.makeText(this,"图片已获取",Toast.LENGTH_LONG).show();
+            //获取到的图片
+            backtrack_friend_chat.setImageBitmap(photo);
+
+        } else if (requestCode == 10 && resultCode == 20) {
+           aboutIntent(data);
+
+        }
+    }
+
     //获取照片返回该界面
-//    private void aboutIntent() {
-//        Intent intent = getIntent();
-//        List<String> photoSelect = (List<String>) intent.getSerializableExtra("photo");
-//        if (photoSelect!=null) {
-//            Log.e("mDatas",photoSelect.toString());
+    private void aboutIntent(Intent intent) {
+        String photo = (String) intent.getExtras().get("photo");
+        //List<String> photoSelect = (List<String>) intent.getSerializableExtra("photo");
+        if (photo!=null) {
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(photo);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap  = BitmapFactory.decodeStream(fis);
+            Log.e("mDatas",photo);
+            backtrack_friend_chat.setImageBitmap(bitmap);
 //            final SimpleAdapter mAdapter = new SimpleAdapter(this, photoSelect);
 //            mListView.setAdapter(mAdapter);
 //            mListView.setLayoutManager(new GridLayoutManager(this,3));
-//        }
-//    }
+        }
+    }
 }
