@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
@@ -34,14 +33,13 @@ import com.liguanghong.gdqylatitude.view.SelectPhotoDirPopupWindow;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SelectPhotoActivity extends BaseActivity {
+public class SelectPhotoActivity extends BaseActivity implements View.OnClickListener {
     private GridView mGridView;
     private List<String> mImgs;
     private RelativeLayout mbottomLayout;
@@ -54,19 +52,11 @@ public class SelectPhotoActivity extends BaseActivity {
     private List<SelectPicFolderBean> mFolderBeans=new ArrayList<>();
 
     public static boolean isChecked;
+    public List<String> photoPaths;
 
     private ProgressDialog mProgressDialog;
     private ChatPhotoAdapter adapter;
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what==0x110){
-                mProgressDialog.dismiss();
-                dataToView();
-                initPopupWindow();
-            }
-        }
-    };
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -74,6 +64,99 @@ public class SelectPhotoActivity extends BaseActivity {
     @Override
     protected int getLayoutId() { return R.layout.activity_select_photo; }
 
+    protected void initView() {
+        mGridView= (GridView) findViewById(R.id.id_gridView);
+        mbottomLayout= (RelativeLayout) findViewById(R.id.rl_bottom_layout);
+        mTvDirName= (TextView) findViewById(R.id.tv_dir_name);
+        mTvDirCount= (TextView) findViewById(R.id.tv_dir_count);
+        backtrack= (ImageView) findViewById(R.id.backtrack);
+        tv_send= findViewById(R.id.tv_send);
+        isChecked = false;
+
+        mbottomLayout.setOnClickListener(this);
+        backtrack.setOnClickListener(this);
+        tv_send.setOnClickListener(this);
+    }
+
+    /**
+     * 利用Contentprovider扫描手机中的所有图片
+     */
+    protected void initData() {
+        handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what==0x110){
+                    mProgressDialog.dismiss();
+                    dataToView();
+                    initPopupWindow();
+                }
+            }
+        };
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            if (ContextCompat.checkSelfPermission(SelectPhotoActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(SelectPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }else{
+                aboutScanPhoto();
+            }
+        }else{
+            aboutScanPhoto();
+        }
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id){
+            case R.id.rl_bottom_layout:     //底部弹出框
+                mImageDirPopupWindow.setAnimationStyle(R.style.BottomDialog_Animation);
+                mImageDirPopupWindow.showAsDropDown(mbottomLayout,0,0);
+                lightOff();
+                break;
+
+            case R.id.tv_send:          //发送
+                if (mCurrentDir!=null){ photoPaths  = adapter.selectPhoto(); }
+//                Intent intent=new Intent(SelectPhotoActivity.this,ChatActivity.class);
+//                intent.putExtra("photo",(Serializable) photoPaths);
+//                startActivity(intent);
+                Intent intent =new Intent().putExtra("photo", photoPaths.get(0));
+                setResult(20, intent);
+                finish();
+                break;
+
+            case R.id.backtrack:            //返回
+                if (mCurrentDir!=null){
+                    List<String> photoPaths  = adapter.selectPhoto();
+                    if (photoPaths!=null){
+                        photoPaths.clear();
+                        finish();
+                    }else{
+                        finish();
+                    }
+                }else{
+                    finish();
+                }
+                break;
+        }
+    }
+
+    //检测相册是否有图片，若有图片则显示该相册的详情
+    private void dataToView() {
+        if (mCurrentDir==null){
+            Toast.makeText(this,"未扫描到任何图片",Toast.LENGTH_LONG).show();
+            return;
+        }
+        mImgs= Arrays.asList(mCurrentDir.list());
+        adapter = new ChatPhotoAdapter(this,mImgs,mCurrentDir.getAbsolutePath());
+        mGridView.setAdapter(adapter);
+        mTvDirName.setText(mCurrentDir.getName());
+        mTvDirCount.setText("共"+ mMaxCount+"张");
+    }
+
+
+    //底部弹出框，显示所有相册的详情。点击切换相册
     private void initPopupWindow() {
         mImageDirPopupWindow=new SelectPhotoDirPopupWindow(this,mFolderBeans);
         mImageDirPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -105,99 +188,26 @@ public class SelectPhotoActivity extends BaseActivity {
         });
     }
 
-
-    private void initEvent() {
-        mbottomLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mImageDirPopupWindow.setAnimationStyle(R.style.BottomDialog_Animation);
-                mImageDirPopupWindow.showAsDropDown(mbottomLayout,0,0);
-                lightOff();
-            }
-        });
-
-        //返回
-        backtrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCurrentDir!=null){
-                    List<String> photoPaths  = adapter.selectPhoto();
-                    if (photoPaths!=null){
-                        photoPaths.clear();
-                        finish();
-                    }else{
-                        finish();
-                    }
-                }else{
-                    finish();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length>0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    aboutScanPhoto();
+                }else {
+                    Toast.makeText(this, "请打开权限！", Toast.LENGTH_SHORT).show();
                 }
-
-
-            }
-        });
-
-        //发送
-        tv_send.setOnClickListener(new View.OnClickListener() {
-            List<String> photoPaths;
-            @Override
-            public void onClick(View v) {
-                if (mCurrentDir!=null){
-                    photoPaths  = adapter.selectPhoto();
-                }
-//                Intent intent=new Intent(SelectPhotoActivity.this,ChatActivity.class);
-//                intent.putExtra("photo",(Serializable) photoPaths);
-//                startActivity(intent);
-                setResult(20);
-                finish();
-
-            }
-        });
-    }
-
-    private void dataToView() {
-        if (mCurrentDir==null){
-            Toast.makeText(this,"未扫描到任何图片",Toast.LENGTH_LONG).show();
-            return;
+                break;
+            default:
         }
-        mImgs= Arrays.asList(mCurrentDir.list());
-        adapter = new ChatPhotoAdapter(this,mImgs,mCurrentDir.getAbsolutePath());
-        mGridView.setAdapter(adapter);
-        mTvDirName.setText(mCurrentDir.getName());
-        mTvDirCount.setText("共"+ mMaxCount+"张");
-    }
-    /**
-     * 内容区域变亮
-     */
-    private void lightOn() {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha=1.0f;
-        getWindow().setAttributes(lp);
     }
 
-    /**
-     * 内容区域变暗
-     */
-    private void lightOff() {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha=0.3f;
-        getWindow().setAttributes(lp);
-    }
-    /**
-     * 利用Contentprovider扫描手机中的所有图片
-     */
-    protected void initData() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            if (ContextCompat.checkSelfPermission(SelectPhotoActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(SelectPhotoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            }else{
-                aboutScanPhoto();
-            }
-        }else{
-            aboutScanPhoto();
-        }
 
-    }
-
+    /*
+    检测sd卡中所有文件夹，
+    挑选出文件夹（有图片）显示到页面上
+    检测图片格式包括jpg,jpeg,png
+    */
     private void aboutScanPhoto() {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             Toast.makeText(this,"当前存储卡不可用！",Toast.LENGTH_LONG);
@@ -218,9 +228,7 @@ public class SelectPhotoActivity extends BaseActivity {
                 while (mCursor.moveToNext()){
                     String path = mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
                     File parentFile=new File(path).getParentFile();
-                    if (parentFile==null) {
-                        continue;
-                    }
+                    if (parentFile==null) { continue; }
                     String dirPath = parentFile.getAbsolutePath();
                     SelectPicFolderBean folderBean=null;
                     if (mDirPaths.contains(dirPath)){
@@ -232,9 +240,7 @@ public class SelectPhotoActivity extends BaseActivity {
                         folderBean.setFirstImamgPath(path);
                     }
 
-                    if (parentFile.list()==null){
-                        continue;
-                    }
+                    if (parentFile.list()==null){ continue; }
                     int picSize=parentFile.list(new FilenameFilter() {
                         @Override
                         public boolean accept(File dir, String name) {
@@ -254,33 +260,26 @@ public class SelectPhotoActivity extends BaseActivity {
                 }
                 mCursor.close();
                 handler.sendEmptyMessage(0x110);
-
             }
         }.start();
     }
 
-    protected void initView() {
-        mGridView= (GridView) findViewById(R.id.id_gridView);
-        mbottomLayout= (RelativeLayout) findViewById(R.id.rl_bottom_layout);
-        mTvDirName= (TextView) findViewById(R.id.tv_dir_name);
-        mTvDirCount= (TextView) findViewById(R.id.tv_dir_count);
-        backtrack= (ImageView) findViewById(R.id.backtrack);
-        tv_send= findViewById(R.id.tv_send);
-        isChecked = false;
-        initEvent();
+
+    /**
+     * 内容区域变亮
+     */
+    private void lightOn() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha=1.0f;
+        getWindow().setAttributes(lp);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case 1:
-                if(grantResults.length>0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    aboutScanPhoto();
-                }else {
-                    Toast.makeText(this, "请打开权限！", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-        }
+    /**
+     * 内容区域变暗
+     */
+    private void lightOff() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha=0.3f;
+        getWindow().setAttributes(lp);
     }
 }

@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 读外部存储的权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 访问网络，网络定位需要上网 -->
@@ -34,7 +36,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/AppTheme" >
         <activity android:name="com.liguanghong.gdqylatitude.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,11 +44,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.liguanghong.gdqylatitude.activitys.ChatActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.DynamicMineActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.DynamicPublicActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.FriendsSetChangeActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.FriendsNoticeInfoActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupInfoActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupCreateActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupManageActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupLeaguerManageActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupSignManageActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupNoticeActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.GroupNoticeInfoActivity" />
+        <activity
+            android:name="com.liguanghong.gdqylatitude.activitys.HomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.ResetPwdActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SearchMineActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SearchAllActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SettingActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SignInActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SignUpActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.SelectPhotoActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.UserInfoActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.UserInfoMineActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.activitys.PermissionsActivity" />
+        <activity android:name="com.liguanghong.gdqylatitude.util.ChatClientActivity" />
 
+        <!-- 百度地图key配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7" />
 
+        <!-- 百度地图定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

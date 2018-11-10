@@ -1,4 +1,4 @@
-#Thu Oct 25 22:09:21 GMT+08:00 2018
-base.0=F\:\\Android\\gdqylatitude\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
+#Sat Nov 10 18:53:02 GMT+08:00 2018
+base.0=F\:\\Android\\gdqylatitude\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\10
 path.0=classes.dex
 renamed.0=classes.dex
