@@ -1,10 +1,12 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -103,6 +105,7 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
 
             case R.id.backtrack:
                 //销毁当前界面，返回通讯录界面
+                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edittext_search.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);//隐藏软键盘
                 finish();
                 break;
         }

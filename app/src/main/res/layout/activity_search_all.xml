@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:background="@color/colorBackground">
 
     <!-- 顶部栏 -->
     <RelativeLayout
@@ -42,62 +41,65 @@
         android:layout_below="@id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:orientation="horizontal"
+            android:background="@color/colorWhite">
             <LinearLayout
-                android:id="@+id/LinearLayout_add"
-                android:layout_width="match_parent"
+                android:id="@+id/LinearLayout_add_friend"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/LinearLayout_add_friend"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_add_friend"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tv_add_friend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="找人"
-                        android:textColor="@color/colorBlack"/>
-                    <View
-                        android:id="@+id/search_selcet_user"
-                        android:layout_width="70dp"
-                        android:layout_height="1dp"
-                        android:background="@color/colorTitle">
-                    </View>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/LinearLayout_add_group"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tv_add_group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:gravity="center"
-                        android:text="找群"
-                        android:textColor="@color/colorBlack"/>
-                    <View
-                        android:id="@+id/search_selcet_group"
-                        android:layout_width="70dp"
-                        android:layout_height="1dp"
-                        android:background="@color/colorTitle"
-                        android:visibility="gone">
-                    </View>
-                </LinearLayout>
+                    android:paddingBottom="10dp"
+                    android:text="找人"
+                    android:textColor="@color/colorBlack"/>
+                <View
+                    android:id="@+id/search_selcet_user"
+                    android:layout_width="70dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorTitle">
+                </View>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/LinearLayout_add_group"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_add_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:gravity="center"
+                    android:text="找群"
+                    android:textColor="@color/colorBlack"/>
+                <View
+                    android:id="@+id/search_selcet_group"
+                    android:layout_width="70dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorTitle"
+                    android:visibility="gone">
+                </View>
+            </LinearLayout>
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/RelativeLayout_search_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/LinearLayout_add">
+            android:layout_below="@id/LinearLayout_add"
+            android:background="@color/colorWhite">
             <View
                 android:id="@+id/RelativeLayout_line_top"
                 android:layout_width="match_parent"
@@ -110,18 +112,21 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:layout_below="@id/RelativeLayout_line_top">
+                android:layout_below="@id/RelativeLayout_line_top"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <EditText
                     android:id="@+id/keyword"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_toLeftOf="@id/bt_search"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:paddingLeft="20dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="15dp"
+                    android:maxLines="1"
                     android:hint="请输入关键字"
                     android:textColorHint="@color/Gainsboro"
+                    android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/search_edittext"/>
                 <Button

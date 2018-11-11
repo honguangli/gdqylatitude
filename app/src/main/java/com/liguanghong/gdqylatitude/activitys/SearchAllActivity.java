@@ -1,13 +1,16 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,7 +19,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.SearchAllAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
-import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -34,8 +36,8 @@ import okhttp3.Response;
 public class SearchAllActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;
-    private TextView tv_add_friend;
-    private TextView tv_add_group;
+    private LinearLayout linearLayout_add_friend;
+    private LinearLayout linearLayout_add_Group;
     private View search_selcet_user;
     private View search_selcet_group;
     private Button bt_search;
@@ -59,8 +61,8 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView() {
         backtrack = (ImageView)findViewById(R.id.backtrack);
-        tv_add_friend = (TextView) findViewById(R.id.tv_add_friend);
-        tv_add_group = (TextView)findViewById(R.id.tv_add_group);
+        linearLayout_add_friend = findViewById(R.id.LinearLayout_add_friend);
+        linearLayout_add_Group = findViewById(R.id.LinearLayout_add_group);
         bt_search = (Button)findViewById(R.id.bt_search);
         et_keyword = findViewById(R.id.keyword);
 
@@ -68,10 +70,10 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
         search_selcet_group = findViewById(R.id.search_selcet_group);
         search_all_listview = findViewById(R.id.search_all_listview);
 
-        tv_add_friend.setOnClickListener(this);
-        tv_add_group.setOnClickListener(this);
         backtrack.setOnClickListener(this);
         bt_search.setOnClickListener(this);
+        linearLayout_add_friend.setOnClickListener(this);
+        linearLayout_add_Group.setOnClickListener(this);
     }
 
     @Override
@@ -80,7 +82,9 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
             public void handleMessage(Message message){
                 switch (message.what){
                     case 200:
-                        add((List<User>)message.obj);
+                        searchAllList.clear();
+                        searchAllList.addAll((List<User>)message.obj);
+                        searchAllAdapter.notifyDataSetChanged();
                         break;
                 }
             }
@@ -92,7 +96,9 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
+
         switch (id){
             case R.id.bt_search:
                 //执行网络查找
@@ -103,18 +109,28 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.backtrack:
                 //销毁当前界面，返回通讯录界面
+                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(et_keyword.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);//隐藏软键盘
                 finish();
                 break;
-            case R.id.tv_add_friend:
+
+            case R.id.LinearLayout_add_friend:
                 change(true);
                 break;
-            case R.id.tv_add_group:
+
+            case R.id.LinearLayout_add_group:
                 change(false);
                 break;
+
         }
+
     }
 
+    /**
+     * 更改搜索引擎-搜用户/搜群聊
+     * @param selectuser
+     */
     private void change(boolean selectuser){
+
         if(selectuser){
             search_selcet_user.setVisibility(View.VISIBLE);
             search_selcet_group.setVisibility(View.GONE);
@@ -122,14 +138,11 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
             search_selcet_user.setVisibility(View.GONE);
             search_selcet_group.setVisibility(View.VISIBLE);
         }
-    }
 
-    private void add(List<User> newList){
-        searchAllList.addAll(newList);
-        searchAllAdapter.notifyDataSetChanged();
     }
 
     private void search(String keyword, int page){
+
         final RequestBody requestBody = new FormBody.Builder()
                 .add("keyword", keyword)
                 .add("page", page+"")
@@ -165,6 +178,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         });
+
     }
 
 }

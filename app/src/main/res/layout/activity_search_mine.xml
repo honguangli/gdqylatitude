@@ -55,7 +55,9 @@
             android:id="@+id/relativelayout_search"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorWhite">
+            android:background="@color/colorWhite"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <EditText
                 android:id="@+id/edittext_search"
