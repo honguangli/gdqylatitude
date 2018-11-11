@@ -7,7 +7,6 @@ import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.activitys.PermissionsActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
-import com.liguanghong.gdqylatitude.util.ChatClientActivity;
 import com.liguanghong.gdqylatitude.util.PermissionsUtil;
 
 

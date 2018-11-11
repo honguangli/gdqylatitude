@@ -59,7 +59,7 @@ public class WebSocketManager {
 
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
-                    Log.i("websocket", "close");
+                    Log.i("websocket", "close:code-" + code +"|reason-" + reason);
                 }
 
                 @Override
@@ -80,6 +80,10 @@ public class WebSocketManager {
      */
     public static void sendMsg(ChatMsg chatMsg){
         client.send(JSONObject.toJSONString(chatMsg));
+    }
+
+    public static void sendM(){
+
     }
 
     /**

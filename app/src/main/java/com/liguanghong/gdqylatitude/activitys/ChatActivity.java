@@ -2,9 +2,14 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
@@ -26,8 +32,16 @@ import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.util.DensityUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
@@ -41,7 +55,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private TextView hint_tv_phone;                             //调用相机
     private TextView hint_tv_location;                          //获取定位信息
     private RelativeLayout add;                                 //添加图片，位置
-    private RelativeLayout contentPanel_bottomPanel;          //信息发送栏
     private RelativeLayout contentPanel_bottomPanel_hint;     //底部弹出栏
     private EditText ed_content;                                //要发送的文字内容
     private ListView message_listView;
@@ -56,6 +69,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private InputMethodManager inputMethodManager;      //用于隐藏软键盘
     private TranslateAnimation mShowAction;             //补间动画，用于底部弹出栏
 
+    private final int CAMERA_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,21 +83,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initView() {
-        backtrack_friend_chat = (ImageView)findViewById(R.id.backtrack);
-        tv_friendName = (TextView) findViewById(R.id.tv_friendName);
-        tv_friendState = (TextView) findViewById(R.id.tv_friendState);
-        tv_data = (TextView) findViewById(R.id.tv_data);
-        tv_send = (TextView) findViewById(R.id.tv_send);
+        backtrack_friend_chat = findViewById(R.id.backtrack);
+        tv_friendName = findViewById(R.id.tv_friendName);
+        tv_friendState = findViewById(R.id.tv_friendState);
+        tv_data = findViewById(R.id.tv_data);
+        tv_send = findViewById(R.id.tv_send);
         hint_tv_pic = findViewById(R.id.hint_tv_pic);
         hint_tv_phone = findViewById(R.id.hint_tv_phone);
         hint_tv_location = findViewById(R.id.hint_tv_location);
-        add = (RelativeLayout)findViewById(R.id.add);
-        contentPanel_bottomPanel = findViewById(R.id.contentPanel_bottomPanel);
+        add = findViewById(R.id.add);
         contentPanel_bottomPanel_hint = findViewById(R.id.contentPanel_bottomPanel_hint);
-        ed_content = (EditText) findViewById(R.id.ed_content);
-        message_listView = (ListView) findViewById(R.id.message_listView);
+        ed_content = findViewById(R.id.ed_content);
+        message_listView = findViewById(R.id.message_listView);
 
-        pp = contentPanel_bottomPanel.getLayoutParams();
 
         inputMethodManager = (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -90,7 +103,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(300);
-
         ed_content.setFocusable(true);
         ed_content.setFocusableInTouchMode(true);
         ed_content.requestFocus();
@@ -105,7 +117,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         hint_tv_location.setOnClickListener(this);
         message_listView.setOnTouchListener(this);
 
-//        aboutIntent();
     }
 
     @Override
@@ -117,7 +128,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     case 222:
                         if(chatAdapter != null) {
                             chatAdapter.notifyDataSetChanged();
-                            message_listView.setSelection(chatAdapter.getCount()-1);
                         }
                         break;
                 }
@@ -133,6 +143,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         }
         chatAdapter = new ChatAdapter(this, friend.getUserid());
         message_listView.setAdapter(chatAdapter);
+        message_listView.setSelection(chatAdapter.getCount() > 0 ? chatAdapter.getCount() - 1 : 0);
         chatAdapter.notifyDataSetChanged();
     }
 
@@ -150,16 +161,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);
                 break;
 
-            case R.id.tv_send:                          //发送消息
-                if(ed_content.getText().toString().trim() != null) {
-                    ChatMsg chatMsg = new ChatMsg();
-                    chatMsg.setSenderid(UserManager.getAppUser().getUserid());
-                    chatMsg.setReceiverid(friend.getUserid());
-                    chatMsg.setIssingle(true);
-                    chatMsg.setType(MessageType.TEXT);
-                    chatMsg.setData(ed_content.getText().toString().getBytes(Charset.forName("UTF-8")));
-                    WebSocketManager.sendMsg(chatMsg);
-                    ConversationManager.sendMsg(chatMsg);
+            case R.id.tv_send:                          //发送文本消息
+                String text = ed_content.getText().toString();
+                if(text != null && !text.trim().equals("")) {
+                    sendText(text);
                     ed_content.setText(null);
                 }
                 break;
@@ -184,7 +189,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.hint_tv_phone:                //调用相机
-
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
 
             case R.id.hint_tv_location:             //获取位置信息
@@ -200,9 +206,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     }
     //打开底部弹出框
     private void openRoot(){
-        pp.height = 800;
-        contentPanel_bottomPanel.startAnimation(mShowAction);
-        contentPanel_bottomPanel.setLayoutParams(pp);
         contentPanel_bottomPanel_hint.startAnimation(mShowAction);
         contentPanel_bottomPanel_hint.setVisibility(View.VISIBLE);
         isExpanded = false;
@@ -210,9 +213,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     //关闭底部弹出框
     private void closeRoot(){
-        pp.height = 120;
-        contentPanel_bottomPanel.setLayoutParams(pp);
-        contentPanel_bottomPanel_hint.setVisibility(View.INVISIBLE);
+
+        contentPanel_bottomPanel_hint.setVisibility(View.GONE);
         isExpanded = true;
     }
 
@@ -223,25 +225,45 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         return false;
     }
 
-//    @Override
-//    //点击屏幕软键盘隐藏，底部栏隐藏
-//    public boolean onTouch(View view, MotionEvent motionEvent) {
-//        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//            closeRoot();
-//            KPSwitchConflictUtil.hidePanelAndKeyboard(contentPanel_bottomPanel_hint);
-//        }
-//        return false;
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            sendImg(ImageUtils.bitmapToString(photo));
+        } else if (requestCode == 10 && resultCode == 20) {
+            String photo = (String) data.getExtras().get("photo");
+            sendImg(ImageUtils.filePathToString(photo));
+        }
+    }
 
-    //获取照片返回该界面
-//    private void aboutIntent() {
-//        Intent intent = getIntent();
-//        List<String> photoSelect = (List<String>) intent.getSerializableExtra("photo");
-//        if (photoSelect!=null) {
-//            Log.e("mDatas",photoSelect.toString());
-//            final SimpleAdapter mAdapter = new SimpleAdapter(this, photoSelect);
-//            mListView.setAdapter(mAdapter);
-//            mListView.setLayoutManager(new GridLayoutManager(this,3));
-//        }
-//    }
+    /**
+     * 发送文本消息
+     * @param text
+     */
+    private void sendText(String text){
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setReceiverid(friend.getUserid());
+        chatMsg.setIssingle(true);
+        chatMsg.setType(MessageType.TEXT);
+        chatMsg.setData(text.getBytes(Charset.forName("UTF-8")));
+        WebSocketManager.sendMsg(chatMsg);
+        ConversationManager.sendMsg(chatMsg);
+    }
+
+    /**
+     * 发送图片消息
+     * @param photoString
+     */
+    private void sendImg(String photoString){
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setReceiverid(friend.getUserid());
+        chatMsg.setIssingle(true);
+        chatMsg.setType(MessageType.IMAGE);
+        chatMsg.setData(photoString.getBytes(Charset.forName("UTF-8")));
+        WebSocketManager.sendMsg(chatMsg);
+        ConversationManager.sendMsg(chatMsg);
+    }
+
 }

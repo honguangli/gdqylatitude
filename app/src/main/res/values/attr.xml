@@ -7,11 +7,4 @@
         </attr>
         <attr name="border_radius" format="dimension"/>
     </declare-styleable>
-    <declare-styleable name="ChatRelativeLayout">
-        <attr name="position">
-            <enum name="left" value="1"/>
-            <enum name="right" value="0"/>
-        </attr>
-        <attr name="radius" format="dimension"/>
-    </declare-styleable>
 </resources>

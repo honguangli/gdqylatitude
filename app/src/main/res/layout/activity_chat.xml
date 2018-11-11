@@ -77,115 +77,123 @@
             android:id="@+id/message_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:divider="@null"
             android:listSelector="@android:color/transparent"
-            android:layout_above="@id/contentPanel_bottomPanel">
+            android:layout_above="@id/bottomPanelcontent"
+            android:transcriptMode="alwaysScroll"
+            android:background="@color/colorBackground">
 
         </ListView>
 
-        <RelativeLayout
-            android:id="@+id/contentPanel_bottomPanel"
+        <LinearLayout
+            android:id="@+id/bottomPanelcontent"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/add"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/shape_add_white">
+                android:id="@+id/contentPanel_bottomPanel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorF5"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/bt_add"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/add_gray"
-                    />
+                <RelativeLayout
+                    android:id="@+id/add"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/shape_add_white">
+
+                    <ImageView
+                        android:id="@+id/bt_add"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/add_gray" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/ed_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/tv_send"
+                    android:layout_toRightOf="@+id/add"
+                    android:background="@drawable/white_5_radius"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/colorBF"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_send"
+                    android:layout_width="60dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/title_5_radius"
+                    android:gravity="center"
+                    android:text="发送"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+
             </RelativeLayout>
-
-            <EditText
-                android:id="@+id/ed_content"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_toRightOf="@+id/add"
-                android:layout_marginLeft="8dp"
-                android:paddingLeft="8dp"
-                android:layout_toLeftOf="@id/tv_send"
-                android:layout_marginRight="8dp"
-                android:layout_centerVertical="true"
-                android:textSize="12sp"
-                android:textColor="@color/colorBF"
-                android:background="@drawable/white_5_radius"/>
-            <TextView
-                android:id="@+id/tv_send"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"
-                android:text="发送"
-                android:textSize="16sp"
-                android:textColor="@color/colorWhite"
-                android:background="@drawable/title_5_radius"
-                android:gravity="center"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/contentPanel_bottomPanel"
+                android:background="@color/Gainsboro" />
+
+            <RelativeLayout
+                android:id="@+id/contentPanel_bottomPanel_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contentPanel_bottomPanel"
+                android:padding="10dp"
                 android:background="@color/colorF5"
-                android:layout_below="@+id/tv_send"/>
+                android:visibility="gone">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/hint_tv_pic"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:drawablePadding="3dp"
+                    android:drawableTop="@drawable/chatting_pic_icon"
+                    android:gravity="center"
+                    android:text="照片"
+                    android:textSize="14sp" />
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/hint_tv_phone"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_toRightOf="@+id/hint_tv_pic"
+                    android:drawablePadding="3dp"
+                    android:drawableTop="@drawable/chat_phone"
+                    android:gravity="center"
+                    android:text="相机"
+                    android:textSize="14sp" />
 
-    <RelativeLayout
-        android:id="@+id/contentPanel_bottomPanel_hint"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp">
+                <TextView
+                    android:id="@+id/hint_tv_location"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_toRightOf="@+id/hint_tv_phone"
+                    android:drawablePadding="3dp"
+                    android:drawableTop="@drawable/chatting_site_icon"
+                    android:gravity="center"
+                    android:text="定位"
+                    android:textSize="14sp" />
 
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/hint_tv_pic"
-            android:layout_width="60dp"
-            android:layout_height="80dp"
-            android:drawableTop="@drawable/chatting_pic_icon"
-            android:drawablePadding="3dp"
-            android:text="照片"
-            android:textSize="14sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/hint_tv_phone"
-            android:layout_width="60dp"
-            android:layout_height="80dp"
-            android:layout_toRightOf="@+id/hint_tv_pic"
-            android:drawableTop="@drawable/chat_phone"
-            android:drawablePadding="3dp"
-            android:text="相机"
-            android:textSize="14sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/hint_tv_location"
-            android:layout_width="60dp"
-            android:layout_height="80dp"
-            android:layout_toRightOf="@+id/hint_tv_phone"
-            android:drawableTop="@drawable/chatting_site_icon"
-            android:drawablePadding="3dp"
-            android:text="定位"
-            android:textSize="14sp"
-            android:gravity="center"/>
+        </LinearLayout>
 
 
     </RelativeLayout>
