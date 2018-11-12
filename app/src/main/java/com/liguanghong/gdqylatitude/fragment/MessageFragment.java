@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
-import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 
 public class MessageFragment extends BaseFragment {
@@ -51,10 +50,10 @@ public class MessageFragment extends BaseFragment {
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                User user = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
+                Friend friend = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
                 //activity跳转操作，注意：启动ChatActivity时必须传User对象
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("userinfo", user);
+                intent.putExtra("userinfo", friend);
                 startActivity(intent);
             }
         });

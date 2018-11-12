@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +62,10 @@ public class MessageAdapter extends BaseAdapter {
                 //私聊
                 if(chatMsg.getSenderid().equals(UserManager.getAppUser().getUserid())){
                     //用户本人先发的消息
-                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getReceiverid()).getLogname());
+                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());
                 } else{
                     //好友先发的消息
-                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getSenderid()).getLogname());
+                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
                 }
             }
             tv_message.setText(new String(chatMsg.getData(), "utf-8"));

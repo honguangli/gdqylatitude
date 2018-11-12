@@ -23,8 +23,6 @@ import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 
-import org.java_websocket.client.WebSocketClient;
-
 import java.io.IOException;
 
 import okhttp3.Call;

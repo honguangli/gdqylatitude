@@ -12,13 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.liguanghong.gdqylatitude.R;
@@ -30,7 +28,7 @@ import com.liguanghong.gdqylatitude.activitys.SearchAllActivity;
 import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
-import com.liguanghong.gdqylatitude.unity.FriendsSet;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
@@ -39,8 +37,6 @@ import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,10 +79,10 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     protected void initView(View view)
     {
 
-        add = (ImageView) view.findViewById(R.id.add);
-        img_search = (TextView) view.findViewById(R.id.edittext_search);
-        rly_new_friends = (RelativeLayout) view.findViewById(R.id.rly_new_friends);
-        rly_chat_group = (RelativeLayout)view.findViewById(R.id.rly_chat_group);
+        add = view.findViewById(R.id.add);
+        img_search = view.findViewById(R.id.edittext_search);
+        rly_new_friends = view.findViewById(R.id.rly_new_friends);
+        rly_chat_group = view.findViewById(R.id.rly_chat_group);
 
         add.setOnClickListener(this);
         img_search.setOnClickListener(this);
@@ -132,7 +128,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
                 if(response.isSuccessful()){
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        Map<String, List<User>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<User>>>() {});
+                        Map<String, List<Friend>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<Friend>>>() {});
                         FriendsManager.setFriends(friends);
                         addressbookHandler.sendEmptyMessage(200);
                     }catch (Exception e){
@@ -169,10 +165,10 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         String setName = FriendsManager.getFriendsSetNameList().get(groupPosition);
-        User user = FriendsManager.getFriendsBySetName(setName).get(childPosition);
+        Friend friend = FriendsManager.getFriendsBySetName(setName).get(childPosition);
         //启动聊天界面
         Intent intent = new Intent(getActivity(), ChatActivity.class);
-        intent.putExtra("userinfo", user);
+        intent.putExtra("userinfo", friend);
         startActivity(intent);
         return false;
     }
