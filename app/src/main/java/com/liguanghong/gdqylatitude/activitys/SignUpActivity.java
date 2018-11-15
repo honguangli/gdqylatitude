@@ -3,6 +3,8 @@ package com.liguanghong.gdqylatitude.activitys;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -37,6 +39,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private EditText etSurepassword;
     private Button btnAgree;
     private ImageView ivBack;
+    private static Handler signupHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,18 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-
+        signupHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 200:
+                        navigateToSignin();
+                        break;
+                    default:
+                        tip(String.valueOf(message.obj));
+                        break;
+                }
+            }
+        };
     }
 
     /**
@@ -86,7 +100,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()){
             case R.id.register_btn_argee:
                 if ((etPassword.getText().toString()).equals(etSurepassword.getText().toString())){
-                    //signUp(etUsername.getText().toString(),etPassword.getText().toString());
+                    signUp(etUsername.getText().toString(),etPassword.getText().toString());
 
                 }else{
                     Toast.makeText(this,"密码不一致，请重新输入！",Toast.LENGTH_SHORT).show();
@@ -103,6 +117,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 注册操作
      * @param logname
      * @param password
+     *
      */
     private void signUp(String logname, String password){
         RequestBody requestBody = new FormBody.Builder()
@@ -121,10 +136,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            //登录成功
+                            //注册成功
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
+                            signupHandler.sendEmptyMessage(200);
                         } else{
-                            //登录失败
+                            //注册失败
                             Log.i("注册操作",  result.getMessage());
                         }
                         Log.i("注册操作",  result.isSuccess() + "," + result.getMessage());
@@ -137,5 +153,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
+
+    /**
+     * 注册成功，返回登录页面
+     */
+    private void navigateToSignin(){
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    /**
+     * 登录失败，提示
+     */
+    private void tip(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
 }

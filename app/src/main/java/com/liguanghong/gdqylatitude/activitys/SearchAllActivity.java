@@ -1,12 +1,14 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,6 +76,16 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
         bt_search.setOnClickListener(this);
         linearLayout_add_friend.setOnClickListener(this);
         linearLayout_add_Group.setOnClickListener(this);
+        search_all_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                User user = (User)searchAllAdapter.getItem(i);
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                intent.putExtra("hide", true);
+                intent.putExtra("userinfo", user);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

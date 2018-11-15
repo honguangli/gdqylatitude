@@ -23,8 +23,6 @@ import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 
-import org.java_websocket.client.WebSocketClient;
-
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -56,7 +54,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initView() {
-        et_name = findViewById(R.id.login_et_name);
+        et_name =findViewById(R.id.login_et_name);
         et_password = findViewById(R.id.login_et_password);
         btn_login = findViewById(R.id.login_btn_login);
         toRegister = findViewById(R.id.to_register);

@@ -11,35 +11,43 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.JsonResult;
 
+import java.io.IOException;
 
-import java.util.ArrayList;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClickListener {
 
-    private ArrayList<String> list;
     private Context context;
     private int index;
 
     Dialog bottomDialog;
 
-    public FriendsSetManageAdapter(Context context,ArrayList<String> list){
+    public FriendsSetManageAdapter(Context context){
         this.context = context;
-        this.list = list;
 
         createDialog();
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return FriendsManager.getFriendsSetNameList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return FriendsManager.getFriendsSetNameList().get(i);
     }
 
     @Override
@@ -53,7 +61,7 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
         TextView group_name = v.findViewById(R.id.group_name);
         ImageView img_movegroup = v.findViewById(R.id.img_movegroup);
 
-        group_name.setText(list.get(i));
+        group_name.setText(FriendsManager.getFriendsSetNameList().get(i));
 
         img_movegroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +97,46 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
         switch (view.getId()){
             case R.id.tv_delete:
                 Log.i("ID", index + "");
+                deleteFriendsSet(FriendsManager.getFriendsSetNameList().get(index));
+                bottomDialog.cancel();
                 break;
         }
     }
+
+
+    /**
+     * 删除好友分组操作
+     * @param setName
+     */
+    private void deleteFriendsSet(final String setName){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("setName", setName)
+                .build();
+        HttpUtil.postEnqueue("user/deletefriendsset", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("好友分组管理", "创建好友分组失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            FriendsManager.deleteFriendsSet(setName);
+                        } else{
+
+                        }
+                        Log.i("好友分组管理",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 }

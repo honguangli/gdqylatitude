@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
-import com.liguanghong.gdqylatitude.unity.User;
-
-import java.util.List;
+import com.liguanghong.gdqylatitude.unity.Friend;
 
 public class AddressbookAdapter extends BaseExpandableListAdapter {
 
@@ -45,7 +43,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
-        String chidlName = FriendsManager.getFriends().get(groupName).get(childPosition).getLogname();
+        String chidlName = FriendsManager.getFriends().get(groupName).get(childPosition).getFriend().getLogname();
         return chidlName;
     }
     //获取组ID
@@ -67,13 +65,9 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        final int groupPos = groupPosition;
+        View view  = LayoutInflater.from(context).inflate(R.layout.item_friends_set_parent, null);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_friends_set_parent, null);
-        }
-
-        ImageView image = (ImageView) convertView.findViewById(R.id.image_parent);
+        ImageView image = view.findViewById(R.id.image_parent);
 
         if(isExpanded){
             image.setImageResource(R.drawable.todown_gray);
@@ -81,41 +75,41 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
             image.setImageResource(R.drawable.toright_gray);
         }
 
+        TextView parentText = view.findViewById(R.id.text_parent);
+        parentText.setText((String)getGroup(groupPosition));
 
-        TextView parentText = (TextView) convertView.findViewById(R.id.text_parent);
-        parentText.setText(FriendsManager.getFriendsSetNameList().get(groupPosition));
-        return convertView;
+        TextView parentNumText = view.findViewById(R.id.text_parent_num);
+        parentNumText.setText(FriendsManager.getOnlineCountBySetName((String)getGroup(groupPosition))
+                + "/" + FriendsManager.getFriendsBySetName((String)getGroup(groupPosition)).size());
+
+        return view;
     }
     //子项视图初始化
     @Override
     public View getChildView(int groupPosition, int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final int groupPos = groupPosition;
-        final int childPos = childPosition;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_friends_set_child, null);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_friends_set_child, null);
-        }
-
-        TextView childText = (TextView) convertView.findViewById(R.id.text_child);
-        TextView state = (TextView) convertView.findViewById(R.id.state);
-        ImageView image_head = (ImageView) convertView.findViewById(R.id.image_head);
-        ImageView img_state = (ImageView) convertView.findViewById(R.id.img_state);
+        TextView childText = view.findViewById(R.id.text_child);
+        TextView state = view.findViewById(R.id.state);
+        ImageView image_head = view.findViewById(R.id.image_head);
+        ImageView img_state = view.findViewById(R.id.img_state);
 
         String parentName = FriendsManager.getFriendsSetNameList().get(groupPosition);
 
-        User user = FriendsManager.getFriends().get(parentName).get(childPosition);
+        Friend friend = FriendsManager.getFriends().get(parentName).get(childPosition);
 
         image_head.setImageResource(R.drawable.dynamic_background);
-        childText.setText(user.getLogname());
-        if(user.getStatu().equals(2)){
+
+        childText.setText(friend.getRemark() == null ? friend.getFriend().getLogname() : friend.getRemark());
+        if(friend.getFriend().getStatu().equals(2)){
             state.setText("在线");
             img_state.setImageResource(R.drawable.state_light);
         } else{
             state.setText("离线");
             img_state.setImageResource(R.drawable.state_gainsboro);
         }
-        return convertView;
+        return view;
     }
 
     @Override

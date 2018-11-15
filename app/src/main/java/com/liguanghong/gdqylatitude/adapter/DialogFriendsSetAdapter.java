@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
-
-import java.util.ArrayList;
 
 public class DialogFriendsSetAdapter extends BaseAdapter {
 
@@ -41,12 +38,12 @@ public class DialogFriendsSetAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         View v = LayoutInflater.from(context).inflate(R.layout.item_dialod_friends_set_change,null);
         TextView item_friends_set_name = v.findViewById(R.id.item_friends_set_name);
         item_friends_set_name.setText(FriendsManager.getFriendsSetNameList().get(i));
         ImageView item_friends_set_check = v.findViewById(R.id.item_friends_set_check);
-        Log.i("用户信息", "i="+i + " : index=" + FriendsManager.getFriendsSetIndex(userid));
-        if(i == FriendsManager.getFriendsSetIndex(userid)){
+        if(i == FriendsManager.getFriendsSetIndexByID(userid)){
             item_friends_set_check.setImageResource(R.drawable.check);
         }
 

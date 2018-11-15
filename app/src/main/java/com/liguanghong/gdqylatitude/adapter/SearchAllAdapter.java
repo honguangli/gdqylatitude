@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
-import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.List;

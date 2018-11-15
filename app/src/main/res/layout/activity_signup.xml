@@ -56,6 +56,8 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="请输入用户名"
+            android:lines="1"
+            android:inputType="text"
             android:textColorHint="@color/Gainsboro"
             android:textSize="16sp"
             android:textColor="@color/colorBlack"/>
@@ -87,6 +89,8 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="请输入密码"
+            android:lines="1"
+            android:inputType="text"
             android:textColorHint="@color/Gainsboro"
             android:textSize="16sp"
             android:textColor="@color/colorBlack"/>
@@ -117,6 +121,8 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="请确定密码"
+            android:lines="1"
+            android:inputType="text"
             android:textColorHint="@color/Gainsboro"
             android:textSize="16sp"
             android:textColor="@color/colorBlack"/>

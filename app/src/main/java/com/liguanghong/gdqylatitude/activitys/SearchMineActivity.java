@@ -16,6 +16,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.SearchMineAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
     private ListView friendsListView;
     private ListView groupsListView;
     private SearchMineAdapter searchMineAdapter;
-    private List<User> searchFriendList;
-    private List<User> searchGroupList;
+    private List<Friend> searchFriendList;
+    private List<Friend> searchGroupList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,12 +113,13 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setSearchFriendList(){
-        List<User> newList = new ArrayList<>();
-        Map<String, List<User>> map  = FriendsManager.getFriends();
-        for (Map.Entry<String, List<User>> entry : map.entrySet()) {
-            for(User user : entry.getValue()){
-                if(user.getLogname().contains(edittext_search.getText().toString())){
-                    newList.add(user);
+        List<Friend> newList = new ArrayList<>();
+        Map<String, List<Friend>> map  = FriendsManager.getFriends();
+        for (Map.Entry<String, List<Friend>> entry : map.entrySet()) {
+            for(Friend friend : entry.getValue()){
+                if(friend.getFriend().getLogname().contains(edittext_search.getText().toString().trim())
+                        || (friend.getRemark() != null && friend.getRemark().contains(edittext_search.getText().toString().trim()))){
+                    newList.add(friend);
                 }
             }
         }
