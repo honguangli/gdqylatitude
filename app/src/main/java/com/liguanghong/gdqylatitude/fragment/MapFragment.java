@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -22,6 +25,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
@@ -37,6 +41,9 @@ import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
+import com.liguanghong.gdqylatitude.clusterutil.clustering.Cluster;
+import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterItem;
+import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -55,6 +62,8 @@ public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
     private BaiduMap mBaiduMap;
+
+    private ClusterManager<MyItem> mClusterManager;
 
     private List<User> userList;
     private List<OverlayOptions> options;
@@ -81,6 +90,64 @@ public class MapFragment extends BaseFragment {
         mMapView = (MapView)view.findViewById(R.id.map);
         mBaiduMap = mMapView.getMap();
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
+
+        //ms = new MapStatus.Builder().target(new LatLng(39.914935, 116.403119)).zoom(8).build();
+       // ms = new MapStatus.Builder().zoom(4).build();
+      //  mBaiduMap.setOnMapLoadedCallback((BaiduMap.OnMapLoadedCallback) this);
+        //mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(ms));
+        mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
+        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
+        mBaiduMap.setOnMarkerClickListener(mClusterManager);
+
+        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
+            @Override
+            public boolean onClusterClick(Cluster<MyItem> cluster) {
+
+                List<MyItem> items = (List<MyItem>) cluster.getItems();
+              //  LatLngBounds.Builder builder2 = new LatLngBounds.Builder();
+                for(MyItem myItem : items){
+                    Log.i("测试输出", "wdwqdw"+myItem.getPosition());
+                   // builder2 = builder2.include(myItem.getPosition());
+                }
+              /*  LatLngBounds latlngBounds = builder2.build();
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mMapView.getWidth(),mMapView.getHeight());
+                mBaidumap.animateMapStatus(u);*/
+
+                Toast.makeText(getContext(),"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+cluster.getSize(), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
+            @Override
+            public boolean onClusterItemClick(MyItem item) {
+                final User user = (User)item.getExtraInfo().get("info");
+                    try {
+                        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
+                        TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                        logname.setText(user.getLogname());
+                        LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
+                        getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                                intent.putExtra("userinfo", user);
+                                startActivity(intent);
+                            }
+                        });
+                        //定义用于显示该InfoWindow的坐标点
+                        final LatLng ll = item.getPosition();//得到坐标
+                        Point p = mBaiduMap.getProjection().toScreenLocation(ll);
+                        LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
+                        InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
+                        //显示InfoWindow
+                        mBaiduMap.showInfoWindow(mInfoWindow);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                return true;
+            }
+        });
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
         //注册监听函数
@@ -103,6 +170,27 @@ public class MapFragment extends BaseFragment {
         getData();
     }
 
+    public class MyItem implements ClusterItem {
+        private final LatLng mPosition;
+        private Bundle buns;
+        public MyItem(LatLng latLng) {
+            mPosition = latLng;
+        }
+        public MyItem(LatLng latLng,Bundle bun) {
+            mPosition = latLng;
+            buns=bun;
+        }
+        public LatLng getPosition() {
+            return mPosition;
+        }
+        public Bundle getExtraInfo() {
+            return buns;
+        }
+        public BitmapDescriptor getBitmapDescriptor() {
+            return BitmapDescriptorFactory
+                    .fromResource(R.drawable.icon_gcoding);
+        }
+    }
     /**
      * 获取网站用户数据，用于地图标记点
      */
@@ -139,77 +227,25 @@ public class MapFragment extends BaseFragment {
     /**
      * 设置地图标记点
      */
-    private void setOptions() {
-        //创建OverlayOptions属性
-        options = new ArrayList<OverlayOptions>();
-        for (int i = 0; i < userList.size(); i++) {
+    private void setOptions(){
+        for (int i = 0; i < userList.size()-1; i++) {
             try {
-                OverlayOptions option = new MarkerOptions()
-                        .position(new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude()))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
-                Marker marker = (Marker) (mBaiduMap.addOverlay(option));
+                LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());
+                List<MyItem> items = new ArrayList<MyItem>();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("info", (User)userList.get(i));
-                marker.setExtraInfo(bundle);
-                options.add(option);
+                items.add(new MyItem(latLng,bundle));
+                mClusterManager.addItems(items);
+                Log.i("测试输出", "用户名"+latLng);
             } catch (NullPointerException e) {
                 Log.i("地图标记操作", "解析标记错误，用户userid：" + userList.get(i).getUserid());
                 e.printStackTrace();
                 continue;
             }
         }
-        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener()
-        {
+    }
 
-            @Override
-            public boolean onMapPoiClick(MapPoi arg0)
-            {
-                return false;
-            }
-
-            @Override
-            public void onMapClick(LatLng arg0)
-            {
-                mBaiduMap.hideInfoWindow();
-
-            }
-        });
-        //对Marker的点击
-        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener()
-        {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public boolean onMarkerClick(Marker marker)
-            {
-                //获得marker中的数据
-                final User user = (User)marker.getExtraInfo().get("info");
-
-                //生成一个TextView用户在地图中显示InfoWindow
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
-                TextView logname = (TextView) view.findViewById(R.id.user_logname);
-                logname.setText(user.getLogname());
-                LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
-                getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                        intent.putExtra("userinfo", user);
-                        startActivity(intent);
-                    }
-                });
-                //将marker所在的经纬度的信息转化成屏幕上的坐标
-                final LatLng ll = marker.getPosition();
-                Point p = mBaiduMap.getProjection().toScreenLocation(ll);
-                Log.e("测试", "--!" + p.x + " , " + p.y);
-                LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
-                InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
-                //显示InfoWindow
-                mBaiduMap.showInfoWindow(mInfoWindow);
-
-                return true;
-            }
-        });
-
+    /*private void setOptions() {
         /*
         //设定中心点坐标
         LatLng cenpt =  new LatLng(latitude, longitude);
@@ -218,14 +254,13 @@ public class MapFragment extends BaseFragment {
                 //要移动的点
                 .target(cenpt)
                 .build();
-
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
 
         //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
-        */
-    }
+        //mBaiduMap.setMapStatus(mMapStatusUpdate);
+     }*/
+
 
     /**
      * 用户定位
