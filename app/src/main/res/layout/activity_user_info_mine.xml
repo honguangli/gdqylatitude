@@ -63,16 +63,24 @@
 
             <TextView
                 android:id="@+id/personalinfo_tv_touxiang"
-                android:layout_width="match_parent"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="32dp"
-                android:layout_marginRight="290dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:text="头像"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/personalinfo_iv_touxiang"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_toRightOf="@+id/personalinfo_tv_touxiang"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/main_background"/>
 
 
         </RelativeLayout>
@@ -111,7 +119,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
                     android:hint="Tom"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
@@ -146,7 +155,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
                     android:background="@null"
                     android:hint="男"
                     android:textSize="16sp"
@@ -183,7 +193,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
                     android:background="@null"
                     android:hint="Tom"
                     android:textSize="16sp"
@@ -221,7 +232,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
                     android:background="@null"
                     android:hint="12345678910"
                     android:textSize="16sp"
@@ -258,7 +270,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text"
                     android:background="@null"
                     android:hint="123456789@qq.com"
                     android:textSize="16sp"

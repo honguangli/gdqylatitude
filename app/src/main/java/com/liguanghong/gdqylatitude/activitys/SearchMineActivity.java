@@ -117,7 +117,8 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
         Map<String, List<Friend>> map  = FriendsManager.getFriends();
         for (Map.Entry<String, List<Friend>> entry : map.entrySet()) {
             for(Friend friend : entry.getValue()){
-                if(friend.getFriend().getLogname().contains(edittext_search.getText().toString())){
+                if(friend.getFriend().getLogname().contains(edittext_search.getText().toString().trim())
+                        || (friend.getRemark() != null && friend.getRemark().contains(edittext_search.getText().toString().trim()))){
                     newList.add(friend);
                 }
             }

@@ -101,7 +101,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
 
         image_head.setImageResource(R.drawable.dynamic_background);
 
-        childText.setText(friend.getFriend().getLogname());
+        childText.setText(friend.getRemark() == null ? friend.getFriend().getLogname() : friend.getRemark());
         if(friend.getFriend().getStatu().equals(2)){
             state.setText("在线");
             img_state.setImageResource(R.drawable.state_light);

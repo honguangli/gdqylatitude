@@ -101,7 +101,7 @@
 
         <!-- 如果查看我的消息不显示备注 -->
         <LinearLayout
-            android:id="@+id/LinearLayout_remark"
+            android:id="@+id/lv_remark_and_set"
             android:layout_width="match_parent"
             android:layout_height="101dp"
             android:layout_below="@id/relativelayout_id"
@@ -175,7 +175,7 @@
             android:id="@+id/LinearLayout_synthesize"
             android:layout_width="match_parent"
             android:layout_height="173dp"
-            android:layout_below="@id/LinearLayout_remark"
+            android:layout_below="@id/lv_remark_and_set"
             android:layout_marginTop="20dp"
             android:background="@color/colorWhite"
             android:orientation="vertical">

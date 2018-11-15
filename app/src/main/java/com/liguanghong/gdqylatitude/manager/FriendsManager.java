@@ -228,6 +228,22 @@ public class FriendsManager {
     }
 
     /**
+     * 设置好友备注
+     * @param friendID
+     * @param friendRemark
+     */
+    public static void setFriendRemark(Integer friendID, String friendRemark){
+        for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
+            for(Friend friend : entry.getValue()){
+                if(friend.getFriendid().equals(friendID)){
+                    friend.setRemark(friendRemark);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
      * 提醒UI做改变
      */
     private static void notifyDataSetChanged(){

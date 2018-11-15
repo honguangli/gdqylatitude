@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,6 +57,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     private Button bt_information_send;                         //发消息
 
     private RelativeLayout rly_beizhu,rly_fenzu;
+    private LinearLayout lv_remark_and_set;
 
     private Friend friend;
 
@@ -67,6 +70,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private DialogFriendsSetAdapter dialogFriendsSetAdapter;
     private Handler userInfoHandler;
+    private boolean hide;
 
 
     @Override
@@ -86,7 +90,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         iv_information_icon = findViewById(R.id.iv_information_icon);
 
         tv_information_name = findViewById(R.id.tv_information_name);
-        //tv_information_id = findViewById(R.id.tv_information_id);
         tv_information_markname = findViewById(R.id.tv_information_markname);
         tv_information_groupname = findViewById(R.id.tv_information_groupname);
         tv_information_city = findViewById(R.id.tv_information_city);
@@ -96,6 +99,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
         rly_beizhu = findViewById(R.id.rly_beizhu);
         rly_fenzu = findViewById(R.id.rly_fenzu);
+        lv_remark_and_set = findViewById(R.id.lv_remark_and_set);
 
         backtrack_friend_info.setOnClickListener(this);
         menu.setOnClickListener(this);
@@ -111,36 +115,58 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         userInfoHandler = new Handler(){
             public void handleMessage(Message message){
                 switch (message.what){
-                    case 200:
+                    case 1://更改好友分组
                         tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()));
                         dialogFriendsSetAdapter.notifyDataSetChanged();
                         break;
-                    case 222:
+                    case 2://更改好友备注
+                        tv_information_markname.setText(FriendsManager.getFriendByID(friend.getFriendid()).getRemark() == null ? "还没备注？点我设置" : FriendsManager.getFriendByID(friend.getFriendid()).getRemark());
+                        break;
+                    case 3://添加好友
+                        bottomDialog.cancel();
+                        break;
+                    case 4://删除好友
                         bottomDialog.cancel();
                         finish();
                         break;
                 }
             }
         };
-        friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
-
-        tv_information_name.setText(friend.getFriend().getLogname());
-        //tv_information_id.setText(friend.getUserid()+"");
-        tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()));
-
-        dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getFriend().getUserid());
-        dialogFriendsSetAdapter.notifyDataSetChanged();
-
         bottomDialog = new Dialog(this, R.style.BottomDialog);
-
-        groupchangeView = LayoutInflater.from(this).inflate(R.layout.dialog_friends_set_change, null);
-        dialog_lv = groupchangeView.findViewById(R.id.dialog_lv);
-        dialog_lv.setAdapter(dialogFriendsSetAdapter);
-        dialog_lv.setOnItemClickListener(this);
 
         menuView = LayoutInflater.from(this).inflate(R.layout.dialog_friends_delete, null);
         tv_delete = menuView.findViewById(R.id.tv_delete);
         tv_delete.setOnClickListener(this);
+
+        hide = this.getIntent().getBooleanExtra("hide", false);
+        if(hide){
+            //陌生人
+            User user = (User)this.getIntent().getSerializableExtra("userinfo");
+            friend = new Friend();
+            friend.setFriendid(user.getUserid());
+            friend.setFriend(user);
+            lv_remark_and_set.setVisibility(View.GONE);
+            bt_information_send.setVisibility(View.GONE);
+            tv_delete.setText("添加为好友");
+        } else{
+            //好友
+            friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
+
+            tv_information_markname.setText(friend.getRemark() == null ? "还没备注？点我设置" : friend.getRemark());
+            tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()));
+
+            dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getFriend().getUserid());
+            dialogFriendsSetAdapter.notifyDataSetChanged();
+
+            groupchangeView = LayoutInflater.from(this).inflate(R.layout.dialog_friends_set_change, null);
+            dialog_lv = groupchangeView.findViewById(R.id.dialog_lv);
+            dialog_lv.setAdapter(dialogFriendsSetAdapter);
+            dialog_lv.setOnItemClickListener(this);
+        }
+
+        tv_information_name.setText(friend.getFriend().getLogname());
+
+
 
     }
 
@@ -172,12 +198,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
             case R.id.tv_delete:
                 //删除好友
-                deleteFriend();
+                if(hide){
+                    addFriend();
+                } else{
+                    deleteFriend();
+                }
                 break;
 
         }
     }
 
+    //更改好友分组/删除好友/添加好友窗口
     private void show(View contentView, boolean setHeight) {
         //获取屏幕宽高
         Display display = getWindowManager().getDefaultDisplay();
@@ -206,7 +237,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void showRemark() {
+    //更改好友备注窗口
+    private void showRemark() {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_friends_set_remark,null,false);
         final AlertDialog alertdialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -214,11 +246,16 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 .show();
         TextView surebutton = view.findViewById(R.id.sure);
         TextView cancelbutton = view.findViewById(R.id.cancel);
+        final EditText et_content = view.findViewById(R.id.et_content);
 
         surebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String remark = et_content.getText().toString().trim();
+                if(remark != null){
+                    changeFriendRemark(remark);
+                    alertdialog.cancel();
+                }
             }
         });
         cancelbutton.setOnClickListener(new View.OnClickListener() {
@@ -259,11 +296,82 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             FriendsManager.changeFriendsSet(friend.getFriendid(), fromSetName, toSetName);
-                            userInfoHandler.sendEmptyMessage(200);
+                            userInfoHandler.sendEmptyMessage(1);
                         } else{
 
                         }
                         Log.i("更改好友分组操作",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 更改好友备注操作
+     */
+    private void changeFriendRemark(final String remark){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("targetid", friend.getFriendid() + "")
+                .add("remark", remark)
+                .build();
+        HttpUtil.postEnqueue("user/changefriendremark", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("好友管理", "更改好友备注失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            FriendsManager.setFriendRemark(friend.getFriendid(), remark);
+                            userInfoHandler.sendEmptyMessage(2);
+                        } else{
+
+                        }
+                        Log.i("好友管理",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加好友操作
+     */
+    private void addFriend(){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("targetuserid", friend.getFriendid() + "")
+                .build();
+        HttpUtil.postEnqueue("user/addfriend", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("好友管理", "添加好友失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            FriendsManager.addFriend(friend);
+                            userInfoHandler.sendEmptyMessage(3);
+                        } else{
+
+                        }
+                        Log.i("好友管理",  result.isSuccess() + "," + result.getMessage());
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -294,7 +402,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             FriendsManager.deleteFriend(friend.getFriendid());
-                            userInfoHandler.sendEmptyMessage(222);
+                            userInfoHandler.sendEmptyMessage(4);
                         } else{
 
                         }

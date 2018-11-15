@@ -157,7 +157,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         int id = view.getId();
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
-                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                Intent intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra("userinfo", friend);
                 startActivity(intent);
                 break;
