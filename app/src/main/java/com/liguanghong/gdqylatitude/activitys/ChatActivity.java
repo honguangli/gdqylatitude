@@ -136,7 +136,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         };
 
         friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
-        tv_friendName.setText(friend.getFriend().getLogname());
+        String remark = friend.getRemark();
+        if(remark == null)
+            tv_friendName.setText(friend.getFriend().getLogname());
+        else
+            tv_friendName.setText(friend.getRemark() + " (" + friend.getFriend().getLogname() + ")");
+
         if(friend.getFriend().getStatu().equals(2)){
             tv_friendState.setText("在线");
         }else{
