@@ -9,30 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
-
-import java.util.ArrayList;
+import com.liguanghong.gdqylatitude.manager.GroupManager;
 
 public class GroupAdapter extends BaseAdapter {
-    private ArrayList<String> list;
+
     Context context;
 
-    public ImageView img_chat_head;
-    public TextView chat_name;
-
-    public static String name;
-
-    public GroupAdapter(Context context,ArrayList<String> list){
+    public GroupAdapter(Context context){
         this.context = context;
-        this.list = list;
     }
     @Override
     public int getCount() {
-        return list.size();
+        return GroupManager.getGroupchatList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return GroupManager.getGroupchatList().get(i);
     }
 
     @Override
@@ -42,14 +35,12 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         View v = LayoutInflater.from(context).inflate(R.layout.item_group,null);
-        img_chat_head = v.findViewById(R.id.group_head);
-        chat_name = v.findViewById(R.id.group_name);
 
-
-        name = chat_name.toString();
-
-
+        ImageView img_chat_head = v.findViewById(R.id.group_head);
+        TextView chat_name = v.findViewById(R.id.group_name);
+        chat_name.setText(GroupManager.getGroupchatList().get(i).getGroupname());
 
         return v;
     }

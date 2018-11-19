@@ -28,6 +28,7 @@ import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
+import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
@@ -337,6 +338,41 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
                         }
                         Log.i("好友管理",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 好友申请
+     */
+    private void friendNotice(){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("noticetype", MessageType.FRIENDAPPLY + "")
+                .add("senderid", UserManager.getAppUser().getUserid() + "")
+                .add("receiverid", friend.getFriendid() + "")
+                .build();
+        HttpUtil.postEnqueue("notice/createnotice", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("通知管理", "发送好友申请失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+
+                        } else{
+
+                        }
+                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
                     } catch (Exception e){
                         e.printStackTrace();
                     }

@@ -44,6 +44,8 @@ import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.Cluster;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterItem;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterManager;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -113,7 +115,7 @@ public class MapFragment extends BaseFragment {
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mMapView.getWidth(),mMapView.getHeight());
                 mBaidumap.animateMapStatus(u);*/
 
-                Toast.makeText(getContext(),"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+cluster.getSize(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+cluster.getSize(), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -130,7 +132,17 @@ public class MapFragment extends BaseFragment {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                                intent.putExtra("userinfo", user);
+                                Friend friend = FriendsManager.getFriendByID(user.getUserid());
+                                if(friend != null){
+                                    //好友
+                                    intent.putExtra("userinfo", friend);
+                                    intent.putExtra("hide", false);
+                                } else {
+                                    //非好友
+                                    intent.putExtra("userinfo", user);
+                                    intent.putExtra("hide", true);
+                                }
+
                                 startActivity(intent);
                             }
                         });

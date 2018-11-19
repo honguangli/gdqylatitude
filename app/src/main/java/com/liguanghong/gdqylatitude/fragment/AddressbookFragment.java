@@ -114,7 +114,7 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
             }
         };
 
-        //网络访问获取用户信息
+        //网络访问获取通讯录好友列表
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getAppUser().getUserid()+"")
                 .build();

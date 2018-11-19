@@ -1,13 +1,29 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.GroupManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.JsonResult;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class GroupCreateActivity extends BaseActivity implements View.OnClickListener {
@@ -53,7 +69,10 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.btn_submit:               //确认创建
-
+                String groupName = ed_chatname.getText().toString();
+                if(groupName != null && !groupName.trim().equals("")){
+                    createGroup(groupName.trim());
+                }
                 break;
 
             case R.id.backtrack:
@@ -62,4 +81,35 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
+
+    private void createGroup(String groupName){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .add("groupname", groupName)
+                .build();
+        HttpUtil.postEnqueue("group/creategroup", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("群聊管理", "失败了");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+
+                        } else{
+
+                        }
+                        Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 }
