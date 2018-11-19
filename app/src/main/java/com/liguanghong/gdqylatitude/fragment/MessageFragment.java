@@ -14,8 +14,14 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
+import com.liguanghong.gdqylatitude.manager.GroupManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
+
+import java.util.List;
 
 public class MessageFragment extends BaseFragment {
 
@@ -50,11 +56,20 @@ public class MessageFragment extends BaseFragment {
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Friend friend = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
-                //activity跳转操作，注意：启动ChatActivity时必须传User对象
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("userinfo", friend);
-                startActivity(intent);
+                List<ChatMsg> list = (List<ChatMsg>)messageAdapter.getItem(i);
+                if(list.get(0).getIssingle()){
+                    Friend friend = FriendsManager.getFriendByID(Long.valueOf(l).intValue());
+                    //activity跳转操作，注意：启动ChatActivity时必须传User对象
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("userinfo", friend);
+                    startActivity(intent);
+                } else{
+                    Groupchat groupchat = GroupManager.getGroupByID(list.get(0).getReceiverid());
+                    //activity跳转操作，注意：启动ChatActivity时必须传User对象
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("groupinfo", groupchat);
+                    startActivity(intent);
+                }
             }
         });
         messageAdapter.notifyDataSetChanged();

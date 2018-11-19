@@ -28,6 +28,7 @@ import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.R;
@@ -62,7 +63,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private ChatAdapter chatAdapter;
     private static Handler chatHandler;
 
-    private Friend friend;                                   //好友ID
+    private Friend friend;                                   //好友
+    private Groupchat groupchat;                            //群聊
+    private boolean isSingle = true;                       //私聊
 
     private boolean isExpanded = true;                  //判断底部弹出栏的状态
     private ViewGroup.LayoutParams pp;                     //用于改变信息发送栏的位置
@@ -136,18 +139,30 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         };
 
         friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
-        String remark = friend.getRemark();
-        if(remark == null)
-            tv_friendName.setText(friend.getFriend().getLogname());
-        else
-            tv_friendName.setText(friend.getRemark() + " (" + friend.getFriend().getLogname() + ")");
+        if(friend != null){
+            //私聊
+            String remark = friend.getRemark();
+            if(remark == null)
+                tv_friendName.setText(friend.getFriend().getLogname());
+            else
+                tv_friendName.setText(friend.getRemark() + " (" + friend.getFriend().getLogname() + ")");
 
-        if(friend.getFriend().getStatu().equals(2)){
-            tv_friendState.setText("在线");
-        }else{
-            tv_friendState.setText("离线");
+            if(friend.getFriend().getStatu().equals(2)){
+                tv_friendState.setText("在线");
+            }else{
+                tv_friendState.setText("离线");
+            }
+            chatAdapter = new ChatAdapter(this, friend.getFriend().getUserid(), isSingle);
+        } else{
+            //群聊
+            isSingle = false;
+            groupchat = (Groupchat)this.getIntent().getSerializableExtra("groupinfo");
+            tv_friendName.setText(groupchat.getGroupname());
+            tv_friendState.setText(groupchat.getGroupnum()+"人");
+            chatAdapter = new ChatAdapter(this, groupchat.getGroupid(), isSingle);
         }
-        chatAdapter = new ChatAdapter(this, friend.getFriend().getUserid());
+
+
         message_listView.setAdapter(chatAdapter);
         message_listView.setSelection(chatAdapter.getCount() > 0 ? chatAdapter.getCount() - 1 : 0);
         chatAdapter.notifyDataSetChanged();
@@ -162,9 +177,15 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         int id = view.getId();
         switch (id){
             case R.id.tv_data:                          //跳转到好友详情界面
-                Intent intent = new Intent(this, UserInfoActivity.class);
-                intent.putExtra("userinfo", friend);
-                startActivity(intent);
+                if(!isSingle){
+                    Intent intent = new Intent(this, GroupInfoActivity.class);
+                    intent.putExtra("groupinfo", groupchat);
+                    startActivity(intent);
+                } else{
+                    Intent intent = new Intent(this, UserInfoActivity.class);
+                    intent.putExtra("userinfo", friend);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.tv_send:                          //发送文本消息
@@ -249,8 +270,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private void sendText(String text){
         ChatMsg chatMsg = new ChatMsg();
         chatMsg.setSenderid(UserManager.getAppUser().getUserid());
-        chatMsg.setReceiverid(friend.getFriend().getUserid());
-        chatMsg.setIssingle(true);
+        if(!isSingle)
+            chatMsg.setReceiverid(groupchat.getGroupid());
+        else
+            chatMsg.setReceiverid(friend.getFriend().getUserid());
+        chatMsg.setIssingle(isSingle);
         chatMsg.setType(MessageType.TEXT);
         chatMsg.setData(text.getBytes(Charset.forName("UTF-8")));
         WebSocketManager.sendMsg(chatMsg);
@@ -264,8 +288,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private void sendImg(String photoString){
         ChatMsg chatMsg = new ChatMsg();
         chatMsg.setSenderid(UserManager.getAppUser().getUserid());
-        chatMsg.setReceiverid(friend.getFriend().getUserid());
-        chatMsg.setIssingle(true);
+        if(!isSingle)
+            chatMsg.setReceiverid(groupchat.getGroupid());
+        else
+            chatMsg.setReceiverid(friend.getFriend().getUserid());
+        chatMsg.setIssingle(isSingle);
         chatMsg.setType(MessageType.IMAGE);
         chatMsg.setData(photoString.getBytes(Charset.forName("UTF-8")));
         WebSocketManager.sendMsg(chatMsg);

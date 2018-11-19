@@ -5,11 +5,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.SDKInitializer;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FragmentAdapter;
@@ -19,9 +22,21 @@ import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.fragment.MineFragment;
+import com.liguanghong.gdqylatitude.manager.GroupManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.JsonResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -98,6 +113,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         };
 
+        getData();
+
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new MapFragment());
         fragments.add(new MessageFragment());
@@ -168,6 +185,35 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     public static Handler getHomeHandler(){
         return homeHandler;
+    }
+
+    private void getData(){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .build();
+        HttpUtil.postEnqueue("group/fingmygroup", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("群聊管理", "失败了");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            GroupManager.setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
+                        } else{
+
+                        }
+                        Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
     }
 
 }

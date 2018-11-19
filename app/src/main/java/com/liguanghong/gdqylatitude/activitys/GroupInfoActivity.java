@@ -2,8 +2,8 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 
 public class GroupInfoActivity extends BaseActivity implements View.OnClickListener {
@@ -31,8 +32,9 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
     private TextView tv_share;
     private TextView tv_delete;
     private TextView tv_cancel;
-    Dialog bottomDialog;
+    private Dialog bottomDialog;
 
+    private Groupchat groupchat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +48,14 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        backtrack = (ImageView)findViewById(R.id.backtrack);
-        menu = (ImageView)findViewById(R.id.menu);
-        group_name = (TextView)findViewById(R.id.group_name);
-        group_id = (TextView)findViewById(R.id.group_name);
-        group_messges = (TextView)findViewById(R.id.group_name);
+        backtrack = findViewById(R.id.backtrack);
+        menu = findViewById(R.id.menu);
+        group_name = findViewById(R.id.group_name);
+        group_id = findViewById(R.id.group_name);
+        group_messges = findViewById(R.id.group_name);
         //invite = (TextView)findViewById(R.id.group_name);
-        rly_group_all = (RelativeLayout)findViewById(R.id.rly_group_all);
-        rly_manage = (RelativeLayout)findViewById(R.id.rly_manage);
+        rly_group_all = findViewById(R.id.rly_group_all);
+        rly_manage = findViewById(R.id.rly_manage);
 
         backtrack.setOnClickListener(this);
         menu.setOnClickListener(this);
@@ -64,7 +66,9 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-
+        groupchat = (Groupchat)this.getIntent().getSerializableExtra("groupinfo");
+        group_name.setText(groupchat.getGroupname());
+        group_messges.setText(groupchat.getAnnouncement());
     }
 
     @Override

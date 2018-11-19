@@ -1,12 +1,15 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
@@ -32,6 +35,7 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     private RelativeLayout rly_add_newgroup;
     private EditText ed_chatname;
     private Button btn_submit;
+    private Handler groupCreateHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,18 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-
+        groupCreateHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 200:
+                        finish();
+                        break;
+                    case 400:
+                        tip(message.obj.toString());
+                        break;
+                }
+            }
+        };
     }
 
     @Override
@@ -90,7 +105,11 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
         HttpUtil.postEnqueue("group/creategroup", requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i("群聊管理", "失败了");
+                Message message = new Message();
+                message.what = 400;
+                message.obj = "连接不上服务器，群聊创建失败";
+                groupCreateHandler.sendMessage(message);
+                Log.i("群聊管理", "群聊创建失败");
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -98,9 +117,12 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-
+                            groupCreateHandler.sendEmptyMessage(200);
                         } else{
-
+                            Message message = new Message();
+                            message.what = 400;
+                            message.obj = result.getMessage();
+                            groupCreateHandler.sendMessage(message);
                         }
                         Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
                     }catch (Exception e){
@@ -110,6 +132,10 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+    }
+
+    private void tip(String tips){
+        Toast.makeText(this, tips, Toast.LENGTH_SHORT);
     }
 
 }

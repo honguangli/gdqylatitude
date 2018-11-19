@@ -30,19 +30,21 @@ public class ChatAdapter extends BaseAdapter {
 
     private Context context;
     private Integer friendID;
+    private boolean isSingle;
 
-    public ChatAdapter(Context context, Integer friendID){
+    public ChatAdapter(Context context, Integer friendID, boolean isSingle){
         this.context = context;
         this.friendID = friendID;
+        this.isSingle = isSingle;
     }
     @Override
     public int getCount() {
-        return ConversationManager.getMsgList(friendID).size();
+        return ConversationManager.getMsgList(friendID, isSingle).size();
     }
 
     @Override
     public Object getItem(int i) {
-        return ConversationManager.getMsgList(friendID).get(i);
+        return ConversationManager.getMsgList(friendID, isSingle).get(i);
     }
 
     @Override

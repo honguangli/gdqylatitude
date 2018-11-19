@@ -73,42 +73,42 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         };
-        getData();
+//      getData();
         groupAdapter = new GroupAdapter(getApplicationContext());
         lv_chat.setAdapter(groupAdapter);
         groupAdapter.notifyDataSetChanged();
     }
 
-    private void getData(){
-        //网络访问获取用户信息
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid()+"")
-                .build();
-        HttpUtil.postEnqueue("group/fingmygroup", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("群聊管理", "失败了");
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        if(result.isSuccess()){
-                            GroupManager.setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
-                            groupHandler.sendEmptyMessage(200);
-                        } else{
-
-                        }
-                        Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-    }
+//    private void getData(){
+//        //网络访问获取用户信息
+//        RequestBody requestBody = new FormBody.Builder()
+//                .add("userid", UserManager.getAppUser().getUserid()+"")
+//                .build();
+//        HttpUtil.postEnqueue("group/fingmygroup", requestBody, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.i("群聊管理", "失败了");
+//            }
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if(response.isSuccessful()){
+//                    try {
+//                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+//                        if(result.isSuccess()){
+//                            GroupManager.setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
+//                            groupHandler.sendEmptyMessage(200);
+//                        } else{
+//
+//                        }
+//                        Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View view) {
@@ -134,7 +134,9 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         //启动群聊界面
-        startActivity(new Intent(getApplicationContext(),ChatActivity.class));
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("groupinfo", (Groupchat)groupAdapter.getItem(i));
+        startActivity(intent);
     }
 }
 

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.GroupManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
@@ -27,7 +28,7 @@ public class MessageAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return ConversationManager.getMsgMap().size();
+        return ConversationManager.getAllMsgMap().size();
     }
 
     @Override
@@ -57,7 +58,7 @@ public class MessageAdapter extends BaseAdapter {
             ChatMsg chatMsg = list.get(list.size() - 1);
             if(!chatMsg.getIssingle()){
                 //群聊
-
+                tv_nickname.setText(GroupManager.getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
                 if(chatMsg.getSenderid().equals(UserManager.getAppUser().getUserid())){

@@ -105,6 +105,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     private void commitInfo(final String logname, String sex, String username, String phone, String email,String headportrait){
 
         RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid() + "")
                 .add("logname",logname)
                 .add("sex", sex)
                 .add("username",username)

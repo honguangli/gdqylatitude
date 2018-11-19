@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.unity;
 
-public class Groupchat {
+import java.io.Serializable;
+
+public class Groupchat implements Serializable {
     private Integer groupid;
 
     private Integer ownerid;

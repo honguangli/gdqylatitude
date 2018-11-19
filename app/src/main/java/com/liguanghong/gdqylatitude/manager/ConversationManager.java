@@ -5,6 +5,7 @@ import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +16,28 @@ import java.util.Map;
 public class ConversationManager {
 
     private static Map<Integer, List<ChatMsg>> msgMap = new LinkedHashMap<>();
+    private static Map<Integer, List<ChatMsg>> groupMsgMap = new LinkedHashMap<>();
 
     /**
      * 获取所有会话列表
      * @return
      */
+    public static Map<Integer, List<ChatMsg>> getAllMsgMap(){
+        Map<Integer, List<ChatMsg>> list = new LinkedHashMap<>();
+        list.putAll(msgMap);
+        list.putAll(groupMsgMap);
+        return list;
+    }
+
     public static Map<Integer, List<ChatMsg>> getMsgMap(){
         return msgMap;
+    }
+
+    public static Map<Integer, List<ChatMsg>> getMsgMap(boolean isSingle){
+        if(isSingle)
+            return getMsgMap();
+        else
+            return groupMsgMap;
     }
 
     /**
@@ -29,24 +45,24 @@ public class ConversationManager {
      * @param userid
      * @return
      */
-    public static List<ChatMsg> getMsgList(Integer userid){
-        if(msgMap.get(userid) == null)
+    public static List<ChatMsg> getMsgList(Integer userid, boolean isSingle){
+        if(getMsgMap(isSingle).get(userid) == null)
             return new ArrayList<>();
-        return msgMap.get(userid);
+        return getMsgMap(isSingle).get(userid);
     }
 
     /**
      * 接收消息
      */
     public static void receiveMsg(ChatMsg chatMsg){
-        if(msgMap.get(chatMsg.getSenderid()) != null){
+        if(getMsgMap(chatMsg.getIssingle()).get(chatMsg.getSenderid()) != null){
             //已经有会话记录
-            msgMap.get(chatMsg.getSenderid()).add(chatMsg);
+            getMsgMap(chatMsg.getIssingle()).get(chatMsg.getSenderid()).add(chatMsg);
         } else{
             //还没有会话记录
             List<ChatMsg> list = new ArrayList<>();
             list.add(chatMsg);
-            msgMap.put(chatMsg.getSenderid(), list);
+            getMsgMap(chatMsg.getIssingle()).put(chatMsg.getSenderid(), list);
         }
         notifyDataSetChanged();
     }
@@ -55,14 +71,15 @@ public class ConversationManager {
      * 发送消息
      */
     public static void sendMsg(ChatMsg chatMsg){
-        if(msgMap.get(chatMsg.getReceiverid()) != null){
+        chatMsg.setSendtime(new Date());
+        if(getMsgMap(chatMsg.getIssingle()).get(chatMsg.getReceiverid()) != null){
             //已经有会话记录
-            msgMap.get(chatMsg.getReceiverid()).add(chatMsg);
+            getMsgMap(chatMsg.getIssingle()).get(chatMsg.getReceiverid()).add(chatMsg);
         } else{
             //还没有会话记录
             List<ChatMsg> list = new ArrayList<>();
             list.add(chatMsg);
-            msgMap.put(chatMsg.getReceiverid(), list);
+            getMsgMap(chatMsg.getIssingle()).put(chatMsg.getReceiverid(), list);
         }
         notifyDataSetChanged();
     }
@@ -74,7 +91,7 @@ public class ConversationManager {
      */
     public static List<ChatMsg> getMsgListByIndex(int index){
         int i = 0;
-        for (Map.Entry<Integer, List<ChatMsg>> entry : ConversationManager.getMsgMap().entrySet()) {
+        for (Map.Entry<Integer, List<ChatMsg>> entry : ConversationManager.getAllMsgMap().entrySet()) {
             if(i == index){
                 return entry.getValue();
             }
@@ -85,7 +102,7 @@ public class ConversationManager {
 
     public static Integer getMsgKeyByIndex(int index){
         int i = 0;
-        for (Map.Entry<Integer, List<ChatMsg>> entry : ConversationManager.getMsgMap().entrySet()) {
+        for (Map.Entry<Integer, List<ChatMsg>> entry : ConversationManager.getAllMsgMap().entrySet()) {
             if(i == index){
                 return entry.getKey();
             }
