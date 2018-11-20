@@ -14,14 +14,12 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--读外部存储的权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 读外部存储的权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-
 
     <application
         android:allowBackup="true"
@@ -37,8 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.ChatActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".activitys.ChatActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activitys.DynamicFriendsActivity" />
         <activity android:name=".activitys.DynamicMineActivity" />
         <activity android:name=".activitys.DynamicPublicActivity" />
@@ -63,10 +62,11 @@
         <activity android:name=".activitys.SettingActivity" />
         <activity android:name=".activitys.SignInActivity" />
         <activity android:name=".activitys.SignUpActivity" />
-        <activity android:name=".activitys.SelectPhotoActivity"/>
+        <activity android:name=".activitys.SelectPhotoActivity" />
+        <activity android:name=".activitys.SendLocationActivity"/>
         <activity android:name=".activitys.UserInfoActivity" />
         <activity android:name=".activitys.UserInfoMineActivity" />
-        <activity android:name=".activitys.PermissionsActivity"></activity>
+        <activity android:name=".activitys.PermissionsActivity" />
 
         <!-- 百度地图key配置 -->
         <meta-data

@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.SendLocationActivity;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
@@ -32,10 +35,17 @@ public class ChatAdapter extends BaseAdapter {
     private Integer friendID;
     private boolean isSingle;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+
     public ChatAdapter(Context context, Integer friendID, boolean isSingle){
         this.context = context;
         this.friendID = friendID;
         this.isSingle = isSingle;
+
+        sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
     }
     @Override
     public int getCount() {
@@ -75,7 +85,29 @@ public class ChatAdapter extends BaseAdapter {
                 String str = new String(chatMsg.getData());
                 byte[] bytes = Base64.decode(str, Base64.DEFAULT);
                 imgV.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }else if(chatMsg.getType().equals(MessageType.LOCATION)){
+                //位置消息
+                ImageView imgV = v.findViewById(R.id.right_img);
+                imgV.setVisibility(View.VISIBLE);
+                String str = new String(chatMsg.getData());
+                byte[] bytes = Base64.decode(str, Base64.DEFAULT);
+                imgV.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+
+                //点击位置截图进入地图，查看对方和自己的位置
+                imgV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SendLocationActivity.locationtype = true;
+                        editor.putBoolean("locationtype",SendLocationActivity.locationtype);
+                        System.out.println("222222222222"+SendLocationActivity.locationtype);
+                        editor.commit();
+                        Intent location = new Intent(context,SendLocationActivity.class);
+                        context.startActivity(location);
+                    }
+                });
+
             }
+
 
         } else{
             //对方发的消息

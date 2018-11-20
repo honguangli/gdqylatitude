@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.SendLocationActivity">
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft_gray"/>
+
+
+        <!-- 菜单 -->
+        <TextView
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="发送"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"/>
+
+
+    </RelativeLayout>
+
+    <!-- 界面主要内容容器 -->
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_above="@id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.baidu.mapapi.map.MapView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

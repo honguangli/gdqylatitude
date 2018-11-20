@@ -74,6 +74,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private TranslateAnimation mShowAction;             //补间动画，用于底部弹出栏
 
     private final int CAMERA_REQUEST = 1;
+    byte[] res;  //将bitmap转化的byte数组
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +222,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.hint_tv_location:             //获取位置信息
-
+                Intent location=new Intent(ChatActivity.this,SendLocationActivity.class);
+                startActivityForResult(location,15);
                 break;
 
             case R.id.backtrack:            //返回通讯录
@@ -260,6 +262,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         } else if (requestCode == 10 && resultCode == 20) {
             String photo = (String) data.getExtras().get("photo");
             sendImg(ImageUtils.filePathToString(photo));
+        }else if (requestCode == 15 && resultCode == 25) {
+            res = data.getByteArrayExtra("bitmap");
+            sendLocation(ImageUtils.bitmapToString(getPicFromBytes(res,null)));
         }
     }
 
@@ -299,4 +304,29 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         ConversationManager.sendMsg(chatMsg);
     }
 
+    /**
+     * 发送定位消息
+     * @param locaphotoString
+     */
+    private void sendLocation(String locaphotoString){
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setReceiverid(friend.getFriend().getUserid());
+        chatMsg.setIssingle(true);
+        chatMsg.setType(MessageType.LOCATION);
+        chatMsg.setData(locaphotoString.getBytes(Charset.forName("UTF-8")));
+        WebSocketManager.sendMsg(chatMsg);
+        ConversationManager.sendMsg(chatMsg);
+    }
+
+    //下面的这个方法是将byte数组转化为Bitmap对象的一个方法
+    public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {
+        if (bytes != null)
+            if (opts != null)
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
+            else
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+        return null;
+    }
 }

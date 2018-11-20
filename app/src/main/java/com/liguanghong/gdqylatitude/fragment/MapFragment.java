@@ -71,8 +71,8 @@ public class MapFragment extends BaseFragment {
     private List<OverlayOptions> options;
     public LocationClient mLocationClient;
     public BDAbstractLocationListener myListener = new MyLocationListener();
-    private double latitude;
-    private double longitude;
+    public static double latitude;
+    public static double longitude;
     private boolean isZoomTo = true;
 
     @Override
