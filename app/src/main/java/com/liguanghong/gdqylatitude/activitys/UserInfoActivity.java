@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
@@ -125,6 +126,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         break;
                     case 3://添加好友
                         bottomDialog.cancel();
+                        tips("已发送申请");
                         break;
                     case 4://删除好友
                         bottomDialog.cancel();
@@ -200,13 +202,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_delete:
                 //删除好友
                 if(hide){
-                    addFriend();
+                    friendNotice();
                 } else{
                     deleteFriend();
                 }
                 break;
 
         }
+    }
+
+    private void tips(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT);
     }
 
     //更改好友分组/删除好友/添加好友窗口
@@ -355,6 +361,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 .add("noticetype", MessageType.FRIENDAPPLY + "")
                 .add("senderid", UserManager.getAppUser().getUserid() + "")
                 .add("receiverid", friend.getFriendid() + "")
+                .add("status", 1+"")
                 .build();
         HttpUtil.postEnqueue("notice/createnotice", requestBody, new Callback() {
             @Override
@@ -368,7 +375,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-
+                            userInfoHandler.sendEmptyMessage(3);
                         } else{
 
                         }

@@ -71,7 +71,7 @@
         <!-- 百度地图key配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="MTx8n5niZvhXsgwAk7pjydWjGdf0p4Bw" />
+            android:value="SYbRz6nZffTBMfwFgRwTaoqIa2FqTyG7" />
 
         <!-- 百度地图定位服务 -->
         <service
