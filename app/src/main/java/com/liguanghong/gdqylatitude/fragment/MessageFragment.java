@@ -30,8 +30,7 @@ public class MessageFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -48,10 +47,22 @@ public class MessageFragment extends BaseFragment {
     }
     //初始化数据
     @Override
-    protected void initData()
-    {
+    protected void initData() {
+
+        messageHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 222:
+                        if(messageAdapter != null)
+                            messageAdapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        };
+
         messageAdapter = new MessageAdapter(getContext());
         lv_message.setAdapter(messageAdapter);
+        
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -71,17 +82,6 @@ public class MessageFragment extends BaseFragment {
                 }
             }
         });
-
-        messageHandler = new Handler(){
-          public void handleMessage(Message message){
-              switch (message.what){
-                  case 222:
-                      if(messageAdapter != null)
-                          messageAdapter.notifyDataSetChanged();
-                      break;
-              }
-          }
-        };
 
     }
 

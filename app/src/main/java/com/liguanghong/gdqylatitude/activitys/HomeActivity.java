@@ -112,6 +112,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             public void handleMessage(Message message){
                 switch (message.what){
                     case 200:
+                        //显示
                         viewPager.setAdapter(fragmentAdapter);
                         break;
                     case 222:
@@ -203,8 +204,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         return homeHandler;
     }
 
+    /**
+     * 获取群组列表
+     */
     private void getMyGroups(){
-        //网络访问获取群组列表
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getAppUser().getUserid()+"")
                 .build();
@@ -234,8 +237,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    /**
+     * 获取好友列表
+     */
     private void getMyFriends(){
-        //网络访问获取通讯录好友列表
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getAppUser().getUserid()+"")
                 .build();

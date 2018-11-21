@@ -2,7 +2,6 @@ package com.liguanghong.gdqylatitude.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ListView;
 
 public class NoScrollListview extends ListView {

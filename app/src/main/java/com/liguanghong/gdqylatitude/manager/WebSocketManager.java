@@ -52,11 +52,13 @@ public class WebSocketManager {
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
                     Log.i("websocket", "close:code-" + code +"|reason-" + reason);
+                    client = null;
                 }
 
                 @Override
                 public void onError(Exception ex) {
                     Log.i("websocket", "error");
+                    client = null;
                     ex.printStackTrace();
                 }
             };
@@ -78,7 +80,7 @@ public class WebSocketManager {
      * 关闭websocket
      */
     public static void close(){
-        if(!client.isClosed()){
+        if(client != null && !client.isClosed()){
             client.close();
         }
     }

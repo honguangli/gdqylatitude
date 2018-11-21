@@ -1,7 +1,6 @@
 package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ZoomControls;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -31,7 +29,6 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
@@ -47,7 +44,6 @@ import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +61,6 @@ public class MapFragment extends BaseFragment {
     private ClusterManager<MyItem> mClusterManager;
 
     private List<User> userList;
-    private List<OverlayOptions> options;
     public LocationClient mLocationClient;
     public BDAbstractLocationListener myListener = new MyLocationListener();
     public static double latitude;
@@ -90,10 +85,6 @@ public class MapFragment extends BaseFragment {
         mBaiduMap = mMapView.getMap();
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
 
-        //ms = new MapStatus.Builder().target(new LatLng(39.914935, 116.403119)).zoom(8).build();
-       // ms = new MapStatus.Builder().zoom(4).build();
-      //  mBaiduMap.setOnMapLoadedCallback((BaiduMap.OnMapLoadedCallback) this);
-        //mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(ms));
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
         mBaiduMap.setOnMarkerClickListener(mClusterManager);
@@ -109,8 +100,6 @@ public class MapFragment extends BaseFragment {
                     for(MyItem myItem : items){
                         final User user = (User)myItem.getExtraInfo().get("info");
                         list.add(user);
-                        //Log.i("测试输出", "用户名"+user.getLogname());
-                        //Log.i("测试输出", "地标"+myItem.getPosition());
                     }
                     logname.setText(list.get(0).getLogname()+" 等"+cluster.getSize()+"位用户");
                     LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
@@ -142,7 +131,7 @@ public class MapFragment extends BaseFragment {
                 final User user = (User)item.getExtraInfo().get("info");
                     try {
                         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
-                        TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                        TextView logname = view.findViewById(R.id.user_logname);
                         logname.setText(user.getLogname());
                         LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
                         getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
@@ -420,8 +409,8 @@ public class MapFragment extends BaseFragment {
             // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
+                    .direction(location.getDirection())
+                    .latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
 
             // 设置定位数据
