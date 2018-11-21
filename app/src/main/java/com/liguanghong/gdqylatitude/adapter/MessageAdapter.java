@@ -14,6 +14,7 @@ import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.unity.MessageType;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -69,10 +70,14 @@ public class MessageAdapter extends BaseAdapter {
                     tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
                 }
             }
-            tv_message.setText(new String(chatMsg.getData(), "utf-8"));
+            if(chatMsg.getType().equals(MessageType.TEXT))
+                tv_message.setText(new String(chatMsg.getData(), "utf-8"));
+            else if(chatMsg.getType().equals(MessageType.IMAGE))
+                tv_message.setText("[图片]");
             SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd HH:mm");
             tv_time.setText(dateformat.format(chatMsg.getSendtime()));
-            tv_message_number.setText(list.size() + "");
+            //tv_message_number.setText(list.size() + "");
+            tv_message_number.setVisibility(View.GONE);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (Exception e){

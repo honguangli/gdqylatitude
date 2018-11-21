@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.FriendsSetManageActivity;
 import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
@@ -29,22 +27,8 @@ import com.liguanghong.gdqylatitude.activitys.SearchMineActivity;
 import com.liguanghong.gdqylatitude.adapter.AddressbookAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.unity.Friend;
-import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
-import com.liguanghong.gdqylatitude.util.HttpUtil;
-import com.liguanghong.gdqylatitude.util.JsonResult;
-import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.view.QPopuWindow;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class AddressbookFragment extends BaseFragment implements View.OnClickListener, ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
 
@@ -114,30 +98,6 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
             }
         };
 
-        //网络访问获取通讯录好友列表
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid()+"")
-                .build();
-        HttpUtil.postEnqueue("user/findfriends", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("通讯录", "失败了");
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        Map<String, List<Friend>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<Friend>>>() {});
-                        FriendsManager.setFriends(friends);
-                        addressbookHandler.sendEmptyMessage(200);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
     @Override
@@ -160,6 +120,10 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
                 startActivity(new Intent(getActivity(), GroupActivity.class));
                 break;
         }
+    }
+
+    public static Handler getAddressbookHandler(){
+        return addressbookHandler;
     }
 
     @Override
@@ -195,119 +159,5 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         }
         return true;           //默认为false，设为true时，长按/点击事件不会展开Group
     }
-
-    public static Handler getAddressbookHandler(){
-        return addressbookHandler;
-    }
-
-    /*
-    //新增组
-    public void addGroup(String newGroupName){
-        friendsSetName.add(newGroupName);
-        List<User> list = new ArrayList<User>();
-        friendsSetsMap.put(newGroupName, list);
-        addressbookAdapter.notifyDataSetChanged();
-    }
-
-    //新增子项到指定组
-    public void addChild(int groupPosition, User newChildName){
-        String groupName = friendsSetName.get(groupPosition);
-        List<User> list = friendsSetsMap.get(groupName);
-        list.add(newChildName);
-        addressbookAdapter.notifyDataSetChanged();
-    }
-
-    //删除指定组
-    public void deleteGroup(int groupPos){
-        String groupName = friendsSetName.get(groupPos);
-        friendsSetsMap.remove(groupName);
-        friendsSetName.remove(groupPos);
-        addressbookAdapter.notifyDataSetChanged();
-    }
-    //删除指定子项
-    public void deleteChild(int groupPos, int childPos){
-        String groupName = friendsSetName.get(groupPos);
-        List<User> list = friendsSetsMap.get(groupName);
-        list.remove(childPos);
-        addressbookAdapter.notifyDataSetChanged();
-    }
-
-    //修改该项名称
-    public void modifyName(int groupPosition, int childPosition, String modifyName){
-        Toast.makeText(getActivity(), String.valueOf(groupPosition)+'-'+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
-        if(childPosition<0){
-            //修改组名称
-            String groupName = friendsSetName.get(groupPosition);
-            if(!groupName.equals(modifyName)){
-                friendsSetsMap.put(modifyName, friendsSetsMap.get(groupName));
-                friendsSetsMap.remove(groupName);
-                friendsSetName.set(groupPosition, modifyName);
-            }
-
-        }else{
-            //修改子项名称
-            String group = friendsSetName.get(groupPosition);
-            List<User> list =friendsSetsMap.get(group);
-            User user = list.get(childPosition);
-            user.setLogname(modifyName);
-            list.set(childPosition, user);
-            friendsSetsMap.put(group, list);
-        }
-        addressbookAdapter.notifyDataSetChanged();
-    }
-    */
-
-    /*
-        private void test(){
-        try{
-            User user = UserManager.getAppUser();
-            List<FriendsSet> friendsSets = JSONArray.parseArray(user.getFriendsid(), FriendsSet.class);
-            friendsSetName = new ArrayList<String>();
-            for(final FriendsSet friendsSet : friendsSets){
-                friendsSetName.add(friendsSet.getName());
-
-                final List<User> temp = new ArrayList<User>();
-                if(!friendsSet.getFriendsid().equals("")){
-                    //该分组下有好友
-                    String [] friendsID = friendsSet.getFriendsid().split(",");
-                    for(String friendID : friendsID){
-                        //网络访问获取用户信息
-                        RequestBody requestBody = new FormBody.Builder()
-                                .add("userid", friendID)
-                                .build();
-                        HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                if(response.isSuccessful()){
-                                    try {
-                                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                                        User user = JSONObject.parseObject(result.getData().toString(), User.class);
-                                        temp.add(user);
-                                        FriendsManager.addFriendsSet(friendsSet.getName(), temp);
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }
-                        });
-                    }
-                }else {
-                    FriendsManager.addFriendsSet(friendsSet.getName(), temp);
-                }
-            }
-            addressbookAdapter = new AddressbookAdapter(getActivity().getApplicationContext());
-            expandableListView.setAdapter(addressbookAdapter);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-     */
-
 
 }

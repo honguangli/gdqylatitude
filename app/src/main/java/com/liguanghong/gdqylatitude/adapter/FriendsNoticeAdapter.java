@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.NoticesManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
+import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 import com.liguanghong.gdqylatitude.unity.User;
 
 import java.io.UnsupportedEncodingException;
@@ -32,7 +33,7 @@ public class FriendsNoticeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return NoticesManager.getNoticesByIndex(i);
+        return NoticesManager.getFriendNotices().get(i);
     }
 
     @Override
@@ -50,25 +51,18 @@ public class FriendsNoticeAdapter extends BaseAdapter {
         TextView tv_friend_notice = v.findViewById(R.id.tv_friend_notice);
         TextView tv_friend_argee = v.findViewById(R.id.tv_friend_argee);
 
-        Map.Entry<User, ChatMsg> entry = (Map.Entry<User, ChatMsg>)getItem(i);
-        User user = entry.getKey();
-        ChatMsg chatmessage = entry.getValue();
+        NoticeMsg noticeMsg = (NoticeMsg)getItem(i);
 
         iv_friend_icon.setImageResource(R.drawable.dynamic_background);
-        tv_friend_name.setText(user.getLogname());
-        try {
-            tv_friend_notice.setText(new String(chatmessage.getData(), "utf-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if(chatmessage.getType().equals(15)){
+        tv_friend_name.setText(noticeMsg.getSenderid() + "");
+        if(noticeMsg.getNoticetype().equals(15)){
             tv_friend_argee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //NoticesManager.changeFriendsNotice(i, 17);
                 }
             });
-        } else if(chatmessage.getType().equals(16)){
+        } else if(noticeMsg.getNoticetype().equals(16)){
             tv_friend_argee.setBackground(null);
             tv_friend_argee.setText("已拒绝");
         } else{

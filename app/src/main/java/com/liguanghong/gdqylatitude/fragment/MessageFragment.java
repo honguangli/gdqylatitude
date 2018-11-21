@@ -15,7 +15,6 @@ import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.adapter.MessageAdapter;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
-import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
@@ -45,7 +44,7 @@ public class MessageFragment extends BaseFragment {
     @Override
     protected void initView(View view)
     {
-        lv_message = (ListView)view.findViewById(R.id.message_list);
+        lv_message = view.findViewById(R.id.message_list);
     }
     //初始化数据
     @Override
@@ -72,7 +71,6 @@ public class MessageFragment extends BaseFragment {
                 }
             }
         });
-        messageAdapter.notifyDataSetChanged();
 
         messageHandler = new Handler(){
           public void handleMessage(Message message){

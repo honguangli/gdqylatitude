@@ -83,7 +83,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.personalinfo_backtrack:
-                startActivity(new Intent(this,HomeActivity.class));
+                finish();
                 break;
             case R.id.personalinfo_sure:
 
