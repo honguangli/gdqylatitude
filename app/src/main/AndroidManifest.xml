@@ -65,6 +65,7 @@
         <activity android:name=".activitys.SelectPhotoActivity" />
         <activity android:name=".activitys.SendLocationActivity"/>
         <activity android:name=".activitys.UserInfoActivity" />
+        <activity android:name=".activitys.MapUsersInfoActivity" />
         <activity android:name=".activitys.UserInfoMineActivity" />
         <activity android:name=".activitys.PermissionsActivity" />
 
