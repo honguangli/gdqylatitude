@@ -58,17 +58,17 @@ public class MessageAdapter extends BaseAdapter {
             List<ChatMsg> list = (List<ChatMsg>)getItem(i);
             ChatMsg chatMsg = list.get(list.size() - 1);
 
-            //获取好友头像
-            byte[] friend = android.util.Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
-            //获取群组头像
-            //byte[] group = android.util.Base64.decode(GroupManager.getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), android.util.Base64.DEFAULT);
 
             if(!chatMsg.getIssingle()){
                 //群聊
-                //img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
+                //获取群组头像
+                byte[] group = android.util.Base64.decode(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), android.util.Base64.DEFAULT);
+                img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
                 tv_nickname.setText(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
+                //获取好友头像
+                byte[] friend = android.util.Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
                 img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
                 if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
                     //用户本人先发的消息

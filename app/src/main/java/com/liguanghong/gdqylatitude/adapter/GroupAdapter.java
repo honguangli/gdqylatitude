@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 
 public class GroupAdapter extends BaseAdapter {
 
@@ -41,6 +43,11 @@ public class GroupAdapter extends BaseAdapter {
         ImageView img_chat_head = v.findViewById(R.id.group_head);
         TextView chat_name = v.findViewById(R.id.group_name);
         chat_name.setText(GroupManager.getInstance().getGroupchatList().get(i).getGroupname());
+
+        System.out.println("666666666666666666"+GroupManager.getInstance().getGroupchatList().get(i).getHeadportrait());
+        byte[] group = android.util.Base64.decode(GroupManager.getInstance().getGroupchatList().get(i).getHeadportrait(), android.util.Base64.DEFAULT);
+        img_chat_head.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
+
 
         return v;
     }

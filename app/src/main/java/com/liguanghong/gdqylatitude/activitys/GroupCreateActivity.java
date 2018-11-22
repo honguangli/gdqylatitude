@@ -21,6 +21,7 @@ import com.liguanghong.gdqylatitude.manager.GroupManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     private EditText ed_chatname;
     private Button btn_submit;
     private Handler groupCreateHandler;
+    String groupPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +95,9 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
             case R.id.btn_submit:               //确认创建
                 String groupName = ed_chatname.getText().toString();
                 if(groupName != null && !groupName.trim().equals("")){
-                    createGroup(groupName.trim());
+                    createGroup(groupName.trim(),groupPic);
                 }
+                finish();
                 break;
 
             case R.id.backtrack:
@@ -108,15 +111,18 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10 && resultCode == 20) {
             String photo = (String) data.getExtras().get("photo");
-            System.out.println("666666666666666666"+photo);
             bt_add.setImageURI(Uri.parse(photo));
+            groupPic = ImageUtils.filePathToString(photo);
+            System.out.println("qqqqqqqqqqqqqqqqq"+groupPic);
         }
     }
 
-    private void createGroup(String groupName){
+    private void createGroup(String groupName,String headportrait){
+        Log.i("测试", headportrait);
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getInstance().getAppUser().getUserid()+"")
+                .add("ownerid", UserManager.getInstance().getAppUser().getUserid()+"")
                 .add("groupname", groupName)
+                .add("headportrait",headportrait)
                 .build();
         HttpUtil.postEnqueue("group/creategroup", requestBody, new Callback() {
             @Override
