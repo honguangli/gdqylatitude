@@ -17,7 +17,7 @@ public class FriendsManager {
 
     private static FriendsManager instance = null;
     //好友列表
-    private Map<String, List<Friend>> friends = new LinkedHashMap<>();
+    public static Map<String, List<Friend>> friends = new LinkedHashMap<>();
     private static final String DEFAULTSETNAME = "我的好友";
 
     //单例模式
@@ -62,7 +62,7 @@ public class FriendsManager {
      * 获取好友列表
      * @return
      */
-    public Map<String, List<Friend>> getFriends(){
+    public static Map<String, List<Friend>> getFriends(){
         return friends;
     }
 
@@ -96,7 +96,7 @@ public class FriendsManager {
      * @param friendID
      * @return
      */
-    public Friend getFriendByID(Integer friendID){
+    public static Friend getFriendByID(Integer friendID){
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend : entry.getValue()){
                 if(friend.getFriendid().equals(friendID)){

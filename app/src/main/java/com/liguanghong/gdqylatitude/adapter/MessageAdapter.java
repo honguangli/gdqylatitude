@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
@@ -55,13 +56,20 @@ public class MessageAdapter extends BaseAdapter {
         try {
             img_headphoto.setImageResource(R.drawable.ic_launcher_background);
             List<ChatMsg> list = (List<ChatMsg>)getItem(i);
-
             ChatMsg chatMsg = list.get(list.size() - 1);
+
+            //获取好友头像
+            byte[] friend = android.util.Base64.decode(FriendsManager.getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
+            //获取群组头像
+            //byte[] group = android.util.Base64.decode(GroupManager.getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), android.util.Base64.DEFAULT);
+
             if(!chatMsg.getIssingle()){
                 //群聊
+                //img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
                 tv_nickname.setText(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
+                img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
                 if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
                     //用户本人先发的消息
                     tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());

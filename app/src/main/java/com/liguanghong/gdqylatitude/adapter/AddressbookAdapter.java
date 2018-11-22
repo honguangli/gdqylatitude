@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
 
@@ -99,7 +100,9 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
 
         Friend friend = FriendsManager.getInstance().getFriends().get(parentName).get(childPosition);
 
-        image_head.setImageResource(R.drawable.dynamic_background);
+        byte[] friends = android.util.Base64.decode(friend.getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
+        image_head.setImageBitmap(ChatActivity.getPicFromBytes(friends,null));
+        System.out.println("TTTTTTTTTTTTTTTTTT"+friend.getFriend().getHeadportrait());
 
         String remark = friend.getRemark();
         if(remark == null)

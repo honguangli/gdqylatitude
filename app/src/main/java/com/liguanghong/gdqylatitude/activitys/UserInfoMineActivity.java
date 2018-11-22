@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.view.LoadingDialog;
 
@@ -35,6 +37,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     private TextView tvSure;
     private static Handler userinfoHandler;
     LoadingDialog dialog;
+    String headPic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,11 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         ivBacktrack = findViewById(R.id.personalinfo_backtrack);
         tvSure = findViewById(R.id.personalinfo_sure);
         ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
+
+        byte[] b = android.util.Base64.decode(UserManager.getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+        ivTouxiang.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
+        System.out.println("666666666666666666"+b);
+
 
         ivBacktrack.setOnClickListener(this);
         tvSure.setOnClickListener(this);
@@ -89,7 +97,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
 
                 dialog.show();
                 Log.i("dialog","已显示");
-                commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),"11");
+                commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),headPic);
                 //dialog.close();
                 break;
             case R.id.personalinfo_iv_touxiang:
@@ -154,6 +162,16 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
         dialog.close();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10 && resultCode == 20) {
+            String photo = (String) data.getExtras().get("photo");
+            ivTouxiang.setImageURI(Uri.parse(photo));
+            headPic = ImageUtils.filePathToString(photo);
+            //System.out.println("666666666666666666"+headPic);
+        }
     }
 
     /**

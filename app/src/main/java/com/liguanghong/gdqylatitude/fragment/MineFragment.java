@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.activitys.DynamicFriendsActivity;
 import com.liguanghong.gdqylatitude.activitys.DynamicMineActivity;
 import com.liguanghong.gdqylatitude.activitys.SettingActivity;
@@ -66,9 +67,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     protected void initData()
     {
         User user = UserManager.getInstance().getAppUser();
-        personal_head.setImageResource(R.drawable.head);
         personal_name.setText(user.getLogname());
         //personal_id.setText(user.getUserid() + "");
+
+        byte[] b = android.util.Base64.decode(UserManager.getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+        personal_head.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
+        System.out.println("666666666666666666"+b);
+
 
     }
 
