@@ -10,7 +10,7 @@ public class UserManager {
 
     private static UserManager instance;
     //登录用户
-    public static User appUser;
+    private User appUser;
 
     //单例模式
     public static UserManager getInstance() {
@@ -31,7 +31,7 @@ public class UserManager {
      * 获取用户
      * @return
      */
-    public static User getAppUser() {
+    public User getAppUser() {
         if(appUser == null){
             //SQLite数据库操作
             appUser = new User();

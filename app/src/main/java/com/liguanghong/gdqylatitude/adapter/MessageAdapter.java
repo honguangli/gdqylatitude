@@ -59,7 +59,7 @@ public class MessageAdapter extends BaseAdapter {
             ChatMsg chatMsg = list.get(list.size() - 1);
 
             //获取好友头像
-            byte[] friend = android.util.Base64.decode(FriendsManager.getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
+            byte[] friend = android.util.Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
             //获取群组头像
             //byte[] group = android.util.Base64.decode(GroupManager.getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), android.util.Base64.DEFAULT);
 

@@ -70,7 +70,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         personal_name.setText(user.getLogname());
         //personal_id.setText(user.getUserid() + "");
 
-        byte[] b = android.util.Base64.decode(UserManager.getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+        byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
         personal_head.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
         System.out.println("666666666666666666"+b);
 

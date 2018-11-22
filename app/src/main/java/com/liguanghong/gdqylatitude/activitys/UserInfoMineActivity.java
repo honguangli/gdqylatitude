@@ -59,7 +59,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         tvSure = findViewById(R.id.personalinfo_sure);
         ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
 
-        byte[] b = android.util.Base64.decode(UserManager.getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+        byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
         ivTouxiang.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
         System.out.println("666666666666666666"+b);
 
