@@ -129,12 +129,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         fragments.add(new AddressbookFragment());
         fragments.add(new MineFragment());
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
+        viewPager.setAdapter(fragmentAdapter);
         viewPager.setOffscreenPageLimit(4);
         iv_current = iv_map;
         tv_current = tv_map;
         id_current_gray = R.drawable.map;
 
-        getMyFriends();
+        //getMyFriends();
         getMyGroups();
 
     }
@@ -235,35 +236,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-    }
-
-    /**
-     * 获取好友列表
-     */
-    private void getMyFriends(){
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid()+"")
-                .build();
-        HttpUtil.postEnqueue("user/findfriends", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("通讯录", "失败了");
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        Map<String, List<Friend>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<Friend>>>() {});
-                        FriendsManager.setFriends(friends);
-                        homeHandler.sendEmptyMessage(200);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
 }

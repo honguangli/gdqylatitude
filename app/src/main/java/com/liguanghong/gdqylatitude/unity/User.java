@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.unity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
     private Integer userid;
@@ -20,6 +21,8 @@ public class User implements Serializable {
     private String phone;
 
     private String signature;
+    
+    private byte[] headportrait;
 
     private String province;
 
@@ -35,7 +38,11 @@ public class User implements Serializable {
 
     private String joingroupid;
 
-    private byte[] headportrait;
+    private Date signuptime;
+
+    private Date signintime;
+
+    private Date signouttime;
 
     public Integer getUserid() {
         return userid;
@@ -109,6 +116,14 @@ public class User implements Serializable {
         this.signature = signature == null ? null : signature.trim();
     }
 
+    public byte[] getHeadportrait() {
+        return headportrait;
+    }
+
+    public void setHeadportrait(byte[] headportrait) {
+        this.headportrait = headportrait;
+    }
+
     public String getProvince() {
         return province;
     }
@@ -141,6 +156,30 @@ public class User implements Serializable {
         this.longitude = longitude;
     }
 
+    public Date getSignuptime() {
+        return signuptime;
+    }
+
+    public void setSignuptime(Date signuptime) {
+        this.signuptime = signuptime;
+    }
+
+    public Date getSignintime() {
+        return signintime;
+    }
+
+    public void setSignintime(Date signintime) {
+        this.signintime = signintime;
+    }
+
+    public Date getSignouttime() {
+        return signouttime;
+    }
+
+    public void setSignouttime(Date signouttime) {
+        this.signouttime = signouttime;
+    }
+
     public String getFriendsid() {
         return friendsid;
     }
@@ -163,13 +202,5 @@ public class User implements Serializable {
 
     public void setJoingroupid(String joingroupid) {
         this.joingroupid = joingroupid == null ? null : joingroupid.trim();
-    }
-
-    public byte[] getHeadportrait() {
-        return headportrait;
-    }
-
-    public void setHeadportrait(byte[] headportrait) {
-        this.headportrait = headportrait;
     }
 }
