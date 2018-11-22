@@ -15,15 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -141,9 +146,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            //登录成功
-                            User user = ((JSONObject)result.getData()).toJavaObject(User.class);
-                            //添加到用户管理
+                            JSONObject object = (JSONObject)result.getData();
+                            User user = JSONObject.parseObject(object.getString("user"), User.class);
+                            Map<String, List<Friend>> friends = JSONObject.parseObject(object.getString("friends"), new TypeReference<Map<String, List<Friend>>>() {});
+                            FriendsManager.setFriends(friends);
+                            Log.i("用户", "ID："+user.getUserid());
                             UserManager.addAppUser(user);
                             //连接socket
                             WebSocketManager.connect(user.getUserid());

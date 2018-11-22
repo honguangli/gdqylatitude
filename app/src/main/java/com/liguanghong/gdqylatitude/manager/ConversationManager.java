@@ -57,17 +57,17 @@ public class ConversationManager {
     public static void receiveMsg(ChatMsg chatMsg){
         if(getMsgMap(chatMsg.getIssingle()).get(chatMsg.getSenderid()) != null){
             //已经有会话记录
-            if(chatMsg.getIssingle())
+            if(chatMsg.getIssingle())   //私聊
                 getMsgMap(chatMsg.getIssingle()).get(chatMsg.getSenderid()).add(chatMsg);
-            else
+            else                        //群聊
                 getMsgMap(chatMsg.getIssingle()).get(chatMsg.getReceiverid()).add(chatMsg);
         } else{
             //还没有会话记录
             List<ChatMsg> list = new ArrayList<>();
             list.add(chatMsg);
-            if(chatMsg.getIssingle())
+            if(chatMsg.getIssingle())   //私聊
                 getMsgMap(chatMsg.getIssingle()).put(chatMsg.getSenderid(), list);
-            else
+            else                        //群聊
                 getMsgMap(chatMsg.getIssingle()).put(chatMsg.getReceiverid(), list);
         }
         notifyDataSetChanged();
