@@ -145,7 +145,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
                             //添加到用户管理
                             UserManager.addAppUser(user);
-                            //UserManager.addSocketClient();
+                            //连接socket
                             WebSocketManager.connect(user.getUserid());
                             loginHandler.sendEmptyMessage(200);
                         } else{

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baidu.mapapi.SDKInitializer;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FragmentAdapter;
@@ -22,8 +23,11 @@ import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.fragment.MineFragment;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.manager.WebSocketManager;
+import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -31,6 +35,7 @@ import com.liguanghong.gdqylatitude.util.JsonResult;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -62,6 +67,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private int id_current_gray;
 
     private static Handler homeHandler;
+    private FragmentAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,25 +83,25 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView(){
 
-        viewPager = (BaseViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
 
-        map = (LinearLayout)findViewById(R.id.map);
-        message = (LinearLayout)findViewById(R.id.message);
-        addressbook = (LinearLayout)findViewById(R.id.addressbook);
-        mine = (LinearLayout)findViewById(R.id.mine);
+        map = findViewById(R.id.map);
+        message = findViewById(R.id.message);
+        addressbook = findViewById(R.id.addressbook);
+        mine = findViewById(R.id.mine);
         map.setOnClickListener(this);
         message.setOnClickListener(this);
         addressbook.setOnClickListener(this);
         mine.setOnClickListener(this);
 
-        iv_map = (ImageView)findViewById(R.id.map_iv);
-        iv_message = (ImageView)findViewById(R.id.message_iv);
-        iv_addressbook = (ImageView)findViewById(R.id.addressbook_iv);
-        iv_mine = (ImageView)findViewById(R.id.mine_iv);
-        tv_map = (TextView)findViewById(R.id.map_tv);
-        tv_message = (TextView)findViewById(R.id.message_tv);
-        tv_addressbook = (TextView)findViewById(R.id.addressbook_tv);
-        tv_mine = (TextView)findViewById(R.id.mine_tv);
+        iv_map = findViewById(R.id.map_iv);
+        iv_message = findViewById(R.id.message_iv);
+        iv_addressbook = findViewById(R.id.addressbook_iv);
+        iv_mine = findViewById(R.id.mine_iv);
+        tv_map = findViewById(R.id.map_tv);
+        tv_message = findViewById(R.id.message_tv);
+        tv_addressbook = findViewById(R.id.addressbook_tv);
+        tv_mine = findViewById(R.id.mine_tv);
 
     }
 
@@ -105,6 +111,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         homeHandler = new Handler(){
             public void handleMessage(Message message){
                 switch (message.what){
+                    case 200:
+                        //显示
+                        viewPager.setAdapter(fragmentAdapter);
+                        break;
                     case 222:
                         //强制登出
                         logout();
@@ -113,19 +123,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         };
 
-        getData();
-
-        List<Fragment> fragments = new ArrayList<Fragment>();
+        List<Fragment> fragments = new ArrayList<>();
         fragments.add(new MapFragment());
         fragments.add(new MessageFragment());
         fragments.add(new AddressbookFragment());
         fragments.add(new MineFragment());
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
-        viewPager.setAdapter(fragmentAdapter);
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments);
         viewPager.setOffscreenPageLimit(4);
         iv_current = iv_map;
         tv_current = tv_map;
         id_current_gray = R.drawable.map;
+
+        getMyFriends();
+        getMyGroups();
 
     }
 
@@ -153,6 +163,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        //关闭socket连接
+        WebSocketManager.close();
+        super.onDestroy();
     }
 
     /**
@@ -187,7 +204,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         return homeHandler;
     }
 
-    private void getData(){
+    /**
+     * 获取群组列表
+     */
+    private void getMyGroups(){
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getAppUser().getUserid()+"")
                 .build();
@@ -207,6 +227,36 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                         }
                         Log.i("群聊管理",  result.isSuccess() + "," + result.getMessage());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 获取好友列表
+     */
+    private void getMyFriends(){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .build();
+        HttpUtil.postEnqueue("user/findfriends", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("通讯录", "失败了");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        Map<String, List<Friend>> friends = JSONObject.parseObject( result.getData().toString(), new TypeReference<Map<String, List<Friend>>>() {});
+                        FriendsManager.setFriends(friends);
+                        homeHandler.sendEmptyMessage(200);
                     }catch (Exception e){
                         e.printStackTrace();
                     }

@@ -32,7 +32,6 @@ public class WebSocketManager {
 
                 @Override
                 public void onMessage(String message) {
-                    Log.i("websocket", message);
                     ChatMsg chatMsg = JSONObject.parseObject(message, ChatMsg.class);
                     Log.i("消息", message);
                     if(chatMsg.getType().equals(MessageType.LOGOUT)){
@@ -47,24 +46,19 @@ public class WebSocketManager {
                     } else if(chatMsg.getType() > 0 && chatMsg.getType() < 5){
                         //聊天消息
                         ConversationManager.receiveMsg(chatMsg);
-                    } else if(chatMsg.getType() > 14 && chatMsg.getType() < 18){
-                        //好友申请通知
-                        NoticesManager.addFriendNotice(chatMsg);
-                    } else if(chatMsg.getType() > 17 && chatMsg.getType() < 21){
-                        //群聊通知
-                        NoticesManager.addGroupNotice(chatMsg);
                     }
-
                 }
 
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
                     Log.i("websocket", "close:code-" + code +"|reason-" + reason);
+                    client = null;
                 }
 
                 @Override
                 public void onError(Exception ex) {
                     Log.i("websocket", "error");
+                    client = null;
                     ex.printStackTrace();
                 }
             };
@@ -82,15 +76,11 @@ public class WebSocketManager {
         client.send(JSONObject.toJSONString(chatMsg));
     }
 
-    public static void sendM(){
-
-    }
-
     /**
      * 关闭websocket
      */
     public static void close(){
-        if(!client.isClosed()){
+        if(client != null && !client.isClosed()){
             client.close();
         }
     }

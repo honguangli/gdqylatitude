@@ -4,16 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FriendsNoticeAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.NoticesManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.unity.NoticeMsg;
+import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.JsonResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class FriendsNoticeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -52,6 +70,7 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
                 }
             }
         };
+        getData();
         friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext());
         lv_friend_apply.setAdapter(friendsNoticeAdapter);
         friendsNoticeAdapter.notifyDataSetChanged();
@@ -77,4 +96,43 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
     public static Handler getFriendsNoticeHandler(){
         return friendsNoticeHandler;
     }
+
+    private void getData(){
+        final RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("status", "")
+                .build();
+        HttpUtil.postEnqueue("notice/findnotices", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("通知管理", "查询通知失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            List<NoticeMsg> list = JSONArray.parseArray(result.getData().toString(), NoticeMsg.class);
+                            for(NoticeMsg noticeMsg : list){
+                                if(noticeMsg.getNoticetype() > 14 && noticeMsg.getNoticetype() < 18)
+                                    NoticesManager.addFriendNotice(noticeMsg);
+                                else
+                                    NoticesManager.addGroupNotice(noticeMsg);
+                            }
+                            friendsNoticeHandler.sendEmptyMessage(222);
+                        } else{
+
+                        }
+                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 }

@@ -2,10 +2,7 @@ package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.alibaba.fastjson.JSONArray;
@@ -28,18 +24,15 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
+import com.liguanghong.gdqylatitude.activitys.MapUsersInfoActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.Cluster;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterItem;
@@ -68,13 +61,12 @@ public class MapFragment extends BaseFragment {
     private ClusterManager<MyItem> mClusterManager;
 
     private List<User> userList;
-    private List<OverlayOptions> options;
     public LocationClient mLocationClient;
     public BDAbstractLocationListener myListener = new MyLocationListener();
     public static double latitude;
     public static double longitude;
     private boolean isZoomTo = true;
-
+    List<User> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -93,10 +85,6 @@ public class MapFragment extends BaseFragment {
         mBaiduMap = mMapView.getMap();
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
 
-        //ms = new MapStatus.Builder().target(new LatLng(39.914935, 116.403119)).zoom(8).build();
-       // ms = new MapStatus.Builder().zoom(4).build();
-      //  mBaiduMap.setOnMapLoadedCallback((BaiduMap.OnMapLoadedCallback) this);
-        //mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(ms));
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
         mBaiduMap.setOnMarkerClickListener(mClusterManager);
@@ -104,18 +92,36 @@ public class MapFragment extends BaseFragment {
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
-
                 List<MyItem> items = (List<MyItem>) cluster.getItems();
-              //  LatLngBounds.Builder builder2 = new LatLngBounds.Builder();
-                for(MyItem myItem : items){
-                    Log.i("测试输出", "wdwqdw"+myItem.getPosition());
-                   // builder2 = builder2.include(myItem.getPosition());
-                }
-              /*  LatLngBounds latlngBounds = builder2.build();
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mMapView.getWidth(),mMapView.getHeight());
-                mBaidumap.animateMapStatus(u);*/
+                try{
+                    View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
+                    TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                    list = new ArrayList<>();
+                    for(MyItem myItem : items){
+                        final User user = (User)myItem.getExtraInfo().get("info");
+                        list.add(user);
+                    }
+                    logname.setText(list.get(0).getLogname()+" 等"+cluster.getSize()+"位用户");
+                    LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
+                    getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getActivity(), MapUsersInfoActivity.class);
+                            String ss = JSONObject.toJSONString(list);
+                            intent.putExtra("user", ss);
+                            startActivity(intent);
+                        }
+                    });
 
-                //Toast.makeText(getContext(),"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+cluster.getSize(), Toast.LENGTH_SHORT).show();
+                    final LatLng ll = cluster.getPosition();//得到坐标
+                    Point p = mBaiduMap.getProjection().toScreenLocation(ll);
+                    LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
+                    InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
+                    //显示InfoWindow
+                    mBaiduMap.showInfoWindow(mInfoWindow);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
         });
@@ -125,7 +131,7 @@ public class MapFragment extends BaseFragment {
                 final User user = (User)item.getExtraInfo().get("info");
                     try {
                         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
-                        TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                        TextView logname = view.findViewById(R.id.user_logname);
                         logname.setText(user.getLogname());
                         LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
                         getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +163,7 @@ public class MapFragment extends BaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                return true;
+                return false;
             }
         });
         //声明LocationClient类
@@ -240,12 +246,12 @@ public class MapFragment extends BaseFragment {
      * 设置地图标记点
      */
     private void setOptions(){
-        for (int i = 0; i < userList.size()-1; i++) {
+        for (int i = 0; i < userList.size(); i++) {
             try {
-                LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());
-                List<MyItem> items = new ArrayList<MyItem>();
+                LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());//得到每个用户的定位
+                List<MyItem> items = new ArrayList<MyItem>();  //集合
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("info", (User)userList.get(i));
+                bundle.putSerializable("info", (User)userList.get(i));//用户
                 items.add(new MyItem(latLng,bundle));
                 mClusterManager.addItems(items);
                 Log.i("测试输出", "用户名"+latLng);
@@ -256,24 +262,6 @@ public class MapFragment extends BaseFragment {
             }
         }
     }
-
-    /*private void setOptions() {
-        /*
-        //设定中心点坐标
-        LatLng cenpt =  new LatLng(latitude, longitude);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                //要移动的点
-                .target(cenpt)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-
-        //改变地图状态
-        //mBaiduMap.setMapStatus(mMapStatusUpdate);
-     }*/
-
-
     /**
      * 用户定位
      */
@@ -421,8 +409,8 @@ public class MapFragment extends BaseFragment {
             // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
+                    .direction(location.getDirection())
+                    .latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
 
             // 设置定位数据

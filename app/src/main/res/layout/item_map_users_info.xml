@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:background="@color/colorWhite">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/map_user_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/main_background"
+        />
+
+    <TextView
+        android:id="@+id/tv_map_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/map_user_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:text="Tom"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        />
+    <TextView
+        android:id="@+id/tv_map_user_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_map_user_name"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:text="(12346)"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        />
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/map_user_icon"
+        android:layout_marginTop="10dp"
+        android:background="@color/Gainsboro"/>
+
+</RelativeLayout>

@@ -247,8 +247,8 @@ public class FriendsManager {
      * 提醒UI做改变
      */
     private static void notifyDataSetChanged(){
-        if(AddressbookFragment.getAddressbookHandler() != null)
-            AddressbookFragment.getAddressbookHandler().sendEmptyMessage(200);
+        if(AddressbookFragment.addressbookHandler != null)
+            AddressbookFragment.addressbookHandler.sendEmptyMessage(200);
         if(FriendsSetManageActivity.getFriendsSetManageHandler() != null)
             FriendsSetManageActivity.getFriendsSetManageHandler().sendEmptyMessage(200);
     }
