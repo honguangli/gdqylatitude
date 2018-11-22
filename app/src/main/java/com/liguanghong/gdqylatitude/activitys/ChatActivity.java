@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -75,6 +76,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     private final int CAMERA_REQUEST = 1;
     byte[] res;  //将bitmap转化的byte数组
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         backtrack_friend_chat = findViewById(R.id.backtrack);
         tv_friendName = findViewById(R.id.tv_friendName);
         tv_friendState = findViewById(R.id.tv_friendState);

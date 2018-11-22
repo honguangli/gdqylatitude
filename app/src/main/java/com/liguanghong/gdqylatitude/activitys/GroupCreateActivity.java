@@ -1,5 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +25,7 @@ import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -32,6 +36,7 @@ import okhttp3.Response;
 public class GroupCreateActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack_create;
+    private CircleImageView bt_add;
     private RelativeLayout rly_add_newgroup;
     private EditText ed_chatname;
     private Button btn_submit;
@@ -50,6 +55,7 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView() {
         backtrack_create = (ImageView)findViewById(R.id.backtrack);
+        bt_add = findViewById(R.id.bt_add);
         rly_add_newgroup = (RelativeLayout)findViewById(R.id.add);
         btn_submit = (Button)findViewById(R.id.btn_submit);
         ed_chatname = (EditText)findViewById(R.id.ed_chatname);
@@ -80,7 +86,8 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
         int id = view.getId();
         switch (id){
             case R.id.add:         //选择头像
-
+                Intent selectHead = new Intent(GroupCreateActivity.this,SelectPhotoActivity.class);
+                startActivityForResult(selectHead,10);
                 break;
 
             case R.id.btn_submit:               //确认创建
@@ -94,6 +101,15 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                 //销毁当前界面，返回通讯录界面
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10 && resultCode == 20) {
+            String photo = (String) data.getExtras().get("photo");
+            System.out.println("666666666666666666"+photo);
+            bt_add.setImageURI(Uri.parse(photo));
         }
     }
 

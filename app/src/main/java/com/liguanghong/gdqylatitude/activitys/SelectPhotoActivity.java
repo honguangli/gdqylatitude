@@ -3,7 +3,9 @@ package com.liguanghong.gdqylatitude.activitys;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,8 +18,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -51,12 +55,15 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     private SelectPhotoDirPopupWindow mImageDirPopupWindow;
     private List<SelectPicFolderBean> mFolderBeans=new ArrayList<>();
 
-    public static boolean isChecked;
     public List<String> photoPaths;
 
     private ProgressDialog mProgressDialog;
     private ChatPhotoAdapter adapter;
     private Handler handler;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -65,17 +72,31 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     protected int getLayoutId() { return R.layout.activity_select_photo; }
 
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         mGridView= (GridView) findViewById(R.id.id_gridView);
         mbottomLayout= (RelativeLayout) findViewById(R.id.rl_bottom_layout);
         mTvDirName= (TextView) findViewById(R.id.tv_dir_name);
         mTvDirCount= (TextView) findViewById(R.id.tv_dir_count);
         backtrack= (ImageView) findViewById(R.id.backtrack);
         tv_send= findViewById(R.id.tv_send);
-        isChecked = false;
 
         mbottomLayout.setOnClickListener(this);
         backtrack.setOnClickListener(this);
         tv_send.setOnClickListener(this);
+
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                adapter.setSeclection(position);//传值更新
+                adapter.notifyDataSetChanged();
+                Log.i("jkl","position==="+position);
+            }
+        });
     }
 
     /**
@@ -118,9 +139,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.tv_send:          //发送
                 if (mCurrentDir!=null){ photoPaths  = adapter.selectPhoto(); }
-//                Intent intent=new Intent(SelectPhotoActivity.this,ChatActivity.class);
-//                intent.putExtra("photo",(Serializable) photoPaths);
-//                startActivity(intent);
                 Intent intent =new Intent().putExtra("photo", photoPaths.get(0));
                 setResult(20, intent);
                 finish();

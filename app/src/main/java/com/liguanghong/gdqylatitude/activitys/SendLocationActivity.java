@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,7 +165,14 @@ public class SendLocationActivity extends BaseActivity implements View.OnClickLi
                     public void onSnapshotReady(Bitmap bitmap){
                         //上传截图
                         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);//把bitmap100%高质量压缩 到 output对象里
+                        int options = 100;
+                        while (output.toByteArray().length / 1024 > 100) {
+                            //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+                            output.reset();//重置baos即清空baos
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到baos中
+                            options -= 10;//每次都减少10
+                        }
                         byte[] result = output.toByteArray();//转换成功了  result就是一个bit的资源数组
                         Message message = new Message();
                         message.what = 200;

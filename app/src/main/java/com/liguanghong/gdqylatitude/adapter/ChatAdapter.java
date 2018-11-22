@@ -126,6 +126,25 @@ public class ChatAdapter extends BaseAdapter {
                 String str = new String(chatMsg.getData());
                 byte[] bytes = Base64.decode(str, Base64.DEFAULT);
                 imgV.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }else if(chatMsg.getType().equals(MessageType.LOCATION)){
+                //位置消息
+                ImageView imgV = v.findViewById(R.id.left_img);
+                imgV.setVisibility(View.VISIBLE);
+                String str = new String(chatMsg.getData());
+                byte[] bytes = Base64.decode(str, Base64.DEFAULT);
+                imgV.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+
+                //点击位置截图进入地图，查看对方和自己的位置
+                imgV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SendLocationActivity.locationtype = true;
+                        editor.putBoolean("locationtype",SendLocationActivity.locationtype);
+                        editor.commit();
+                        Intent location = new Intent(context,SendLocationActivity.class);
+                        context.startActivity(location);
+                    }
+                });
             }
         }
 

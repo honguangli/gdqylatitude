@@ -9,18 +9,16 @@
         android:id="@+id/iv_item"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/default_error"
+
         android:scaleType="centerCrop" />
 
-    <RadioButton
+    <ImageView
         android:id="@+id/ib_select"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="3dp"
-        android:layout_marginRight="3dp"
-        android:background="@null"
-        android:clickable="false" />
+        android:layout_marginRight="3dp" />
 
 </RelativeLayout>
