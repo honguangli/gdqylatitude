@@ -42,12 +42,12 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
 
     @Override
     public int getCount() {
-        return FriendsManager.getFriendsSetNameList().size();
+        return FriendsManager.getInstance().getFriendsSetNameList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return FriendsManager.getFriendsSetNameList().get(i);
+        return FriendsManager.getInstance().getFriendsSetNameList().get(i);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
         TextView group_name = v.findViewById(R.id.group_name);
         ImageView img_movegroup = v.findViewById(R.id.img_movegroup);
 
-        group_name.setText(FriendsManager.getFriendsSetNameList().get(i));
+        group_name.setText(FriendsManager.getInstance().getFriendsSetNameList().get(i));
 
         img_movegroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
         switch (view.getId()){
             case R.id.tv_delete:
                 Log.i("ID", index + "");
-                deleteFriendsSet(FriendsManager.getFriendsSetNameList().get(index));
+                deleteFriendsSet(FriendsManager.getInstance().getFriendsSetNameList().get(index));
                 bottomDialog.cancel();
                 break;
         }
@@ -110,7 +110,7 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
      */
     private void deleteFriendsSet(final String setName){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("setName", setName)
                 .build();
         HttpUtil.postEnqueue("user/deletefriendsset", requestBody, new Callback() {
@@ -125,7 +125,7 @@ public class FriendsSetManageAdapter extends BaseAdapter implements View.OnClick
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.deleteFriendsSet(setName);
+                            FriendsManager.getInstance().deleteFriendsSet(setName);
                         } else{
 
                         }

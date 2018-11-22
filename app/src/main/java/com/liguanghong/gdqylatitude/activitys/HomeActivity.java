@@ -23,8 +23,10 @@ import com.liguanghong.gdqylatitude.fragment.AddressbookFragment;
 import com.liguanghong.gdqylatitude.fragment.MapFragment;
 import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.fragment.MineFragment;
+import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
+import com.liguanghong.gdqylatitude.manager.NoticesManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
@@ -135,7 +137,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tv_current = tv_map;
         id_current_gray = R.drawable.map;
 
-        //getMyFriends();
         getMyGroups();
 
     }
@@ -168,7 +169,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
-        //关闭socket连接
+        //释放资源
+        ConversationManager.releaseResource();
+        FriendsManager.releaseResource();
+        GroupManager.releaseResource();
+        NoticesManager.releaseResource();
+        UserManager.releaseResource();
         WebSocketManager.close();
         super.onDestroy();
     }
@@ -210,7 +216,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
      */
     private void getMyGroups(){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid()+"")
                 .build();
         HttpUtil.postEnqueue("group/fingmygroup", requestBody, new Callback() {
             @Override
@@ -223,7 +229,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            GroupManager.setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
+                            GroupManager.getInstance().setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
+                            //连接socket
+                            WebSocketManager.connect(UserManager.getInstance().getAppUser().getUserid());
+                            GroupActivity.groupHandler.sendEmptyMessage(200);
                         } else{
 
                         }

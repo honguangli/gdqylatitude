@@ -7,19 +7,34 @@ import java.util.List;
 
 public class NoticesManager {
 
-    private static List<NoticeMsg> systemNotices = new ArrayList<>();        //系统通知列表
-    private static List<NoticeMsg> friendNotices = new ArrayList<>();        //好友通知列表
-    private static List<NoticeMsg> groupNotices = new ArrayList<>();        //群聊通知列表
-
+    private static NoticesManager instance = null;
+    private List<NoticeMsg> systemNotices = new ArrayList<>();        //系统通知列表
+    private List<NoticeMsg> friendNotices = new ArrayList<>();        //好友通知列表
+    private List<NoticeMsg> groupNotices = new ArrayList<>();        //群聊通知列表
+    //单例模式
+    public static NoticesManager getInstance() {
+        if (instance == null) {
+            synchronized (NoticesManager.class) {
+                if (instance == null) {
+                    instance = new NoticesManager();
+                }
+            }
+        }
+        return instance;
+    }
+    //释放资源
+    public static void releaseResource(){
+        instance = null;
+    }
     /**
      * 获取系统通知列表
      * @return
      */
-    public static List<NoticeMsg> getSystemNotices(){
+    public List<NoticeMsg> getSystemNotices(){
         return systemNotices;
     }
 
-    public static void setSystemNotices(List<NoticeMsg> list){
+    public void setSystemNotices(List<NoticeMsg> list){
         if(list != null)
             systemNotices = list;
     }
@@ -28,7 +43,7 @@ public class NoticesManager {
      * 获取好友通知列表
      * @return
      */
-    public static List<NoticeMsg> getFriendNotices(){
+    public List<NoticeMsg> getFriendNotices(){
         return friendNotices;
     }
 
@@ -36,7 +51,7 @@ public class NoticesManager {
      * 设置好友通知列表
      * @param list
      */
-    public static void setFriendNotices(List<NoticeMsg> list){
+    public void setFriendNotices(List<NoticeMsg> list){
         if(list != null)
             friendNotices = list;
     }
@@ -45,7 +60,7 @@ public class NoticesManager {
      * 获取群聊通知列表
      * @return
      */
-    public static List<NoticeMsg> getGroupNotices(){
+    public List<NoticeMsg> getGroupNotices(){
         return groupNotices;
     }
 
@@ -53,7 +68,7 @@ public class NoticesManager {
      * 设置群聊通知列表
      * @param list
      */
-    public static void setGroupNotices(List<NoticeMsg> list){
+    public void setGroupNotices(List<NoticeMsg> list){
         if(list != null)
             groupNotices = list;
     }
@@ -62,7 +77,7 @@ public class NoticesManager {
      * 收到系统通知
      * @param noticeMsg
      */
-    public static void addSystemNotice(NoticeMsg noticeMsg){
+    public void addSystemNotice(NoticeMsg noticeMsg){
         systemNotices.add(noticeMsg);
     }
 
@@ -70,7 +85,7 @@ public class NoticesManager {
      * 收到好友通知
      * @param noticeMsg
      */
-    public static void addFriendNotice(NoticeMsg noticeMsg){
+    public void addFriendNotice(NoticeMsg noticeMsg){
        friendNotices.add(noticeMsg);
     }
 
@@ -78,28 +93,28 @@ public class NoticesManager {
      * 收到群聊通知
      * @param noticeMsg
      */
-    public static void addGroupNotice(NoticeMsg noticeMsg){
+    public void addGroupNotice(NoticeMsg noticeMsg){
         groupNotices.add(noticeMsg);
     }
 
     /**
      * 清除系统通知
      */
-    public static void clearSystemNotices(){
+    public void clearSystemNotices(){
         systemNotices.clear();
     }
 
     /**
      * 清除好友通知
      */
-    public static void clearFriendNotices(){
+    public void clearFriendNotices(){
         friendNotices.clear();
     }
 
     /**
      * 清除群聊通知
      */
-    public static void clearGroupNotices(){
+    public void clearGroupNotices(){
         groupNotices.clear();
     }
 

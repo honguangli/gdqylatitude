@@ -50,7 +50,7 @@ public class SearchMineAdapter extends BaseAdapter {
 
         search_friend_icon.setImageResource(R.drawable.dynamic_background);
         tv_friend_name.setText(list.get(i).getFriend().getLogname());
-        tv_friend_from.setText("来自分组："+FriendsManager.getFriendsSetNameByID(list.get(i).getFriendid()));
+        tv_friend_from.setText("来自分组："+FriendsManager.getInstance().getFriendsSetNameByID(list.get(i).getFriendid()));
         return v;
     }
 }

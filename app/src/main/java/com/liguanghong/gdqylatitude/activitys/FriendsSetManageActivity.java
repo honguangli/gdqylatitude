@@ -154,7 +154,7 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
      */
     private void addFriendsSet(final String setName){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("setName", setName)
                 .build();
         HttpUtil.postEnqueue("user/createfriendsset", requestBody, new Callback() {
@@ -169,7 +169,7 @@ public class FriendsSetManageActivity extends BaseActivity implements View.OnCli
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.addFriendsSet(setName, new ArrayList<Friend>());
+                            FriendsManager.getInstance().addFriendsSet(setName, new ArrayList<Friend>());
                         } else{
 
                         }

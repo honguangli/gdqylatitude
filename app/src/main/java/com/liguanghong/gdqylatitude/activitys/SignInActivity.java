@@ -149,11 +149,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             JSONObject object = (JSONObject)result.getData();
                             User user = JSONObject.parseObject(object.getString("user"), User.class);
                             Map<String, List<Friend>> friends = JSONObject.parseObject(object.getString("friends"), new TypeReference<Map<String, List<Friend>>>() {});
-                            FriendsManager.setFriends(friends);
-                            Log.i("用户", "ID："+user.getUserid());
-                            UserManager.addAppUser(user);
-                            //连接socket
-                            WebSocketManager.connect(user.getUserid());
+                            FriendsManager.getInstance().setFriends(friends);
+                            UserManager.getInstance().addAppUser(user);
                             loginHandler.sendEmptyMessage(200);
                         } else{
                             //登录失败

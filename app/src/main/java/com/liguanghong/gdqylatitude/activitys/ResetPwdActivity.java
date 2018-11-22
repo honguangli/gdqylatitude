@@ -153,7 +153,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                             //重置成功
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
                             //添加到用户管理
-                            UserManager.addAppUser(user);
+                            UserManager.getInstance().addAppUser(user);
                             //UserManager.addSocketClient();
                             resetpwdHandler.sendEmptyMessage(200);
                         } else{

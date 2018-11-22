@@ -7,13 +7,28 @@ import java.util.List;
 
 public class GroupManager {
 
-    private static List<Groupchat> groupchatList = new ArrayList<>();
-
+    private static GroupManager instance = null;
+    private List<Groupchat> groupchatList = new ArrayList<>();
+    //单例模式
+    public static GroupManager getInstance() {
+        if (instance == null) {
+            synchronized (GroupManager.class) {
+                if (instance == null) {
+                    instance = new GroupManager();
+                }
+            }
+        }
+        return instance;
+    }
+    //释放资源
+    public static void releaseResource(){
+        instance = null;
+    }
     /**
      * 设置群组列表
      * @param list
      */
-    public static void setGroupchatList(List<Groupchat> list){
+    public void setGroupchatList(List<Groupchat> list){
         if(list != null){
             groupchatList = list;
         }
@@ -23,7 +38,7 @@ public class GroupManager {
      * 获取群组列表
      * @return
      */
-    public static List<Groupchat> getGroupchatList(){
+    public List<Groupchat> getGroupchatList(){
         return groupchatList;
     }
 
@@ -31,10 +46,10 @@ public class GroupManager {
      * 获取创建的群组列表
      * @return
      */
-    public static List<Groupchat> getMyGroupchatList(){
+    public List<Groupchat> getMyGroupchatList(){
         List<Groupchat> list = new ArrayList<>();
         for(Groupchat tempGroup : groupchatList){
-            if(tempGroup.getOwnerid().equals(UserManager.getAppUser().getUserid())){
+            if(tempGroup.getOwnerid().equals(UserManager.getInstance().getAppUser().getUserid())){
                 list.add(tempGroup);
             }
         }
@@ -45,10 +60,10 @@ public class GroupManager {
      * 获取我加入的群组列表
      * @return
      */
-    public static List<Groupchat> getJoininGroupchatList(){
+    public List<Groupchat> getJoininGroupchatList(){
         List<Groupchat> list = new ArrayList<>();
         for(Groupchat tempGroup : groupchatList){
-            if(!tempGroup.getOwnerid().equals(UserManager.getAppUser().getUserid())){
+            if(!tempGroup.getOwnerid().equals(UserManager.getInstance().getAppUser().getUserid())){
                 list.add(tempGroup);
             }
         }
@@ -60,7 +75,7 @@ public class GroupManager {
      * @param groupID
      * @return
      */
-    public static Groupchat getGroupByID(Integer groupID){
+    public Groupchat getGroupByID(Integer groupID){
         for(Groupchat groupchat : groupchatList){
             if(groupchat.getGroupid().equals(groupID)){
                 return groupchat;
@@ -73,7 +88,7 @@ public class GroupManager {
      * 添加群聊
      * @param newGroup
      */
-    public static void addGroup(Groupchat newGroup){
+    public void addGroup(Groupchat newGroup){
         groupchatList.add(newGroup);
     }
 
@@ -81,7 +96,7 @@ public class GroupManager {
      * 移除群聊
      * @param newGroup
      */
-    public static void removeGroup(Groupchat newGroup){
+    public void removeGroup(Groupchat newGroup){
         groupchatList.remove(newGroup);
     }
 

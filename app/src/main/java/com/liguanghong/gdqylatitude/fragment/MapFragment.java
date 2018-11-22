@@ -138,7 +138,7 @@ public class MapFragment extends BaseFragment {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                                Friend friend = FriendsManager.getFriendByID(user.getUserid());
+                                Friend friend = FriendsManager.getInstance().getFriendByID(user.getUserid());
                                 if(friend != null){
                                     //好友
                                     intent.putExtra("userinfo", friend);

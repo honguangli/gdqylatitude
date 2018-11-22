@@ -65,7 +65,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData()
     {
-        User user = UserManager.getAppUser();
+        User user = UserManager.getInstance().getAppUser();
         personal_head.setImageResource(R.drawable.head);
         personal_name.setText(user.getLogname());
         //personal_id.setText(user.getUserid() + "");

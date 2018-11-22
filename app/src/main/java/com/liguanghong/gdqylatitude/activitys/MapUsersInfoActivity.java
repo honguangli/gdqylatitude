@@ -47,7 +47,7 @@ public class MapUsersInfoActivity extends BaseActivity implements View.OnClickLi
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Intent intent = new Intent(,UserInfoActivity.class);
                 Intent intent = new Intent(MapUsersInfoActivity.this,UserInfoActivity.class);
-                Friend friend = FriendsManager.getFriendByID(list.get(i).getUserid());
+                Friend friend = FriendsManager.getInstance().getFriendByID(list.get(i).getUserid());
                 if(friend != null){
                     //好友
                     intent.putExtra("userinfo", friend);

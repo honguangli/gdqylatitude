@@ -49,12 +49,12 @@ public class ChatAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return ConversationManager.getMsgList(friendID, isSingle).size();
+        return ConversationManager.getInstance().getMsgList(friendID, isSingle).size();
     }
 
     @Override
     public Object getItem(int i) {
-        return ConversationManager.getMsgList(friendID, isSingle).get(i);
+        return ConversationManager.getInstance().getMsgList(friendID, isSingle).get(i);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ChatAdapter extends BaseAdapter {
         View v = LayoutInflater.from(context).inflate(R.layout.item_chat_text,null);
 
         ChatMsg chatMsg = (ChatMsg)getItem(i);
-        if(chatMsg.getSenderid().equals(UserManager.getAppUser().getUserid())){
+        if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
             //自己发的消息
             v.findViewById(R.id.right_chat).setVisibility(View.VISIBLE);
             CircleImageView iv = v.findViewById(R.id.right_headphoto);

@@ -20,12 +20,12 @@ public class GroupAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return GroupManager.getGroupchatList().size();
+        return GroupManager.getInstance().getGroupchatList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return GroupManager.getGroupchatList().get(i);
+        return GroupManager.getInstance().getGroupchatList().get(i);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class GroupAdapter extends BaseAdapter {
 
         ImageView img_chat_head = v.findViewById(R.id.group_head);
         TextView chat_name = v.findViewById(R.id.group_name);
-        chat_name.setText(GroupManager.getGroupchatList().get(i).getGroupname());
+        chat_name.setText(GroupManager.getInstance().getGroupchatList().get(i).getGroupname());
 
         return v;
     }

@@ -280,7 +280,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void sendText(String text){
         ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
         if(!isSingle)
             chatMsg.setReceiverid(groupchat.getGroupid());
         else
@@ -289,7 +289,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setType(MessageType.TEXT);
         chatMsg.setData(text.getBytes(Charset.forName("UTF-8")));
         WebSocketManager.sendMsg(chatMsg);
-        ConversationManager.sendMsg(chatMsg);
+        ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
     /**
@@ -298,7 +298,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void sendImg(String photoString){
         ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
         if(!isSingle)
             chatMsg.setReceiverid(groupchat.getGroupid());
         else
@@ -307,7 +307,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setType(MessageType.IMAGE);
         chatMsg.setData(photoString.getBytes(Charset.forName("UTF-8")));
         WebSocketManager.sendMsg(chatMsg);
-        ConversationManager.sendMsg(chatMsg);
+        ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
     /**
@@ -316,13 +316,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void sendLocation(String locaphotoString){
         ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setSenderid(UserManager.getAppUser().getUserid());
+        chatMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
         chatMsg.setReceiverid(friend.getFriend().getUserid());
         chatMsg.setIssingle(true);
         chatMsg.setType(MessageType.LOCATION);
         chatMsg.setData(locaphotoString.getBytes(Charset.forName("UTF-8")));
         WebSocketManager.sendMsg(chatMsg);
-        ConversationManager.sendMsg(chatMsg);
+        ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
     //下面的这个方法是将byte数组转化为Bitmap对象的一个方法

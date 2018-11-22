@@ -14,15 +14,32 @@ import java.util.Map;
  * 好友管理类
  */
 public class FriendsManager {
+
+    private static FriendsManager instance = null;
     //好友列表
-    private static Map<String, List<Friend>> friends = new LinkedHashMap<>();
+    private Map<String, List<Friend>> friends = new LinkedHashMap<>();
     private static final String DEFAULTSETNAME = "我的好友";
 
+    //单例模式
+    public static FriendsManager getInstance() {
+        if (instance == null) {
+            synchronized (FriendsManager.class) {
+                if (instance == null) {
+                    instance = new FriendsManager();
+                }
+            }
+        }
+        return instance;
+    }
+    //释放资源
+    public static void releaseResource(){
+        instance = null;
+    }
     /**
      * 设置通讯录
      * @param newfriends
      */
-    public static void setFriends(Map<String, List<Friend>> newfriends){
+    public void setFriends(Map<String, List<Friend>> newfriends){
         List<Friend> defaultFriendsSet = newfriends.get(FriendsManager.DEFAULTSETNAME);
         friends.put(FriendsManager.DEFAULTSETNAME, defaultFriendsSet);
         newfriends.remove(defaultFriendsSet);
@@ -33,7 +50,7 @@ public class FriendsManager {
      * 获取好友分组名列表
      * @return
      */
-    public static List<String> getFriendsSetNameList(){
+    public List<String> getFriendsSetNameList(){
         List<String> friendsSetNameList = new ArrayList<>();
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
            friendsSetNameList.add(entry.getKey());
@@ -45,7 +62,7 @@ public class FriendsManager {
      * 获取好友列表
      * @return
      */
-    public static Map<String, List<Friend>> getFriends(){
+    public Map<String, List<Friend>> getFriends(){
         return friends;
     }
 
@@ -54,7 +71,7 @@ public class FriendsManager {
      * @param setName
      * @return
      */
-    public static List<Friend> getFriendsBySetName(String setName){
+    public List<Friend> getFriendsBySetName(String setName){
         return friends.get(setName);
     }
 
@@ -63,7 +80,7 @@ public class FriendsManager {
      * @param setName
      * @return
      */
-    public static int getOnlineCountBySetName(String setName){
+    public int getOnlineCountBySetName(String setName){
         List<Friend> list = getFriendsBySetName(setName);
         int count = 0;
         for(Friend friend : list){
@@ -79,7 +96,7 @@ public class FriendsManager {
      * @param friendID
      * @return
      */
-    public static Friend getFriendByID(Integer friendID){
+    public Friend getFriendByID(Integer friendID){
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend : entry.getValue()){
                 if(friend.getFriendid().equals(friendID)){
@@ -95,7 +112,7 @@ public class FriendsManager {
      * @param friendID
      * @return
      */
-    public static String getFriendsSetNameByID(Integer friendID){
+    public String getFriendsSetNameByID(Integer friendID){
         String friendsSetName = null;
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend  : entry.getValue()){
@@ -113,7 +130,7 @@ public class FriendsManager {
      * @param friendID
      * @return
      */
-    public static int getFriendsSetIndexByID(Integer friendID){
+    public int getFriendsSetIndexByID(Integer friendID){
         int index = 0;
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend : entry.getValue()){
@@ -131,7 +148,7 @@ public class FriendsManager {
      * @param setName
      * @param setList
      */
-    public static void addFriendsSet(String setName, List<Friend> setList){
+    public void addFriendsSet(String setName, List<Friend> setList){
         getFriends().put(setName, setList);
         notifyDataSetChanged();
     }
@@ -140,7 +157,7 @@ public class FriendsManager {
      * 删除好友分组
      * @param setName
      */
-    public static void deleteFriendsSet(String setName){
+    public void deleteFriendsSet(String setName){
         List<Friend> list = getFriendsBySetName(setName);
         if(list != null && list.size() > 0){
             for(Friend friend : list){
@@ -157,8 +174,8 @@ public class FriendsManager {
      * @param fromSetName
      * @param toSetName
      */
-    public static void changeFriendsSet(Integer friendID, String fromSetName, String toSetName){
-        Friend friend = FriendsManager.getFriendByID(friendID);
+    public void changeFriendsSet(Integer friendID, String fromSetName, String toSetName){
+        Friend friend = getFriendByID(friendID);
         getFriends().get(fromSetName).remove(friend);
         getFriends().get(toSetName).add(friend);
         notifyDataSetChanged();
@@ -168,7 +185,7 @@ public class FriendsManager {
      * 添加好友
      * @param friend
      */
-    public static void addFriend(Friend friend){
+    public void addFriend(Friend friend){
         getFriends().get(FriendsManager.DEFAULTSETNAME).add(friend);
         notifyDataSetChanged();
     }
@@ -178,7 +195,7 @@ public class FriendsManager {
      * @param friend
      * @param setName
      */
-    public static void addFriend(Friend friend, String setName){
+    public void addFriend(Friend friend, String setName){
         getFriends().get(setName).add(friend);
         notifyDataSetChanged();
     }
@@ -187,7 +204,7 @@ public class FriendsManager {
      * 删除好友
      * @param friendID
      */
-    public static void deleteFriend(Integer friendID){
+    public void deleteFriend(Integer friendID){
         getFriends().get(getFriendsSetNameByID(friendID)).remove(getFriendByID(friendID));
         notifyDataSetChanged();
     }
@@ -196,7 +213,7 @@ public class FriendsManager {
      * 删除好友
      * @param friend
      */
-    public static void deleteFriend(User friend){
+    public void deleteFriend(User friend){
         getFriends().get(getFriendsSetNameByID(friend.getUserid())).remove(friend);
         notifyDataSetChanged();
     }
@@ -206,7 +223,7 @@ public class FriendsManager {
      * @param friend
      * @param setName
      */
-    public static void deleteFriend(User friend, String setName){
+    public void deleteFriend(User friend, String setName){
         getFriends().get(setName).remove(friend);
         notifyDataSetChanged();
     }
@@ -216,7 +233,7 @@ public class FriendsManager {
      * @param friendID
      * @param status
      */
-    public static void setFriendsStatus(Integer friendID, Integer status){
+    public void setFriendsStatus(Integer friendID, Integer status){
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend : entry.getValue()){
                 if(friend.getFriendid().equals(friendID)){
@@ -232,7 +249,7 @@ public class FriendsManager {
      * @param friendID
      * @param friendRemark
      */
-    public static void setFriendRemark(Integer friendID, String friendRemark){
+    public void setFriendRemark(Integer friendID, String friendRemark){
         for (Map.Entry<String, List<Friend>> entry : getFriends().entrySet()) {
             for(Friend friend : entry.getValue()){
                 if(friend.getFriendid().equals(friendID)){
@@ -246,7 +263,7 @@ public class FriendsManager {
     /**
      * 提醒UI做改变
      */
-    private static void notifyDataSetChanged(){
+    private void notifyDataSetChanged(){
         if(AddressbookFragment.addressbookHandler != null)
             AddressbookFragment.addressbookHandler.sendEmptyMessage(200);
         if(FriendsSetManageActivity.getFriendsSetManageHandler() != null)

@@ -37,7 +37,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private ImageView backtrack1;
     private RelativeLayout rly_group_note,rly_group_create;
     private GroupAdapter groupAdapter;
-    private Handler groupHandler;
+    public static Handler groupHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
 //      getData();
         groupAdapter = new GroupAdapter(getApplicationContext());
         lv_chat.setAdapter(groupAdapter);
-        groupAdapter.notifyDataSetChanged();
     }
 
 //    private void getData(){

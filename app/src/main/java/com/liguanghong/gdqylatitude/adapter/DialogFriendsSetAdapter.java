@@ -23,12 +23,12 @@ public class DialogFriendsSetAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return FriendsManager.getFriendsSetNameList().size();
+        return FriendsManager.getInstance().getFriendsSetNameList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return FriendsManager.getFriendsSetNameList().get(i);
+        return FriendsManager.getInstance().getFriendsSetNameList().get(i);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class DialogFriendsSetAdapter extends BaseAdapter {
 
         View v = LayoutInflater.from(context).inflate(R.layout.item_dialod_friends_set_change,null);
         TextView item_friends_set_name = v.findViewById(R.id.item_friends_set_name);
-        item_friends_set_name.setText(FriendsManager.getFriendsSetNameList().get(i));
+        item_friends_set_name.setText(FriendsManager.getInstance().getFriendsSetNameList().get(i));
         ImageView item_friends_set_check = v.findViewById(R.id.item_friends_set_check);
-        if(i == FriendsManager.getFriendsSetIndexByID(userid)){
+        if(i == FriendsManager.getInstance().getFriendsSetIndexByID(userid)){
             item_friends_set_check.setImageResource(R.drawable.check);
         }
 

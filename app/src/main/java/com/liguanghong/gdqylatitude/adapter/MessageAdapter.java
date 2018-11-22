@@ -29,17 +29,17 @@ public class MessageAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return ConversationManager.getAllMsgMap().size();
+        return ConversationManager.getInstance().getMsgMap().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return ConversationManager.getMsgListByIndex(i);
+        return ConversationManager.getInstance().getMsgListByIndex(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return ConversationManager.getMsgKeyByIndex(i);
+        return ConversationManager.getInstance().getMsgKeyByIndex(i);
     }
 
     @Override
@@ -59,15 +59,15 @@ public class MessageAdapter extends BaseAdapter {
             ChatMsg chatMsg = list.get(list.size() - 1);
             if(!chatMsg.getIssingle()){
                 //群聊
-                tv_nickname.setText(GroupManager.getGroupByID(chatMsg.getReceiverid()).getGroupname());
+                tv_nickname.setText(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
-                if(chatMsg.getSenderid().equals(UserManager.getAppUser().getUserid())){
+                if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
                     //用户本人先发的消息
-                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());
+                    tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());
                 } else{
                     //好友先发的消息
-                    tv_nickname.setText(FriendsManager.getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
+                    tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
                 }
             }
             if(chatMsg.getType().equals(MessageType.TEXT))

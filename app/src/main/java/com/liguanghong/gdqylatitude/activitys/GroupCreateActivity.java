@@ -115,7 +115,7 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
 
     private void createGroup(String groupName){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid()+"")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid()+"")
                 .add("groupname", groupName)
                 .build();
         HttpUtil.postEnqueue("group/creategroup", requestBody, new Callback() {

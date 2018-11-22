@@ -99,7 +99,7 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     private void getData(){
         final RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("status", "")
                 .build();
         HttpUtil.postEnqueue("notice/findnotices", requestBody, new Callback() {
@@ -117,9 +117,9 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
                             List<NoticeMsg> list = JSONArray.parseArray(result.getData().toString(), NoticeMsg.class);
                             for(NoticeMsg noticeMsg : list){
                                 if(noticeMsg.getNoticetype() > 14 && noticeMsg.getNoticetype() < 18)
-                                    NoticesManager.addFriendNotice(noticeMsg);
+                                    NoticesManager.getInstance().addFriendNotice(noticeMsg);
                                 else
-                                    NoticesManager.addGroupNotice(noticeMsg);
+                                    NoticesManager.getInstance().addGroupNotice(noticeMsg);
                             }
                             friendsNoticeHandler.sendEmptyMessage(222);
                         } else{

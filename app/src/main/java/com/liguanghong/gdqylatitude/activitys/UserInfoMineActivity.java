@@ -90,7 +90,6 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                 dialog.show();
                 Log.i("dialog","已显示");
                 commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),"11");
-
                 //dialog.close();
                 break;
             case R.id.personalinfo_iv_touxiang:
@@ -105,7 +104,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     private void commitInfo(final String logname, String sex, String username, String phone, String email,String headportrait){
 
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("logname",logname)
                 .add("sex", sex)
                 .add("username",username)
@@ -131,7 +130,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                         if(result.isSuccess()){
                             //更新成功
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
-                            UserManager.addAppUser(user);
+                            UserManager.getInstance().addAppUser(user);
 
                         } else{
                             //更新失败

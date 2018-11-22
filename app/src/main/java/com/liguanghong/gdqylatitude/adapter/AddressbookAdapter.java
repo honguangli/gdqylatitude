@@ -24,26 +24,26 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
     //获取分组数
     @Override
     public int getGroupCount() {
-        return FriendsManager.getFriendsSetNameList().size();
+        return FriendsManager.getInstance().getFriendsSetNameList().size();
     }
     //获取当前组的子项数
     @Override
     public int getChildrenCount(int groupPosition) {
-        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
-        int childCount = FriendsManager.getFriends().get(groupName).size();
+        String groupName = FriendsManager.getInstance().getFriendsSetNameList().get(groupPosition);
+        int childCount = FriendsManager.getInstance().getFriends().get(groupName).size();
         return childCount;
     }
     //获取当前组对象
     @Override
     public Object getGroup(int groupPosition) {
-        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
+        String groupName = FriendsManager.getInstance().getFriendsSetNameList().get(groupPosition);
         return groupName;
     }
     //获取当前子项对象
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String groupName = FriendsManager.getFriendsSetNameList().get(groupPosition);
-        String chidlName = FriendsManager.getFriends().get(groupName).get(childPosition).getFriend().getLogname();
+        String groupName = FriendsManager.getInstance().getFriendsSetNameList().get(groupPosition);
+        String chidlName = FriendsManager.getInstance().getFriends().get(groupName).get(childPosition).getFriend().getLogname();
         return chidlName;
     }
     //获取组ID
@@ -79,8 +79,8 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         parentText.setText((String)getGroup(groupPosition));
 
         TextView parentNumText = view.findViewById(R.id.text_parent_num);
-        parentNumText.setText(FriendsManager.getOnlineCountBySetName((String)getGroup(groupPosition))
-                + "/" + FriendsManager.getFriendsBySetName((String)getGroup(groupPosition)).size());
+        parentNumText.setText(FriendsManager.getInstance().getOnlineCountBySetName((String)getGroup(groupPosition))
+                + "/" + FriendsManager.getInstance().getFriendsBySetName((String)getGroup(groupPosition)).size());
 
         return view;
     }
@@ -95,9 +95,9 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         ImageView image_head = view.findViewById(R.id.image_head);
         ImageView img_state = view.findViewById(R.id.img_state);
 
-        String parentName = FriendsManager.getFriendsSetNameList().get(groupPosition);
+        String parentName = FriendsManager.getInstance().getFriendsSetNameList().get(groupPosition);
 
-        Friend friend = FriendsManager.getFriends().get(parentName).get(childPosition);
+        Friend friend = FriendsManager.getInstance().getFriends().get(parentName).get(childPosition);
 
         image_head.setImageResource(R.drawable.dynamic_background);
 

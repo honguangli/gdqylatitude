@@ -70,8 +70,8 @@ public class AddressbookFragment extends BaseFragment implements View.OnClickLis
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String setName = FriendsManager.getFriendsSetNameList().get(groupPosition);
-                Friend friend = FriendsManager.getFriendsBySetName(setName).get(childPosition);
+                String setName = FriendsManager.getInstance().getFriendsSetNameList().get(groupPosition);
+                Friend friend = FriendsManager.getInstance().getFriendsBySetName(setName).get(childPosition);
                 //启动聊天界面
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("userinfo", friend);

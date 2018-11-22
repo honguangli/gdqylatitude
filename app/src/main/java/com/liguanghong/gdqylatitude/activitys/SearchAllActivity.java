@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.SearchAllAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -156,6 +157,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
     private void search(String keyword, int page){
 
         final RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("keyword", keyword)
                 .add("page", page+"")
                 .build();

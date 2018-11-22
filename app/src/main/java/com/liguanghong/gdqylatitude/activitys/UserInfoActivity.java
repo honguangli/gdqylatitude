@@ -118,11 +118,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             public void handleMessage(Message message){
                 switch (message.what){
                     case 1://更改好友分组
-                        tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()));
+                        tv_information_groupname.setText(FriendsManager.getInstance().getFriendsSetNameByID(friend.getFriend().getUserid()));
                         dialogFriendsSetAdapter.notifyDataSetChanged();
                         break;
                     case 2://更改好友备注
-                        tv_information_markname.setText(FriendsManager.getFriendByID(friend.getFriendid()).getRemark() == null ? "还没备注？点我设置" : FriendsManager.getFriendByID(friend.getFriendid()).getRemark());
+                        tv_information_markname.setText(
+                                FriendsManager.getInstance().getFriendByID(friend.getFriendid()).getRemark() == null ?
+                                        "还没备注？点我设置" : FriendsManager.getInstance().getFriendByID(friend.getFriendid()).getRemark());
                         break;
                     case 3://添加好友
                         bottomDialog.cancel();
@@ -156,7 +158,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
 
             tv_information_markname.setText(friend.getRemark() == null ? "还没备注？点我设置" : friend.getRemark());
-            tv_information_groupname.setText(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()));
+            tv_information_groupname.setText(FriendsManager.getInstance().getFriendsSetNameByID(friend.getFriend().getUserid()));
 
             dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getFriend().getUserid());
             dialogFriendsSetAdapter.notifyDataSetChanged();
@@ -275,7 +277,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        changeFriendsSet(FriendsManager.getFriendsSetNameByID(friend.getFriend().getUserid()), FriendsManager.getFriendsSetNameList().get(i));
+        changeFriendsSet(FriendsManager.getInstance().getFriendsSetNameByID(friend.getFriend().getUserid()), FriendsManager.getInstance().getFriendsSetNameList().get(i));
     }
 
     /**
@@ -285,7 +287,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void changeFriendsSet(final String fromSetName, final String toSetName){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("targetid", friend.getFriendid()+"")
                 .add("fromSetName", fromSetName)
                 .add("toSetName", toSetName)
@@ -302,7 +304,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.changeFriendsSet(friend.getFriendid(), fromSetName, toSetName);
+                            FriendsManager.getInstance().changeFriendsSet(friend.getFriendid(), fromSetName, toSetName);
                             userInfoHandler.sendEmptyMessage(1);
                         } else{
 
@@ -322,7 +324,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void changeFriendRemark(final String remark){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("targetid", friend.getFriendid() + "")
                 .add("remark", remark)
                 .build();
@@ -338,7 +340,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.setFriendRemark(friend.getFriendid(), remark);
+                            FriendsManager.getInstance().setFriendRemark(friend.getFriendid(), remark);
                             userInfoHandler.sendEmptyMessage(2);
                         } else{
 
@@ -359,7 +361,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     private void friendNotice(){
         RequestBody requestBody = new FormBody.Builder()
                 .add("noticetype", MessageType.FRIENDAPPLY + "")
-                .add("senderid", UserManager.getAppUser().getUserid() + "")
+                .add("senderid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("receiverid", friend.getFriendid() + "")
                 .add("status", 1+"")
                 .build();
@@ -394,7 +396,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void addFriend(){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("targetuserid", friend.getFriendid() + "")
                 .build();
         HttpUtil.postEnqueue("user/addfriend", requestBody, new Callback() {
@@ -409,7 +411,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.addFriend(friend);
+                            FriendsManager.getInstance().addFriend(friend);
                             userInfoHandler.sendEmptyMessage(3);
                         } else{
 
@@ -429,7 +431,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void deleteFriend(){
         RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getAppUser().getUserid() + "")
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("targetuserid", friend.getFriendid() + "")
                 .build();
         HttpUtil.postEnqueue("user/deletefriend", requestBody, new Callback() {
@@ -444,7 +446,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            FriendsManager.deleteFriend(friend.getFriendid());
+                            FriendsManager.getInstance().deleteFriend(friend.getFriendid());
                             userInfoHandler.sendEmptyMessage(4);
                         } else{
 

@@ -39,13 +39,13 @@ public class WebSocketManager {
                         HomeActivity.getHomeHandler().sendEmptyMessage(222);
                     } else if(chatMsg.getType().equals(MessageType.FRIENDONLINE)){
                         //好友上线通知
-                        FriendsManager.setFriendsStatus(chatMsg.getSenderid(), 2);
+                        FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 2);
                     } else if(chatMsg.getType().equals(MessageType.FRIENDOFFLINE)){
                         //好友下线通知
-                        FriendsManager.setFriendsStatus(chatMsg.getSenderid(), 1);
+                        FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 1);
                     } else if(chatMsg.getType() > 0 && chatMsg.getType() < 5){
                         //聊天消息
-                        ConversationManager.receiveMsg(chatMsg);
+                        ConversationManager.getInstance().receiveMsg(chatMsg);
                     }
                 }
 

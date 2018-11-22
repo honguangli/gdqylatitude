@@ -51,10 +51,11 @@
         <ImageView
             android:id="@+id/left_img"
             android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/left_headphoto"
             android:layout_marginRight="40dp"
             android:src="@mipmap/ic_launcher_round"
+            android:adjustViewBounds="true"
             android:visibility="gone"/>
 
     </RelativeLayout>
@@ -94,10 +95,11 @@
         <ImageView
             android:id="@+id/right_img"
             android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/right_headphoto"
             android:layout_marginLeft="40dp"
             android:src="@mipmap/ic_launcher_round"
+            android:adjustViewBounds="true"
             android:visibility="gone"/>
 
     </RelativeLayout>

@@ -28,12 +28,12 @@ public class FriendsNoticeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return NoticesManager.getFriendNotices().size();
+        return NoticesManager.getInstance().getFriendNotices().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return NoticesManager.getFriendNotices().get(i);
+        return NoticesManager.getInstance().getFriendNotices().get(i);
     }
 
     @Override
