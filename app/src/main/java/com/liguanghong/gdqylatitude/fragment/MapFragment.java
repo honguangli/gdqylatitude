@@ -26,12 +26,9 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
@@ -71,7 +68,7 @@ public class MapFragment extends BaseFragment {
     private static double latitude;
     private static double longitude;
     private boolean isZoomTo = true;
-    List<User> list;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -161,7 +158,7 @@ public class MapFragment extends BaseFragment {
                 try{
                     View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
                     TextView logname = view.findViewById(R.id.user_logname);
-                    list = new ArrayList<>();
+                    final List<User> list = new ArrayList<>();
                     for(MyItem myItem : items){
                         final User user = (User)myItem.getExtraInfo().get("info");
                         list.add(user);
