@@ -14,75 +14,82 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WebSocketManager {
+public class WebSocketManager extends WebSocketClient{
 
-    private static WebSocketClient client;
+    private static WebSocketManager instance;
 
-    /**
-     * 连接websocket
-     * @param userid
-     */
-    public static void connect(Integer userid){
-        try{
-            client = new WebSocketClient(new URI(HttpUtil.getWebSocketAddress() + userid)) {
-                @Override
-                public void onOpen(ServerHandshake handshakedata) {
-                    Log.i("websocket", "open");
-                }
+    public WebSocketManager(URI serverUri) {
+        super(serverUri);
+        connect();
+    }
 
-                @Override
-                public void onMessage(String message) {
-                    ChatMsg chatMsg = JSONObject.parseObject(message, ChatMsg.class);
-                    Log.i("消息", message);
-                    if(chatMsg.getType().equals(MessageType.LOGOUT)){
-                        //强制登出
-                        HomeActivity.getHomeHandler().sendEmptyMessage(222);
-                    } else if(chatMsg.getType().equals(MessageType.FRIENDONLINE)){
-                        //好友上线通知
-                        FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 2);
-                    } else if(chatMsg.getType().equals(MessageType.FRIENDOFFLINE)){
-                        //好友下线通知
-                        FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 1);
-                    } else if(chatMsg.getType() > 0 && chatMsg.getType() < 5){
-                        //聊天消息
-                        ConversationManager.getInstance().receiveMsg(chatMsg);
+    //单例模式
+    public static WebSocketManager getInstance() {
+        if (instance == null) {
+            synchronized (WebSocketManager.class) {
+                if (instance == null) {
+                    try {
+                        instance = new WebSocketManager(new URI(HttpUtil.getWebSocketAddress() + UserManager.getInstance().getAppUser().getUserid()));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
-
-                @Override
-                public void onClose(int code, String reason, boolean remote) {
-                    Log.i("websocket", "close:code-" + code +"|reason-" + reason);
-                    client = null;
-                }
-
-                @Override
-                public void onError(Exception ex) {
-                    Log.i("websocket", "error");
-                    client = null;
-                    ex.printStackTrace();
-                }
-            };
-            client.connect();
-        } catch (URISyntaxException e){
-            e.printStackTrace();
+            }
         }
+        return instance;
+    }
+    //释放资源
+    public static void releaseResource(){
+        Log.i("Socket管理器", "释放资源");
+        instance.close();
+        instance = null;
     }
 
     /**
      * 发送消息
      * @param chatMsg
      */
-    public static void sendMsg(ChatMsg chatMsg){
-        client.send(JSONObject.toJSONString(chatMsg));
+    public void sendMsg(ChatMsg chatMsg){
+        try{
+            send(JSONObject.toJSONString(chatMsg));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * 关闭websocket
-     */
-    public static void close(){
-        if(client != null && !client.isClosed()){
-            client.close();
+    @Override
+    public void onOpen(ServerHandshake handshakedata) {
+        Log.i("Socket管理器", "open");
+    }
+
+    @Override
+    public void onMessage(String message) {
+        ChatMsg chatMsg = JSONObject.parseObject(message, ChatMsg.class);
+        Log.i("Socket管理器", message);
+        if(chatMsg.getType().equals(MessageType.LOGOUT)){
+            //强制登出
+            HomeActivity.getHomeHandler().sendEmptyMessage(222);
+        } else if(chatMsg.getType().equals(MessageType.FRIENDONLINE)){
+            //好友上线通知
+            FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 2);
+        } else if(chatMsg.getType().equals(MessageType.FRIENDOFFLINE)){
+            //好友下线通知
+            FriendsManager.getInstance().setFriendsStatus(chatMsg.getSenderid(), 1);
+        } else if(chatMsg.getType() > 0 && chatMsg.getType() < 5){
+            //聊天消息
+            ConversationManager.getInstance().receiveMsg(chatMsg);
         }
+    }
+
+    @Override
+    public void onClose(int code, String reason, boolean remote) {
+        Log.i("Socket管理器", "close:code-" + code +"|reason-" + reason);
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        Log.i("Socket管理器", "error");
+        ex.printStackTrace();
     }
 
 }

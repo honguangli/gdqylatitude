@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.manager;
 
 
+import android.util.Log;
+
 import com.liguanghong.gdqylatitude.unity.User;
 
 /**
@@ -25,6 +27,7 @@ public class UserManager {
     }
     //释放资源
     public static void releaseResource(){
+        Log.i("用户管理器", "释放资源");
         instance = null;
     }
     /**

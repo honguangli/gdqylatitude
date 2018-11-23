@@ -2,8 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="@drawable/white_5_radius">
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="5dp"
+    android:background="@drawable/mapitem_5_radius">
 
     <TextView
         android:id="@+id/user_logname"
@@ -12,7 +15,7 @@
         android:layout_centerVertical="true"
         android:padding="10dp"
         android:text="用户名"
-        android:textColor="@color/colorBF"
+        android:textColor="@color/colorWhite"
         android:textSize="16sp"/>
 
     <LinearLayout

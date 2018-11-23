@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,23 +59,22 @@ public class MessageAdapter extends BaseAdapter {
             List<ChatMsg> list = (List<ChatMsg>)getItem(i);
             ChatMsg chatMsg = list.get(list.size() - 1);
 
-
             if(!chatMsg.getIssingle()){
                 //群聊
-                //获取群组头像
-                byte[] group = android.util.Base64.decode(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), android.util.Base64.DEFAULT);
+                byte[] group = Base64.decode(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), Base64.DEFAULT);
                 img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
                 tv_nickname.setText(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
-                //获取好友头像
-                byte[] friend = android.util.Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
-                img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
                 if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
                     //用户本人先发的消息
+                    byte[] friend = Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), Base64.DEFAULT);
+                    img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
                     tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());
                 } else{
                     //好友先发的消息
+                    byte[] friend = Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getHeadportrait(), Base64.DEFAULT);
+                    img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
                     tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
                 }
             }

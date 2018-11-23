@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,9 +101,8 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
 
         Friend friend = FriendsManager.getInstance().getFriends().get(parentName).get(childPosition);
 
-        byte[] friends = android.util.Base64.decode(friend.getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
+        byte[] friends = Base64.decode(friend.getFriend().getHeadportrait(), Base64.DEFAULT);
         image_head.setImageBitmap(ChatActivity.getPicFromBytes(friends,null));
-        System.out.println("TTTTTTTTTTTTTTTTTT"+friend.getFriend().getHeadportrait());
 
         String remark = friend.getRemark();
         if(remark == null)

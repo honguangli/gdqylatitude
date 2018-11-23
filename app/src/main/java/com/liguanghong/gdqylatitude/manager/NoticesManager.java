@@ -1,5 +1,7 @@
 package com.liguanghong.gdqylatitude.manager;
 
+import android.util.Log;
+
 import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class NoticesManager {
     }
     //释放资源
     public static void releaseResource(){
+        Log.i("通知管理器", "释放资源");
         instance = null;
     }
     /**

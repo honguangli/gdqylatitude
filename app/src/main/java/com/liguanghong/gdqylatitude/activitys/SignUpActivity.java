@@ -108,7 +108,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.register_backtrack:
-                startActivity(new Intent(this,SignInActivity.class));
+                finish();
                 break;
         }
     }
@@ -158,7 +158,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 注册成功，返回登录页面
      */
     private void navigateToSignin(){
-        startActivity(new Intent(this, SignInActivity.class));
         finish();
     }
 

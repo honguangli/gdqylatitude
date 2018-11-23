@@ -34,6 +34,8 @@ import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +177,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         GroupManager.releaseResource();
         NoticesManager.releaseResource();
         UserManager.releaseResource();
-        WebSocketManager.close();
+        WebSocketManager.releaseResource();
         super.onDestroy();
     }
 
@@ -231,7 +233,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         if(result.isSuccess()){
                             GroupManager.getInstance().setGroupchatList(JSONArray.parseArray(result.getData().toString(), Groupchat.class));
                             //连接socket
-                            WebSocketManager.connect(UserManager.getInstance().getAppUser().getUserid());
+                            WebSocketManager.getInstance();
                             GroupActivity.groupHandler.sendEmptyMessage(200);
                         } else{
 

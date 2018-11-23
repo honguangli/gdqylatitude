@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
  */
 public class HttpUtil {
 
-    private static final String addr = "172.17.144.72";                  //服务器ip地址
+    private static final String addr = "172.17.144.249";                  //服务器ip地址
     private static final Integer apiPort = 8080;                            //服务器api端口
     private static final Integer socketPort = 8888;                         //服务器聊天端口
     private static final String projectName = "GdqyLatitude";             //项目名称

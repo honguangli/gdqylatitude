@@ -5,8 +5,10 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,10 +26,12 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.liguanghong.gdqylatitude.R;
@@ -38,6 +42,7 @@ import com.liguanghong.gdqylatitude.clusterutil.clustering.Cluster;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterItem;
 import com.liguanghong.gdqylatitude.clusterutil.clustering.ClusterManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
@@ -56,15 +61,15 @@ import okhttp3.Response;
 public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
+    private Button btnCenter;
     private BaiduMap mBaiduMap;
 
     private ClusterManager<MyItem> mClusterManager;
 
-    private List<User> userList;
-    public LocationClient mLocationClient;
-    public BDAbstractLocationListener myListener = new MyLocationListener();
-    public static double latitude;
-    public static double longitude;
+    private LocationClient mLocationClient;
+    private BDAbstractLocationListener myListener = new MyLocationListener();
+    private static double latitude;
+    private static double longitude;
     private boolean isZoomTo = true;
     List<User> list;
     @Override
@@ -81,21 +86,81 @@ public class MapFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        mMapView = (MapView)view.findViewById(R.id.map);
-        mBaiduMap = mMapView.getMap();
-        mLocationClient = new LocationClient(getActivity().getApplicationContext());
+        btnCenter = view.findViewById(R.id.btn_center);
+        btnCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newLatLngZoom(mBaiduMap, new LatLng(latitude, longitude), 18);
+            }
+        });
+        mMapView = view.findViewById(R.id.map);
 
+    }
+
+    //初始化数据
+    @Override
+    protected void initData(){
+        //隐藏百度地图logo
+        View child = mMapView.getChildAt(1);
+        if (child != null && (child instanceof ImageView || child instanceof ZoomControls)){
+            child.setVisibility(View.INVISIBLE);
+        }
+        //地图上比例尺
+        mMapView.showScaleControl(false);
+        // 隐藏缩放控件
+        mMapView.showZoomControls(true);
+        //获取地图
+        mBaiduMap = mMapView.getMap();
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+        //声明LocationClient类
+        mLocationClient = new LocationClient(getActivity().getApplicationContext());
+        //注册监听函数
+        mLocationClient.registerLocationListener(myListener);
+        //初始化定位属性
+        initLocation();
+        //启动定位
+        mLocationClient.start();
+        //声明集群管理器
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
         mBaiduMap.setOnMarkerClickListener(mClusterManager);
+        mBaiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
 
+                }
+            }
+        });
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+                mBaiduMap.hideInfoWindow();
+            }
+        });
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
                 List<MyItem> items = (List<MyItem>) cluster.getItems();
                 try{
                     View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
-                    TextView logname = (TextView) view.findViewById(R.id.user_logname);
+                    TextView logname = view.findViewById(R.id.user_logname);
                     list = new ArrayList<>();
                     for(MyItem myItem : items){
                         final User user = (User)myItem.getExtraInfo().get("info");
@@ -129,91 +194,82 @@ public class MapFragment extends BaseFragment {
             @Override
             public boolean onClusterItemClick(MyItem item) {
                 final User user = (User)item.getExtraInfo().get("info");
-                    try {
-                        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
-                        TextView logname = view.findViewById(R.id.user_logname);
-                        logname.setText(user.getLogname());
-                        LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
-                        getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                                Friend friend = FriendsManager.getInstance().getFriendByID(user.getUserid());
-                                if(friend != null){
-                                    //好友
-                                    intent.putExtra("userinfo", friend);
-                                    intent.putExtra("hide", false);
-                                } else {
-                                    //非好友
-                                    intent.putExtra("userinfo", user);
-                                    intent.putExtra("hide", true);
-                                }
-
-                                startActivity(intent);
+                try {
+                    View view = LayoutInflater.from(getContext()).inflate(R.layout.item_map_user_info,null);
+                    TextView logname = view.findViewById(R.id.user_logname);
+                    logname.setText(user.getLogname());
+                    LinearLayout getUserInfoPanel = view.findViewById(R.id.getUserInfoPanel);
+                    getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                            Friend friend = FriendsManager.getInstance().getFriendByID(user.getUserid());
+                            if(friend != null){
+                                //好友
+                                intent.putExtra("userinfo", friend);
+                                intent.putExtra("hide", false);
+                            } else {
+                                //非好友
+                                intent.putExtra("userinfo", user);
+                                intent.putExtra("hide", true);
                             }
-                        });
-                        //定义用于显示该InfoWindow的坐标点
-                        final LatLng ll = item.getPosition();//得到坐标
-                        Point p = mBaiduMap.getProjection().toScreenLocation(ll);
-                        LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
-                        InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
-                        //显示InfoWindow
-                        mBaiduMap.showInfoWindow(mInfoWindow);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                            startActivity(intent);
+                        }
+                    });
+                    //定义用于显示该InfoWindow的坐标点
+                    final LatLng ll = item.getPosition();//得到坐标
+                    Point p = mBaiduMap.getProjection().toScreenLocation(ll);
+                    LatLng llInfo = mBaiduMap.getProjection().fromScreenLocation(p);
+                    InfoWindow mInfoWindow = new InfoWindow(view, llInfo, -47*3);
+                    //显示InfoWindow
+                    mBaiduMap.showInfoWindow(mInfoWindow);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
         });
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-        //注册监听函数
-        initLocation();
-        mLocationClient.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    getData();
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
-    //初始化数据
-    @Override
-    protected void initData(){
-        //隐藏百度地图logo
-        View child = mMapView.getChildAt(1);
-        if (child != null && (child instanceof ImageView || child instanceof ZoomControls)){
-            child.setVisibility(View.INVISIBLE);
-        }
-        //地图上比例尺
-        mMapView.showScaleControl(true);
-        // 隐藏缩放控件
-        mMapView.showZoomControls(true);
-        getData();
+    public static LatLng getLocation(){
+        return new LatLng(latitude, longitude);
     }
 
-    public class MyItem implements ClusterItem {
-        private final LatLng mPosition;
-        private Bundle buns;
-        public MyItem(LatLng latLng) {
-            mPosition = latLng;
-        }
-        public MyItem(LatLng latLng,Bundle bun) {
-            mPosition = latLng;
-            buns=bun;
-        }
-        public LatLng getPosition() {
-            return mPosition;
-        }
-        public Bundle getExtraInfo() {
-            return buns;
-        }
-        public BitmapDescriptor getBitmapDescriptor() {
-            return BitmapDescriptorFactory
-                    .fromResource(R.drawable.icon_gcoding);
-        }
+    public static double getLatitude(){
+        return latitude;
     }
+
+    public static void setLatitude(double lat){
+        latitude = lat;
+    }
+
+    public static double getLongitude(){
+        return longitude;
+    }
+
+    public static void setLongitude(double lng){
+        longitude = lng;
+    }
+
     /**
      * 获取网站用户数据，用于地图标记点
      */
     private void getData(){
         RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("statu","")
                 .add("required", "")
                 .build();
@@ -228,11 +284,8 @@ public class MapFragment extends BaseFragment {
                 if(response.isSuccessful()){
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        userList = JSONArray.parseArray(((JSONArray)result.getData()).toJSONString(), User.class);
-                        for(User user : userList){
-                            Log.i("测试输出", "用户名"+user.getLogname());
-                        }
-                        setOptions();
+                        List<User> userList = JSONArray.parseArray(((JSONArray)result.getData()).toJSONString(), User.class);
+                        setOptions(userList);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -242,28 +295,83 @@ public class MapFragment extends BaseFragment {
         });
     }
 
+    private void updateLocation(double latitude, double longitude){
+        if(getLatitude() == latitude && getLongitude() == longitude){
+            return;
+        } else{
+            setLatitude(latitude);
+            setLongitude(longitude);
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                    .add("latitude",latitude + "")
+                    .add("longitude", longitude + "")
+                    .build();
+            HttpUtil.postEnqueue("user/updatelocation", requestBody, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.i("定位管理", "更新定位：连接失败");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        try {
+                            JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                            if(result.isSuccess()){
+
+                            } else{
+
+                            }
+                            Log.i("定位管理", "更新定位：" + result.isSuccess() + "-" + result.getMessage());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            });
+        }
+    }
+
     /**
      * 设置地图标记点
      */
-    private void setOptions(){
+    private void setOptions(List<User> userList){
+        //清空标记点
+        mClusterManager.clearItems();
         for (int i = 0; i < userList.size(); i++) {
             try {
+                Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
                 LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());//得到每个用户的定位
                 List<MyItem> items = new ArrayList<MyItem>();  //集合
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("info", (User)userList.get(i));//用户
                 items.add(new MyItem(latLng,bundle));
                 mClusterManager.addItems(items);
-                Log.i("测试输出", "用户名"+latLng);
             } catch (NullPointerException e) {
                 Log.i("地图标记操作", "解析标记错误，用户userid：" + userList.get(i).getUserid());
                 e.printStackTrace();
-                continue;
             }
         }
     }
+
     /**
-     * 用户定位
+     * 移动到指定点
+     * @param baiduMap
+     * @param latLng
+     * @param zoom
+     */
+    private void newLatLngZoom(BaiduMap baiduMap, LatLng latLng, float zoom){
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(latLng)    //要移动的点
+                .zoom(zoom)   //设置缩放级别
+                .build();
+        //更新地图状态
+        baiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(mMapStatus));
+    }
+
+    /**
+     * 初始化定位属性
      */
     private void initLocation(){
 
@@ -274,7 +382,7 @@ public class MapFragment extends BaseFragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span= 0;
+        int span= 1500;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
@@ -402,32 +510,21 @@ public class MapFragment extends BaseFragment {
                 }
             }
             //更新当前位置
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            // 开启定位图层
-            mBaiduMap.setMyLocationEnabled(true);
-            // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
+            updateLocation(location.getLatitude(), location.getLongitude());
+
+            // 设置定位数据
+            mBaiduMap.setMyLocationData(new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                     .direction(location.getDirection())
                     .latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
-
-            // 设置定位数据
-            mBaiduMap.setMyLocationData(locData);
+                    .longitude(location.getLongitude()).build());
+            //定位成功，移动到中心点
             if(isZoomTo){
                 isZoomTo = false;
-                MapStatus mMapStatus = new MapStatus.Builder()
-                        .target(new LatLng(location.getLatitude(), location.getLongitude()))    //要移动的点
-                        .zoom(18)   //设置缩放级别
-                        .build();
-                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-                //更新地图状态
-                mBaiduMap.setMapStatus(mMapStatusUpdate);
+                newLatLngZoom(mBaiduMap, new LatLng(location.getLatitude(), location.getLongitude()), 18);
             }
 
-            Log.i("BaiduLocationApiDem", sb.toString());
+            Log.i("定位管理", sb.toString());
         }
 
         /**
@@ -480,6 +577,28 @@ public class MapFragment extends BaseFragment {
                 //或调用重新启动后重试！
 
             }
+        }
+    }
+
+    class MyItem implements ClusterItem {
+        private final LatLng mPosition;
+        private Bundle buns;
+        public MyItem(LatLng latLng) {
+            mPosition = latLng;
+        }
+        public MyItem(LatLng latLng,Bundle bun) {
+            mPosition = latLng;
+            buns=bun;
+        }
+        public LatLng getPosition() {
+            return mPosition;
+        }
+        public Bundle getExtraInfo() {
+            return buns;
+        }
+        public BitmapDescriptor getBitmapDescriptor() {
+            return BitmapDescriptorFactory
+                    .fromResource(R.drawable.icon_gcoding);
         }
     }
 

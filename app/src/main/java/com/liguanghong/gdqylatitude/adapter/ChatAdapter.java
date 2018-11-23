@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
@@ -21,11 +18,7 @@ import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.MessageType;
-import com.liguanghong.gdqylatitude.util.DensityUtil;
-import com.liguanghong.gdqylatitude.view.ChatImageView;
-import com.liguanghong.gdqylatitude.view.ChatTextView;
-
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,7 +42,8 @@ public class ChatAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return ConversationManager.getInstance().getMsgList(friendID, isSingle).size();
+        List<ChatMsg> list = ConversationManager.getInstance().getMsgList(friendID, isSingle);
+        return list != null ? list.size() : 0;
     }
 
     @Override

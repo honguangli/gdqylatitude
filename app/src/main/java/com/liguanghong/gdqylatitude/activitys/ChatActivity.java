@@ -44,6 +44,7 @@ import java.nio.charset.Charset;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -288,7 +289,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setIssingle(isSingle);
         chatMsg.setType(MessageType.TEXT);
         chatMsg.setData(text.getBytes(Charset.forName("UTF-8")));
-        WebSocketManager.sendMsg(chatMsg);
+        chatMsg.setSendtime(new Date());
+        WebSocketManager.getInstance().sendMsg(chatMsg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
@@ -306,7 +308,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setIssingle(isSingle);
         chatMsg.setType(MessageType.IMAGE);
         chatMsg.setData(photoString.getBytes(Charset.forName("UTF-8")));
-        WebSocketManager.sendMsg(chatMsg);
+        chatMsg.setSendtime(new Date());
+        WebSocketManager.getInstance().sendMsg(chatMsg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
@@ -321,7 +324,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setIssingle(true);
         chatMsg.setType(MessageType.LOCATION);
         chatMsg.setData(locaphotoString.getBytes(Charset.forName("UTF-8")));
-        WebSocketManager.sendMsg(chatMsg);
+        chatMsg.setSendtime(new Date());
+        WebSocketManager.getInstance().sendMsg(chatMsg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 

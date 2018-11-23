@@ -82,7 +82,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.resetpassword_backtrack:
-                startActivity(new Intent(this,SignInActivity.class));
+                finish();
                 break;
             case R.id.resetpassword_tv_securitycode:
 
@@ -177,7 +177,6 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
      * 重置密码成功，返回登录页面
      */
     private void navigateToSignin(){
-        startActivity(new Intent(this, SignInActivity.class));
         finish();
     }
 

@@ -106,9 +106,11 @@ public class SendLocationActivity extends BaseActivity implements View.OnClickLi
     //对方位置
     private void setOptions(){
         options = new ArrayList<OverlayOptions>();
+        //设定中心点坐标
+        LatLng latLng = new LatLng(MapFragment.getLatitude(), MapFragment.getLongitude());
         try {
             OverlayOptions option = new MarkerOptions()
-                    .position(new LatLng(MapFragment.latitude, MapFragment.longitude))
+                    .position(latLng)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
             Marker marker = (Marker) (mBaiduMap.addOverlay(option));
             options.add(option);
@@ -117,12 +119,10 @@ public class SendLocationActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        //设定中心点坐标
-        LatLng cenpt =  new LatLng(MapFragment.latitude, MapFragment.longitude);
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder()
                 //要移动的点
-                .target(cenpt)
+                .target(latLng)
                 .build();
 
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
@@ -149,7 +149,7 @@ public class SendLocationActivity extends BaseActivity implements View.OnClickLi
     private void onSendAddress(){
         final BitmapDescriptor mapCenterPoint = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
         OverlayOptions option = new MarkerOptions()
-                .position(new LatLng(MapFragment.latitude, MapFragment.longitude))
+                .position(new LatLng(MapFragment.getLatitude(), MapFragment.getLongitude()))
                 .icon(mapCenterPoint);
 
         mBaiduMap.addOverlay(option);

@@ -1,5 +1,7 @@
 package com.liguanghong.gdqylatitude.manager;
 
+import android.util.Log;
+
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class GroupManager {
     }
     //释放资源
     public static void releaseResource(){
+        Log.i("群组管理器", "释放资源");
         instance = null;
     }
     /**
@@ -89,6 +92,7 @@ public class GroupManager {
      * @param newGroup
      */
     public void addGroup(Groupchat newGroup){
+        Log.i("群组管理器", "添加群聊：群ID=" + newGroup.getGroupid() + "，群名=" + newGroup.getGroupname());
         groupchatList.add(newGroup);
     }
 
@@ -97,6 +101,7 @@ public class GroupManager {
      * @param newGroup
      */
     public void removeGroup(Groupchat newGroup){
+        Log.i("群组管理器", "删除群聊：群ID=" + newGroup.getGroupid() + "，群名=" + newGroup.getGroupname());
         groupchatList.remove(newGroup);
     }
 

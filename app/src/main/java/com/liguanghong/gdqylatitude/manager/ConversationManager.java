@@ -8,7 +8,6 @@ import com.liguanghong.gdqylatitude.unity.ChatMapKey;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,7 @@ public class ConversationManager {
     }
     //释放资源
     public static void releaseResource(){
+        Log.i("会话管理器", "释放资源");
         instance = null;
     }
 
@@ -45,9 +45,9 @@ public class ConversationManager {
         return msgMap;
     }
 
-
     /**
-     * 获取指定会话消息列表，入参：好友id/群聊id
+     * 获取指定会话消息列表，入参：好友id/群聊id， 是否群聊
+     * @param targetID
      * @param isSingle
      * @return
      */
@@ -58,19 +58,20 @@ public class ConversationManager {
                 return entry.getValue();
             }
         }
-        return new ArrayList<ChatMsg>();
+        return null;
     }
 
     /**
      * 接收消息
      */
     public void receiveMsg(ChatMsg chatMsg){
+        Log.i("会话管理器", "接收消息：私聊：" + chatMsg.getIssingle() +  ", 发送者ID：" + chatMsg.getSenderid() + "， 接收者ID：" + chatMsg.getReceiverid());
         ChatMapKey chatMapKey = new ChatMapKey();
         chatMapKey.setSingle(chatMsg.getIssingle());
         if(chatMsg.getIssingle()) {
             chatMapKey.setTargetID(chatMsg.getSenderid());
             //私聊
-            if(!getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).isEmpty()){
+            if(getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()) != null){
                 getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).add(chatMsg);
             } else{
                 List<ChatMsg> list = new ArrayList<>();
@@ -80,7 +81,7 @@ public class ConversationManager {
         } else{
             chatMapKey.setTargetID(chatMsg.getReceiverid());
             //群聊
-            if(!getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).isEmpty()){
+            if(getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()) != null){
                 getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).add(chatMsg);
             } else{
                 List<ChatMsg> list = new ArrayList<>();
@@ -95,21 +96,18 @@ public class ConversationManager {
      * 发送消息
      */
     public void sendMsg(ChatMsg chatMsg){
-        chatMsg.setSendtime(new Date());
+        Log.i("会话管理器", "发送消息：私聊：" + chatMsg.getIssingle() +  ", 发送者ID：" + chatMsg.getSenderid() + "， 接收者ID：" + chatMsg.getReceiverid());
         ChatMapKey chatMapKey = new ChatMapKey();
         chatMapKey.setTargetID(chatMsg.getReceiverid());
         chatMapKey.setSingle(chatMsg.getIssingle());
-        Log.i("消息", "发送："+chatMapKey.getTargetID() + ":" + chatMapKey.isSingle());
-        if(!getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).isEmpty()){
+        if(getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()) != null){
             //已经有会话记录
             getMsgList(chatMapKey.getTargetID(), chatMapKey.isSingle()).add(chatMsg);
-            Log.i("消息", "有记录");
         } else{
             //还没有会话记录
             List<ChatMsg> list = new ArrayList<>();
             list.add(chatMsg);
             getMsgMap().put(chatMapKey, list);
-            Log.i("消息", "没有记录");
         }
         notifyDataSetChanged();
     }
