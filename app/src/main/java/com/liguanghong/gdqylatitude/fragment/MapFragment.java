@@ -31,6 +31,10 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.trace.LBSTraceClient;
+import com.baidu.trace.Trace;
+import com.baidu.trace.model.OnTraceListener;
+import com.baidu.trace.model.PushMessage;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
 import com.liguanghong.gdqylatitude.activitys.MapUsersInfoActivity;
@@ -598,5 +602,6 @@ public class MapFragment extends BaseFragment {
                     .fromResource(R.drawable.icon_gcoding);
         }
     }
+
 
 }
