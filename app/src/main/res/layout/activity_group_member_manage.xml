@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource"
-    tools:context=".activitys.GroupSignManageActivity">
+    android:layout_height="match_parent">
 
     /*===============群成员管理=====================*/
 
@@ -37,22 +34,10 @@
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
-        <!-- 菜单 -->
-        <TextView
-            android:id="@+id/menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:text="完成"
-            android:textSize="16sp"
-            android:textColor="@color/colorWhite"/>
-
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv"
+        android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/topPanel"

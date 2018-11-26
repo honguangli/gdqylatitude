@@ -67,8 +67,11 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(getApplicationContext(),GroupSignManageActivity.class));
                 break;
 
-            case R.id.rl_group_member_manage:                 //群成员管理
-                startActivity(new Intent(getApplicationContext(),GroupLeaguerManageActivity.class));
+            case R.id.rl_group_member_manage:
+                //启动群成员界面
+                Intent intent = new Intent(this, GroupMemberManageActivity.class);
+                intent.putExtra("permission", true);
+                startActivity(intent);
                 break;
 
             case R.id.menu:                                 //完成
