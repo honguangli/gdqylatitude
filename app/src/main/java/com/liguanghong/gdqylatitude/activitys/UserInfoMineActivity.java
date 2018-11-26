@@ -1,5 +1,6 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,11 +32,13 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.liguanghong.gdqylatitude.util.ImageUtils.getPicFromBytes;
+
 public class UserInfoMineActivity extends BaseActivity implements View.OnClickListener{
 
     private EditText etUsername,etSex,etRealname,etPhone,etEmail;
     private ImageView ivBacktrack,ivTouxiang;
-    private TextView tvSure;
+    private TextView tvEdit,tvSure;
     private static Handler userinfoHandler;
     LoadingDialog dialog;
     String headPic;
@@ -58,6 +61,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         etPhone = findViewById(R.id.personalinfo_et_phone);
         etEmail = findViewById(R.id.personalinfo_et_email);
         ivBacktrack = findViewById(R.id.personalinfo_backtrack);
+        tvEdit = findViewById(R.id.personalinfo_edit);
         tvSure = findViewById(R.id.personalinfo_sure);
         ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
 
@@ -69,11 +73,12 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         etRealname.setText(UserManager.getInstance().getAppUser().getUsername());
         etPhone.setText(UserManager.getInstance().getAppUser().getPhone());
         etEmail.setText(UserManager.getInstance().getAppUser().getEmail());
+        headPic = ImageUtils.bitmapToString(getPicFromBytes(b,null));
 
 
         ivBacktrack.setOnClickListener(this);
+        tvEdit.setOnClickListener(this);
         tvSure.setOnClickListener(this);
-        ivTouxiang.setOnClickListener(this);
         dialog =new LoadingDialog(this,"玩命发送中...");
 
     }
@@ -100,14 +105,24 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
             case R.id.personalinfo_backtrack:
                 finish();
                 break;
+            case R.id.personalinfo_edit:
+                ivTouxiang.setOnClickListener(this);
+                tvEdit.setVisibility(View.INVISIBLE);
+                tvSure.setVisibility(View.VISIBLE);
+                editTextEnabled(true,R.color.colorBlack);
+                break;
             case R.id.personalinfo_sure:
                 checkup = true;
                 checkUpInfo();
                 if (checkup){
-                    //Toast.makeText(UserInfoMineActivity.this,"88",Toast.LENGTH_LONG).show();
                     dialog.show();
+                    ivTouxiang.setOnClickListener(null);
+                    tvEdit.setVisibility(View.VISIBLE);
+                    tvSure.setVisibility(View.INVISIBLE);
                     Log.i("dialog","已显示");
                     commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),headPic);
+                    updateInfo();   //更新个人信息
+                    editTextEnabled(false,R.color.colorBF);
                 }
                 //dialog.close();
                 break;
@@ -203,6 +218,39 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
             Toast.makeText(UserInfoMineActivity.this,"邮箱格式错误",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    //更新个人信息
+    private void updateInfo(){
+        User user = new User();
+        user.setLogname(etUsername.getText().toString().trim());
+        user.setSex(etSex.getText().toString().trim());
+        user.setUsername(etRealname.getText().toString().trim());
+        user.setPhone(etPhone.getText().toString().trim());
+        user.setEmail(etEmail.getText().toString().trim());
+        UserManager.getInstance().addAppUser(user);
+    }
+
+
+    /**
+     * 设置editTest是否可编辑和字体颜色
+     *
+     * @param enabled   是否可编辑
+     * @param textcolor 字体颜色
+     */
+    @SuppressLint("ResourceAsColor")
+    private void editTextEnabled(boolean enabled,int textcolor){
+        etUsername.setEnabled(enabled);
+        etSex.setEnabled(enabled);
+        etRealname.setEnabled(enabled);
+        etPhone.setEnabled(enabled);
+        etEmail.setEnabled(enabled);
+
+        etUsername.setTextColor(textcolor);
+        etSex.setTextColor(textcolor);
+        etRealname.setTextColor(textcolor);
+        etPhone.setTextColor(textcolor);
+        etEmail.setTextColor(textcolor);
     }
 
     @Override
