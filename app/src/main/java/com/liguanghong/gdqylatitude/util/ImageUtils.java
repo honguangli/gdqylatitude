@@ -61,4 +61,14 @@ public class ImageUtils {
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
+    //将byte数组转化为Bitmap对象的一个方法
+    public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {
+        if (bytes != null)
+            if (opts != null)
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
+            else
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+        return null;
+    }
 }

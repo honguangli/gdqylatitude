@@ -20,6 +20,7 @@ import com.liguanghong.gdqylatitude.activitys.UserInfoMineActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
@@ -71,8 +72,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         //personal_id.setText(user.getUserid() + "");
 
         byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
-        personal_head.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
-        System.out.println("666666666666666666"+b);
+        personal_head.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
+        //System.out.println("666666666666666666"+b);
 
 
     }

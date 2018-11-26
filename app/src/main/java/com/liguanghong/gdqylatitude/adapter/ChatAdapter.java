@@ -13,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.activitys.SendLocationActivity;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,7 +70,8 @@ public class ChatAdapter extends BaseAdapter {
             //自己发的消息
             v.findViewById(R.id.right_chat).setVisibility(View.VISIBLE);
             CircleImageView iv = v.findViewById(R.id.right_headphoto);
-            iv.setImageResource(R.drawable.dynamic_background);
+            byte[] my = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+            iv.setImageBitmap(ImageUtils.getPicFromBytes(my,null));
             if(chatMsg.getType().equals(MessageType.TEXT)){
                 //文本消息
                 v.findViewById(R.id.right_layout).setVisibility(View.VISIBLE);
@@ -107,7 +112,8 @@ public class ChatAdapter extends BaseAdapter {
             //对方发的消息
             v.findViewById(R.id.left_chat).setVisibility(View.VISIBLE);
             CircleImageView iv = v.findViewById(R.id.left_headphoto);
-            iv.setImageResource(R.drawable.dynamic_background);
+            byte[] friend = android.util.Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getHeadportrait(), android.util.Base64.DEFAULT);
+            iv.setImageBitmap(ImageUtils.getPicFromBytes(friend,null));
             if(chatMsg.getType().equals(MessageType.TEXT)){
                 //文本消息
                 v.findViewById(R.id.left_layout).setVisibility(View.VISIBLE);

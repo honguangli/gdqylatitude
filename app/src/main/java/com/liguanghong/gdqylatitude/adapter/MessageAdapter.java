@@ -17,6 +17,7 @@ import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -62,19 +63,19 @@ public class MessageAdapter extends BaseAdapter {
             if(!chatMsg.getIssingle()){
                 //群聊
                 byte[] group = Base64.decode(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getHeadportrait(), Base64.DEFAULT);
-                img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
+                img_headphoto.setImageBitmap(ImageUtils.getPicFromBytes(group,null));
                 tv_nickname.setText(GroupManager.getInstance().getGroupByID(chatMsg.getReceiverid()).getGroupname());
             } else{
                 //私聊
                 if(chatMsg.getSenderid().equals(UserManager.getInstance().getAppUser().getUserid())){
                     //用户本人先发的消息
                     byte[] friend = Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getHeadportrait(), Base64.DEFAULT);
-                    img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
+                    img_headphoto.setImageBitmap(ImageUtils.getPicFromBytes(friend,null));
                     tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getReceiverid()).getFriend().getLogname());
                 } else{
                     //好友先发的消息
                     byte[] friend = Base64.decode(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getHeadportrait(), Base64.DEFAULT);
-                    img_headphoto.setImageBitmap(ChatActivity.getPicFromBytes(friend,null));
+                    img_headphoto.setImageBitmap(ImageUtils.getPicFromBytes(friend,null));
                     tv_nickname.setText(FriendsManager.getInstance().getFriendByID(chatMsg.getSenderid()).getFriend().getLogname());
                 }
             }
