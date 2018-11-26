@@ -2,11 +2,13 @@ package com.liguanghong.gdqylatitude;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
 import com.liguanghong.gdqylatitude.activitys.PermissionsActivity;
 import com.liguanghong.gdqylatitude.activitys.SignInActivity;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.util.PermissionsUtil;
 
 
@@ -97,6 +99,7 @@ public class MainActivity extends BaseActivity {
      * 检查是否已经登录
      */
     private void checkIsLogin(){
+        UserManager.setSharedPreferences(getSharedPreferences("data", MODE_PRIVATE));
         if(true){
             //未登录过，跳转登录界面
             startActivity(new Intent(this, SignInActivity.class));

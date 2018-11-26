@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.liguanghong.gdqylatitude.activitys.SettingActivity;
 import com.liguanghong.gdqylatitude.activitys.UserInfoActivity;
 import com.liguanghong.gdqylatitude.activitys.UserInfoMineActivity;
 import com.liguanghong.gdqylatitude.base.BaseFragment;
+import com.liguanghong.gdqylatitude.manager.AppManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.ImageUtils;
@@ -31,7 +33,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView personal_head;
     private TextView personal_name;
-    private TextView personal_id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +56,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         setting = view.findViewById(R.id.setting);
         personal_head = view.findViewById(R.id.personal_head);
         personal_name = view.findViewById(R.id.personal_name);
-        //personal_id = view.findViewById(R.id.personal_id);
 
         personInfo.setOnClickListener(this);
         dyanamicFriends.setOnClickListener(this);
@@ -67,14 +67,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData()
     {
-        User user = UserManager.getInstance().getAppUser();
-        personal_name.setText(user.getLogname());
-        //personal_id.setText(user.getUserid() + "");
 
-        byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
-        personal_head.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
-        //System.out.println("666666666666666666"+b);
-
+        refreshUserInfo();
 
     }
 
@@ -82,7 +76,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.personal_info:
-                startActivity(new Intent(getActivity(), UserInfoMineActivity.class));
+                startActivityForResult(new Intent(getActivity(), UserInfoMineActivity.class), AppManager.UPDATEUSER);
                 break;
             case R.id.dynamic_friends:
                 startActivity(new Intent(getActivity(), DynamicFriendsActivity.class));
@@ -94,6 +88,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppManager.UPDATEUSER && resultCode == AppManager.SUCCESS) {
+            //更新了用户信息
+            refreshUserInfo();
+        }
+    }
+
+    //更新用户信息
+    private void refreshUserInfo(){
+        personal_name.setText(UserManager.getInstance().getAppUser().getLogname());
+
+        byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
+        personal_head.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
     }
 
 }

@@ -125,7 +125,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      * @param logname
      * @param password
      */
-    public static void signIn(final String logname, String password){
+    public static void signIn(final String logname, final String password){
         RequestBody requestBody = new FormBody.Builder()
                 .add("logname",logname)
                 .add("password", password)
@@ -150,6 +150,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             User user = JSONObject.parseObject(object.getString("user"), User.class);
                             Map<String, List<Friend>> friends = JSONObject.parseObject(object.getString("friends"), new TypeReference<Map<String, List<Friend>>>() {});
                             FriendsManager.getInstance().setFriends(friends);
+                            user.setPassword(password);
                             UserManager.getInstance().addAppUser(user);
                             loginHandler.sendEmptyMessage(200);
                         } else{

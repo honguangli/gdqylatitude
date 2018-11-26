@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -33,10 +34,12 @@ import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -47,7 +50,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private ImageView backtrack_friend_info;                    //返回聊天界面
     private ImageView menu;                                       //菜单
-    private ImageView iv_information_icon;                      //好友头像
+    private CircleImageView iv_information_icon;                      //好友头像
 
     private TextView tv_information_name;                       //好友名称
     private TextView tv_information_id;                         //好友id
@@ -169,9 +172,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             dialog_lv.setOnItemClickListener(this);
         }
 
+        iv_information_icon.setImageBitmap(ImageUtils.getPicFromBytes(Base64.decode(friend.getFriend().getHeadportrait(), Base64.DEFAULT),null));
         tv_information_name.setText(friend.getFriend().getLogname());
-
-
+        tv_information_signature.setText(friend.getFriend().getSignature());
 
     }
 

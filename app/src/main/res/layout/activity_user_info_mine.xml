@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:text="编辑"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
@@ -53,7 +53,7 @@
             android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:text="更新"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
@@ -70,7 +70,7 @@
         <RelativeLayout
             android:id="@+id/relativelayout_id"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:background="@color/colorWhite"
             android:layout_marginTop="10dp">
 
@@ -135,9 +135,8 @@
                     android:layout_marginRight="20dp"
                     android:lines="1"
                     android:inputType="text"
-                    android:hint="Tom"
+                    android:text="Tom"
                     android:textSize="16sp"
-                    android:textColorHint="@color/colorBF"
                     android:textColor="@color/colorBF"
                     />
             </RelativeLayout>
@@ -147,7 +146,43 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/colorBackground"/>
-
+            <RelativeLayout
+                android:id="@+id/RelativeLayout_password"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp">
+                <TextView
+                    android:id="@+id/personalinfo_tv_password"
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="密码"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"/>
+                <EditText
+                    android:id="@+id/personalinfo_et_password"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/personalinfo_tv_password"
+                    android:layout_centerVertical="true"
+                    android:enabled="false"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:lines="1"
+                    android:inputType="textPassword"
+                    android:text="Tom"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBF"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorBackground"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -173,9 +208,8 @@
                     android:lines="1"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="男"
+                    android:text="男"
                     android:textSize="16sp"
-                    android:textColorHint="@color/colorBF"
                     android:textColor="@color/colorBF"
                     />
 
@@ -212,9 +246,8 @@
                     android:lines="1"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="Tom"
+                    android:text="Tom"
                     android:textSize="16sp"
-                    android:textColorHint="@color/colorBF"
                     android:textColor="@color/colorBF"/>
             </RelativeLayout>
         </LinearLayout>
@@ -252,9 +285,8 @@
                     android:lines="1"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="12345678910"
+                    android:text="12345678910"
                     android:textSize="16sp"
-                    android:textColorHint="@color/colorBF"
                     android:textColor="@color/colorBF"
 
                     />
@@ -291,9 +323,8 @@
                     android:lines="1"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="123456789@qq.com"
+                    android:text="123456789@qq.com"
                     android:textSize="16sp"
-                    android:textColorHint="@color/colorBF"
                     android:textColor="@color/colorBF"
                     />
             </RelativeLayout>

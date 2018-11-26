@@ -48,10 +48,8 @@ public class GroupMemberManageActivity extends BaseActivity implements View.OnCl
     @Override
     protected void initView() {
         backtrack = findViewById(R.id.backtrack);
-        menu = findViewById(R.id.menu);
 
         backtrack.setOnClickListener(this);
-        menu.setOnClickListener(this);
     }
 
     @Override

@@ -2,10 +2,12 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.AppManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.CheckCellphoneEmailUtil;
@@ -36,13 +39,14 @@ import static com.liguanghong.gdqylatitude.util.ImageUtils.getPicFromBytes;
 
 public class UserInfoMineActivity extends BaseActivity implements View.OnClickListener{
 
-    private EditText etUsername,etSex,etRealname,etPhone,etEmail;
+    private EditText etUsername,etPassword,etSex,etRealname,etPhone,etEmail;
     private ImageView ivBacktrack,ivTouxiang;
     private TextView tvEdit,tvSure;
     private static Handler userinfoHandler;
-    LoadingDialog dialog;
-    String headPic;
-    boolean checkup;
+    private LoadingDialog dialog;
+    private String headPic;
+    private int resultCode = AppManager.NOTCHANGE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         etUsername = findViewById(R.id.personalinfo_et_username);
+        etPassword = findViewById(R.id.personalinfo_et_password);
         etSex = findViewById(R.id.personalinfo_et_sex);
         etRealname = findViewById(R.id.personalinfo_et_realname);
         etPhone = findViewById(R.id.personalinfo_et_phone);
@@ -65,21 +70,9 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         tvSure = findViewById(R.id.personalinfo_sure);
         ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
 
-        //获取用户的个人信息
-        byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
-        ivTouxiang.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
-        etUsername.setText(UserManager.getInstance().getAppUser().getLogname());
-        etSex.setText(UserManager.getInstance().getAppUser().getSex());
-        etRealname.setText(UserManager.getInstance().getAppUser().getUsername());
-        etPhone.setText(UserManager.getInstance().getAppUser().getPhone());
-        etEmail.setText(UserManager.getInstance().getAppUser().getEmail());
-        headPic = ImageUtils.bitmapToString(getPicFromBytes(b,null));
-
-
         ivBacktrack.setOnClickListener(this);
         tvEdit.setOnClickListener(this);
         tvSure.setOnClickListener(this);
-        dialog =new LoadingDialog(this,"玩命发送中...");
 
     }
 
@@ -89,42 +82,61 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
             public void handleMessage(Message message){
                 switch (message.what){
                     case 200:
-                        finish();
+                        dialog.setText("更新成功");
+                        dialog.close();
+                        resultCode = AppManager.SUCCESS;
                         break;
                     default:
-                        tip(String.valueOf(message.obj));
+                        dialog.setText(String.valueOf(message.obj));
+                        dialog.close();
+                        resultCode = AppManager.ERROR;
                         break;
                 }
             }
         };
+
+        //获取用户的个人信息
+        byte[] b = Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), Base64.DEFAULT);
+        ivTouxiang.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
+        etUsername.setText(UserManager.getInstance().getAppUser().getLogname());
+        etPassword.setText(UserManager.getInstance().getAppUser().getPassword());
+        etSex.setText(UserManager.getInstance().getAppUser().getSex());
+        etRealname.setText(UserManager.getInstance().getAppUser().getUsername());
+        etPhone.setText(UserManager.getInstance().getAppUser().getPhone());
+        etEmail.setText(UserManager.getInstance().getAppUser().getEmail());
+        headPic = ImageUtils.bitmapToString(getPicFromBytes(b,null));
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.personalinfo_backtrack:
+                setResult(resultCode);
                 finish();
                 break;
             case R.id.personalinfo_edit:
                 ivTouxiang.setOnClickListener(this);
                 tvEdit.setVisibility(View.INVISIBLE);
                 tvSure.setVisibility(View.VISIBLE);
-                editTextEnabled(true,R.color.colorBlack);
+                editTextEnabled(true, Color.BLACK);
                 break;
             case R.id.personalinfo_sure:
-                checkup = true;
-                checkUpInfo();
-                if (checkup){
+                if (checkUpInfo()){
+                    dialog = new LoadingDialog(this,"玩命更新中...");
                     dialog.show();
                     ivTouxiang.setOnClickListener(null);
                     tvEdit.setVisibility(View.VISIBLE);
                     tvSure.setVisibility(View.INVISIBLE);
-                    Log.i("dialog","已显示");
-                    commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),headPic);
-                    updateInfo();   //更新个人信息
-                    editTextEnabled(false,R.color.colorBF);
+                    update(etUsername.getText().toString().trim(),
+                            etPassword.getText().toString().trim(),
+                            etSex.getText().toString().trim(),
+                            etRealname.getText().toString().trim(),
+                            etPhone.getText().toString().trim(),
+                            etEmail.getText().toString().trim(),
+                            headPic);
+                    editTextEnabled(false, Color.parseColor("#BFBFBF"));
                 }
-                //dialog.close();
                 break;
             case R.id.personalinfo_iv_touxiang:
                 Intent photo=new Intent(UserInfoMineActivity.this,SelectPhotoActivity.class);
@@ -136,10 +148,11 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     /**
      * 修改用户信息
      */
-    private void commitInfo(final String logname, String sex, String username, String phone, String email,String headportrait){
+    private void update(String logname, String password, String sex, String username, String phone, String email,String headportrait){
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("logname",logname)
+                .add("password", password)
                 .add("sex", sex)
                 .add("username",username)
                 .add("phone",phone)
@@ -152,7 +165,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                 Log.i("更新操作",  "更新操作失败");
                 Message message = new Message();
                 message.what = 404;
-                message.obj = "更新操作失败";
+                message.obj = "无法连接服务器";
                 userinfoHandler.sendMessage(message);
             }
 
@@ -164,12 +177,13 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                         if(result.isSuccess()){
                             //更新成功
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
+                            String password = UserManager.getInstance().getAppUser().getPassword();
                             UserManager.getInstance().addAppUser(user);
-
+                            userinfoHandler.sendEmptyMessage(200);
                         } else{
                             //更新失败
                             Message message = new Message();
-                            message.what = 0;
+                            message.what = 500;
                             message.obj = result.getMessage();
                             userinfoHandler.sendMessage(message);
                         }
@@ -181,56 +195,38 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dialog.close();
     }
 
     //检查更新的个人信息是否符合要求
-    private void checkUpInfo(){
+    private boolean checkUpInfo(){
         if (etUsername.getText().toString().trim().equals("")){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"用户名不能为空",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (etSex.getText().toString().trim().equals("")){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"性别不能为空",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"性别不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (!((etSex.getText().toString().trim().equals("男"))||(etSex.getText().toString().trim().equals("女")))){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"性别只能是男或女",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"性别只能是男或女",Toast.LENGTH_LONG).show();
+            return false;
         }else if (etRealname.getText().toString().trim().equals("")){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"真是姓名不能为空",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"真是姓名不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (etPhone.getText().toString().trim().equals("")){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"手机号不能为空",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"手机号不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (!CheckCellphoneEmailUtil.checkCellphone(etPhone.getText().toString().trim())){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"该手机号不存在",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"该手机号不存在",Toast.LENGTH_LONG).show();
+            return false;
         }else if (etEmail.getText().toString().trim().equals("")){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"邮箱不能为空",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"邮箱不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (!CheckCellphoneEmailUtil.checkEmail(etEmail.getText().toString().trim())){
-            checkup = false;
-            Toast.makeText(UserInfoMineActivity.this,"邮箱格式错误",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"邮箱格式错误",Toast.LENGTH_LONG).show();
+            return false;
         }
+        return true;
 
     }
-
-    //更新个人信息
-    private void updateInfo(){
-        User user = new User();
-        user.setLogname(etUsername.getText().toString().trim());
-        user.setSex(etSex.getText().toString().trim());
-        user.setUsername(etRealname.getText().toString().trim());
-        user.setPhone(etPhone.getText().toString().trim());
-        user.setEmail(etEmail.getText().toString().trim());
-        UserManager.getInstance().addAppUser(user);
-    }
-
 
     /**
      * 设置editTest是否可编辑和字体颜色
@@ -238,7 +234,6 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
      * @param enabled   是否可编辑
      * @param textcolor 字体颜色
      */
-    @SuppressLint("ResourceAsColor")
     private void editTextEnabled(boolean enabled,int textcolor){
         etUsername.setEnabled(enabled);
         etSex.setEnabled(enabled);
@@ -261,24 +256,5 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
             headPic = ImageUtils.filePathToString(photo);
         }
     }
-
-    /**
-     *修改成功返回主页面
-     */
-    private void navigateToHome(){
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
-    }
-
-    /**
-     * 修改失败
-     */
-    private void tip(String msg){
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 更新本地用户信息存储
-     */
 
 }
