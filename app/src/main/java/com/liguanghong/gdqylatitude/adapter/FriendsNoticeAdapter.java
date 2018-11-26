@@ -120,6 +120,8 @@ public class FriendsNoticeAdapter extends BaseAdapter {
                             friend.setFriendid(user.getUserid());
                             friend.setFriend(user);
                             FriendsManager.getInstance().addFriend(friend);
+
+                            NoticesManager.getInstance().changeFriendNoticeStatus(friend.getFriendid(), MessageType.FRIENDAGREED);
                         } else{
 
                         }

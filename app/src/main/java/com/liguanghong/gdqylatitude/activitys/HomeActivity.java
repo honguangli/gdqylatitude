@@ -31,6 +31,7 @@ import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
+import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -273,15 +274,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         if(result.isSuccess()){
                             List<NoticeMsg> list = JSONArray.parseArray(result.getData().toString(), NoticeMsg.class);
                             for(NoticeMsg noticeMsg : list){
-                                if(noticeMsg.getNoticetype() > 14 && noticeMsg.getNoticetype() < 18)
+                                if(noticeMsg.getNoticetype() >= MessageType.LOGOUT && noticeMsg.getNoticetype() <= MessageType.FRIENDOFFLINE)
+                                    NoticesManager.getInstance().addSystemNotice(noticeMsg);
+                                else if(noticeMsg.getNoticetype() >= MessageType.FRIENDAPPLY && noticeMsg.getNoticetype() <= MessageType.FRIENDAGREED)
                                     NoticesManager.getInstance().addFriendNotice(noticeMsg);
-                                else
+                                else if(noticeMsg.getNoticetype() >= MessageType.GROUPAPPLY && noticeMsg.getNoticetype() <= MessageType.GROUPAGREED)
                                     NoticesManager.getInstance().addGroupNotice(noticeMsg);
                             }
                         } else{
 
                         }
-                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
+                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage() + result.getData().toString());
                     } catch (Exception e){
                         e.printStackTrace();
                     }

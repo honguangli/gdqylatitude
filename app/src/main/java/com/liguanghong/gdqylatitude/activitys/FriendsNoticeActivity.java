@@ -52,8 +52,8 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        lv_friend_apply = (ListView)findViewById(R.id.lv_friend_notice);
-        backtrack = (ImageView)findViewById(R.id.backtrack);
+        lv_friend_apply = findViewById(R.id.lv_friend_notice);
+        backtrack = findViewById(R.id.backtrack);
 
         backtrack.setOnClickListener(this);
         lv_friend_apply.setOnItemClickListener(this);
@@ -71,9 +71,8 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
                 }
             }
         };
-        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext());
+        friendsNoticeAdapter = new FriendsNoticeAdapter(this);
         lv_friend_apply.setAdapter(friendsNoticeAdapter);
-        friendsNoticeAdapter.notifyDataSetChanged();
     }
 
     //按钮点击监听
