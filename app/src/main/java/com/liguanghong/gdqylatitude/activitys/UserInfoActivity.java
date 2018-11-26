@@ -395,41 +395,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     /**
-     * 添加好友操作
-     */
-    private void addFriend(){
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("targetuserid", friend.getFriendid() + "")
-                .build();
-        HttpUtil.postEnqueue("user/addfriend", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("好友管理", "添加好友失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        if(result.isSuccess()){
-                            FriendsManager.getInstance().addFriend(friend);
-                            userInfoHandler.sendEmptyMessage(3);
-                        } else{
-
-                        }
-                        Log.i("好友管理",  result.isSuccess() + "," + result.getMessage());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-    }
-
-    /**
      * 删除好友操作
      */
     private void deleteFriend(){

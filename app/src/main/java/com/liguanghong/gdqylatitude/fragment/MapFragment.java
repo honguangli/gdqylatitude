@@ -62,7 +62,7 @@ import okhttp3.Response;
 public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
-    private Button btnCenter;
+    private ImageView toCenter;
     private BaiduMap mBaiduMap;
 
     private ClusterManager<MyItem> mClusterManager;
@@ -87,8 +87,8 @@ public class MapFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        btnCenter = view.findViewById(R.id.btn_center);
-        btnCenter.setOnClickListener(new View.OnClickListener() {
+        toCenter = view.findViewById(R.id.btn_center);
+        toCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newLatLngZoom(mBaiduMap, new LatLng(latitude, longitude), 18);

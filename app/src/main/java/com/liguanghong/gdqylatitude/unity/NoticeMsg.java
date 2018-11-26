@@ -1,6 +1,6 @@
 package com.liguanghong.gdqylatitude.unity;
 
-public class NoticeMsg {
+public class NoticeMsg<T> {
     private Integer noticeid;
 
     private Integer noticetype;
@@ -12,6 +12,8 @@ public class NoticeMsg {
     private Integer status;
 
     private String extra;
+
+    private T data;
 
     public Integer getNoticeid() {
         return noticeid;
@@ -60,4 +62,13 @@ public class NoticeMsg {
     public void setExtra(String extra) {
         this.extra = extra == null ? null : extra.trim();
     }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
 }
