@@ -34,16 +34,29 @@
             android:textColor="@color/colorWhite"/>
 
         <!-- 菜单 -->
+
         <TextView
-            android:id="@+id/personalinfo_sure"
+            android:id="@+id/personalinfo_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:text="完成"
-            android:textSize="18sp"
-            android:textColor="@color/colorWhite"/>
+            android:text="编辑"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/personalinfo_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="更新"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -77,6 +90,7 @@
                 android:id="@+id/personalinfo_iv_touxiang"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:clickable="false"
                 android:layout_toRightOf="@+id/personalinfo_tv_touxiang"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -117,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/personalinfo_tv_username"
                     android:layout_centerVertical="true"
+                    android:enabled="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:lines="1"
@@ -124,7 +139,7 @@
                     android:hint="Tom"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorBF"
                     />
             </RelativeLayout>
             <View
@@ -153,6 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/personalinfo_tv_sex"
                     android:layout_centerVertical="true"
+                    android:enabled="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:lines="1"
@@ -161,7 +177,7 @@
                     android:hint="男"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorBF"
                     />
 
             </RelativeLayout>
@@ -191,6 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/personalinfo_tv_realname"
                     android:layout_centerVertical="true"
+                    android:enabled="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:lines="1"
@@ -199,7 +216,7 @@
                     android:hint="Tom"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorBF"/>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -230,6 +247,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/personalinfo_tv_phone"
                     android:layout_centerVertical="true"
+                    android:enabled="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:lines="1"
@@ -238,7 +256,7 @@
                     android:hint="12345678910"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorBF"
 
                     />
             </RelativeLayout>
@@ -268,6 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/personalinfo_tv_email"
                     android:layout_centerVertical="true"
+                    android:enabled="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:lines="1"
@@ -276,7 +295,7 @@
                     android:hint="123456789@qq.com"
                     android:textSize="16sp"
                     android:textColorHint="@color/colorBF"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorBF"
                     />
             </RelativeLayout>
         </LinearLayout>
