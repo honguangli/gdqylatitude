@@ -22,6 +22,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.SearchAllAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -36,7 +37,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SearchAllActivity extends BaseActivity implements View.OnClickListener {
+public class SearchAllActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ImageView backtrack;
     private LinearLayout linearLayout_add_friend;
@@ -50,6 +51,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
     private List<User> searchAllList;
     private SearchAllAdapter searchAllAdapter;
     private Handler searchAllHandler;
+    private boolean selectUser = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,10 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        backtrack = (ImageView)findViewById(R.id.backtrack);
+        backtrack = findViewById(R.id.backtrack);
         linearLayout_add_friend = findViewById(R.id.LinearLayout_add_friend);
         linearLayout_add_Group = findViewById(R.id.LinearLayout_add_group);
-        bt_search = (Button)findViewById(R.id.bt_search);
+        bt_search = findViewById(R.id.bt_search);
         et_keyword = findViewById(R.id.keyword);
 
         search_selcet_user = findViewById(R.id.search_selcet_user);
@@ -77,16 +79,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
         bt_search.setOnClickListener(this);
         linearLayout_add_friend.setOnClickListener(this);
         linearLayout_add_Group.setOnClickListener(this);
-        search_all_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                User user = (User)searchAllAdapter.getItem(i);
-                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
-                intent.putExtra("hide", true);
-                intent.putExtra("userinfo", user);
-                startActivity(intent);
-            }
-        });
+        search_all_listview.setOnItemClickListener(this);
     }
 
     @Override
@@ -96,6 +89,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
                 switch (message.what){
                     case 200:
                         searchAllList.clear();
+                        searchAllAdapter.setSelectUser(selectUser);
                         searchAllList.addAll((List<User>)message.obj);
                         searchAllAdapter.notifyDataSetChanged();
                         break;
@@ -103,7 +97,7 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
             }
         };
         searchAllList = new ArrayList<>();
-        searchAllAdapter = new SearchAllAdapter(this, searchAllList);
+        searchAllAdapter = new SearchAllAdapter(this, searchAllList, selectUser);
         search_all_listview.setAdapter(searchAllAdapter);
     }
 
@@ -127,11 +121,13 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.LinearLayout_add_friend:
-                change(true);
+                selectUser = true;
+                change(selectUser);
                 break;
 
             case R.id.LinearLayout_add_group:
-                change(false);
+                selectUser = false;
+                change(selectUser);
                 break;
 
         }
@@ -155,6 +151,14 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void search(String keyword, int page){
+        if(selectUser){
+            searchUser(keyword, page);
+        } else{
+            searchGroup(keyword, page);
+        }
+    }
+
+    private void searchUser(String keyword, int page){
 
         final RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
@@ -195,4 +199,61 @@ public class SearchAllActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void searchGroup(String keyword, int page){
+
+        final RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                .add("keyword", keyword)
+                .add("page", page+"")
+                .build();
+        HttpUtil.postEnqueue("group/search", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("查询操作",  "查询失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            //查询成功
+                            JSONObject list = JSONObject.parseObject(result.getData().toString());
+                            List<Groupchat> userList = JSONArray.parseArray(((JSONArray)list.get("list")).toJSONString(), Groupchat.class);
+                            Message message = new Message();
+                            message.what = 200;
+                            message.obj = userList;
+                            searchAllHandler.sendMessage(message);
+                        } else{
+                            //查询失败
+
+                        }
+                        Log.i("查询操作",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent();
+        if(selectUser){
+            User user = (User)searchAllAdapter.getItem(i);
+            intent.setClass(this, UserInfoActivity.class);
+            intent.putExtra("hide", true);
+            intent.putExtra("userinfo", user);
+        } else{
+            Groupchat groupchat = (Groupchat)searchAllAdapter.getItem(i);
+            intent.setClass(this, GroupInfoActivity.class);
+            intent.putExtra("hide", true);
+            intent.putExtra("groupinfo", groupchat);
+        }
+        startActivity(intent);
+    }
 }

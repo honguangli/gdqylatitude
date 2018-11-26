@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground"
     tools:ignore="MissingDefaultResource">
 
@@ -68,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="20160607023"
+                android:text="ID：5"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"/>
 
@@ -102,6 +103,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/toright_gray"/>
                 <TextView
+                    android:id="@+id/tv_membernum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -118,95 +120,6 @@
                 android:layout_below="@id/RelativeLayout_number"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/group_head"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tom"
-                        android:textColor="@color/colorBF"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/group_head"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tom"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorBF"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/group_head"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tom"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorBF"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/group_head"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tom"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorBF"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/group_head"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="邀请"
-
-                        android:textColor="@color/colorBF"
-                        android:textSize="16sp"/>
-                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
@@ -215,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rly_group_all"
             android:background="@color/colorWhite"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:layout_marginTop="15dp">
             <TextView
                 android:id="@+id/tv_nottce"
@@ -223,10 +136,12 @@
                 android:layout_height="wrap_content"
                 android:text="群公告"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/group_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_below="@id/tv_nottce"
@@ -242,7 +157,8 @@
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
             android:layout_below="@id/RelativeLayout_notice"
-            android:background="@color/colorWhite">
+            android:background="@color/colorWhite"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
