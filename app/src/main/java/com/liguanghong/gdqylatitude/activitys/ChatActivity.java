@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
@@ -31,21 +26,16 @@ import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.MessageType;
-import com.liguanghong.gdqylatitude.unity.User;
+
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
-import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.ImageUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.List;
+
+import static com.liguanghong.gdqylatitude.util.ImageUtils.getPicFromBytes;
 
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
@@ -327,16 +317,5 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setSendtime(new Date());
         WebSocketManager.getInstance().sendMsg(chatMsg);
         ConversationManager.getInstance().sendMsg(chatMsg);
-    }
-
-    //下面的这个方法是将byte数组转化为Bitmap对象的一个方法
-    public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {
-        if (bytes != null)
-            if (opts != null)
-                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
-            else
-                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-        return null;
     }
 }

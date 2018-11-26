@@ -13,6 +13,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 public class AddressbookAdapter extends BaseExpandableListAdapter {
 
@@ -102,7 +103,7 @@ public class AddressbookAdapter extends BaseExpandableListAdapter {
         Friend friend = FriendsManager.getInstance().getFriends().get(parentName).get(childPosition);
 
         byte[] friends = Base64.decode(friend.getFriend().getHeadportrait(), Base64.DEFAULT);
-        image_head.setImageBitmap(ChatActivity.getPicFromBytes(friends,null));
+        image_head.setImageBitmap(ImageUtils.getPicFromBytes(friends,null));
 
         String remark = friend.getRemark();
         if(remark == null)

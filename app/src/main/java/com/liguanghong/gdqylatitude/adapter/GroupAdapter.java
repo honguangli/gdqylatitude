@@ -12,6 +12,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.activitys.ChatActivity;
 import com.liguanghong.gdqylatitude.manager.GroupManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 public class GroupAdapter extends BaseAdapter {
 
@@ -44,9 +45,9 @@ public class GroupAdapter extends BaseAdapter {
         TextView chat_name = v.findViewById(R.id.group_name);
         chat_name.setText(GroupManager.getInstance().getGroupchatList().get(i).getGroupname());
 
-        System.out.println("666666666666666666"+GroupManager.getInstance().getGroupchatList().get(i).getHeadportrait());
+        //System.out.println("666666666666666666"+GroupManager.getInstance().getGroupchatList().get(i).getHeadportrait());
         byte[] group = android.util.Base64.decode(GroupManager.getInstance().getGroupchatList().get(i).getHeadportrait(), android.util.Base64.DEFAULT);
-        img_chat_head.setImageBitmap(ChatActivity.getPicFromBytes(group,null));
+        img_chat_head.setImageBitmap(ImageUtils.getPicFromBytes(group,null));
 
 
         return v;

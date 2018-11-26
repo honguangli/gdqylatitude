@@ -17,6 +17,7 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.CheckCellphoneEmailUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
@@ -38,6 +39,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     private static Handler userinfoHandler;
     LoadingDialog dialog;
     String headPic;
+    boolean checkup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +61,14 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         tvSure = findViewById(R.id.personalinfo_sure);
         ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
 
+        //获取用户的个人信息
         byte[] b = android.util.Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), android.util.Base64.DEFAULT);
-        ivTouxiang.setImageBitmap(ChatActivity.getPicFromBytes(b,null));
-        System.out.println("666666666666666666"+b);
+        ivTouxiang.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
+        etUsername.setText(UserManager.getInstance().getAppUser().getLogname());
+        etSex.setText(UserManager.getInstance().getAppUser().getSex());
+        etRealname.setText(UserManager.getInstance().getAppUser().getUsername());
+        etPhone.setText(UserManager.getInstance().getAppUser().getPhone());
+        etEmail.setText(UserManager.getInstance().getAppUser().getEmail());
 
 
         ivBacktrack.setOnClickListener(this);
@@ -94,14 +101,19 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.personalinfo_sure:
-
-                dialog.show();
-                Log.i("dialog","已显示");
-                commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),headPic);
+                checkup = true;
+                checkUpInfo();
+                if (checkup){
+                    //Toast.makeText(UserInfoMineActivity.this,"88",Toast.LENGTH_LONG).show();
+                    dialog.show();
+                    Log.i("dialog","已显示");
+                    commitInfo(etUsername.getText().toString(),etSex.getText().toString(),etRealname.getText().toString(),etPhone.getText().toString(),etEmail.getText().toString(),headPic);
+                }
                 //dialog.close();
                 break;
             case R.id.personalinfo_iv_touxiang:
-
+                Intent photo=new Intent(UserInfoMineActivity.this,SelectPhotoActivity.class);
+                startActivityForResult(photo,10);
                 break;
         }
     }
@@ -110,7 +122,6 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
      * 修改用户信息
      */
     private void commitInfo(final String logname, String sex, String username, String phone, String email,String headportrait){
-
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("logname",logname)
@@ -164,13 +175,42 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         dialog.close();
     }
 
+    //检查更新的个人信息是否符合要求
+    private void checkUpInfo(){
+        if (etUsername.getText().toString().trim().equals("")){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"用户名不能为空",Toast.LENGTH_LONG).show();
+        }else if (etSex.getText().toString().trim().equals("")){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"性别不能为空",Toast.LENGTH_LONG).show();
+        }else if (!((etSex.getText().toString().trim().equals("男"))||(etSex.getText().toString().trim().equals("女")))){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"性别只能是男或女",Toast.LENGTH_LONG).show();
+        }else if (etRealname.getText().toString().trim().equals("")){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"真是姓名不能为空",Toast.LENGTH_LONG).show();
+        }else if (etPhone.getText().toString().trim().equals("")){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"手机号不能为空",Toast.LENGTH_LONG).show();
+        }else if (!CheckCellphoneEmailUtil.checkCellphone(etPhone.getText().toString().trim())){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"该手机号不存在",Toast.LENGTH_LONG).show();
+        }else if (etEmail.getText().toString().trim().equals("")){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"邮箱不能为空",Toast.LENGTH_LONG).show();
+        }else if (!CheckCellphoneEmailUtil.checkEmail(etEmail.getText().toString().trim())){
+            checkup = false;
+            Toast.makeText(UserInfoMineActivity.this,"邮箱格式错误",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10 && resultCode == 20) {
             String photo = (String) data.getExtras().get("photo");
             ivTouxiang.setImageURI(Uri.parse(photo));
             headPic = ImageUtils.filePathToString(photo);
-            //System.out.println("666666666666666666"+headPic);
         }
     }
 
