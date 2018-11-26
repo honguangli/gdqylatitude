@@ -8,20 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.User;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SearchAllAdapter extends BaseAdapter {
+public class SearchAllAdapter<T> extends BaseAdapter {
 
     private Context context;
-    private List<User> list;
+    private List<T> list;
+    private boolean selectUser;
 
-    public SearchAllAdapter(Context context, List<User> list){
+    public SearchAllAdapter(Context context, List<T> list, boolean selectUser){
         this.context = context;
         this.list = list;
+        this.selectUser = selectUser;
     }
 
     @Override
@@ -47,8 +50,15 @@ public class SearchAllAdapter extends BaseAdapter {
         TextView tv_friend_name = v.findViewById(R.id.tv_friend_name);
 
         search_friend_icon.setImageResource(R.drawable.dynamic_background);
-        tv_friend_name.setText(list.get(i).getLogname());
-
+        if(selectUser)
+            tv_friend_name.setText(((User)list.get(i)).getLogname());
+        else
+            tv_friend_name.setText(((Groupchat)list.get(i)).getGroupname());
         return v;
     }
+
+    public void setSelectUser(boolean selectUser){
+        this.selectUser = selectUser;
+    }
+
 }

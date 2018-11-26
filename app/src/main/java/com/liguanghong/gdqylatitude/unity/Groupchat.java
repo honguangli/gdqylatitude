@@ -15,6 +15,8 @@ public class Groupchat implements Serializable {
 
     private String introduction;
 
+    private String groupmember;
+
     private Integer groupnum;
 
     private byte[] headportrait;
@@ -65,6 +67,14 @@ public class Groupchat implements Serializable {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction == null ? null : introduction.trim();
+    }
+
+    public String getGroupmember() {
+        return groupmember;
+    }
+
+    public void setGroupmember(String groupmember) {
+        this.groupmember = groupmember == null ? null : groupmember.trim();
     }
 
     public Integer getGroupnum() {
