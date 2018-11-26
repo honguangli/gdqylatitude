@@ -90,7 +90,6 @@
                 android:id="@+id/personalinfo_iv_touxiang"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:clickable="false"
                 android:layout_toRightOf="@+id/personalinfo_tv_touxiang"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
