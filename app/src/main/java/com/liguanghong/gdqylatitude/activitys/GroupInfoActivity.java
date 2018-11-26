@@ -29,6 +29,7 @@ import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
@@ -109,7 +110,7 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
                         User user = (User)message.obj;
                         View userItmeView = LayoutInflater.from(context).inflate(R.layout.item_group_member, null);
                         CircleImageView itemHead = userItmeView.findViewById(R.id.item_user_head);
-                        itemHead.setImageBitmap(ChatActivity.getPicFromBytes(Base64.decode(user.getHeadportrait(), Base64.DEFAULT),null));
+                        itemHead.setImageBitmap(ImageUtils.getPicFromBytes(Base64.decode(user.getHeadportrait(), Base64.DEFAULT),null));
                         TextView itemName = userItmeView.findViewById(R.id.item_user_logname);
                         itemName.setText(user.getLogname());
                         linear.addView(userItmeView);
