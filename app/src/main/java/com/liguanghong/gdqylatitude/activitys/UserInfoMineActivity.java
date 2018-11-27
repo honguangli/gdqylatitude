@@ -178,6 +178,7 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                             //更新成功
                             User user = ((JSONObject)result.getData()).toJavaObject(User.class);
                             String password = UserManager.getInstance().getAppUser().getPassword();
+                            user.setPassword(password);
                             UserManager.getInstance().addAppUser(user);
                             userinfoHandler.sendEmptyMessage(200);
                         } else{

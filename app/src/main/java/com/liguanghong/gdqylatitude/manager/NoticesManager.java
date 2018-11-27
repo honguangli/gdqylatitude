@@ -101,6 +101,19 @@ public class NoticesManager {
     }
 
     /**
+     * 改变好友通知
+     * @param friendid
+     * @param status
+     */
+    public void changeFriendNoticeStatus(Integer friendid, Integer status){
+        for(NoticeMsg msg : friendNotices){
+            if(msg.getSenderid().equals(friendid)){
+                msg.setNoticetype(status);
+            }
+        }
+    }
+
+    /**
      * 清除系统通知
      */
     public void clearSystemNotices(){

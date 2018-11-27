@@ -30,6 +30,7 @@ import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Msg;
 import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.nio.charset.Charset;
@@ -280,7 +281,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setType(MessageType.TEXT);
         chatMsg.setData(text.getBytes(Charset.forName("UTF-8")));
         chatMsg.setSendtime(new Date());
-        WebSocketManager.getInstance().sendMsg(chatMsg);
+        Msg<ChatMsg> msg = new Msg<>();
+        msg.setMsgType(MessageType.CHATTYPE);
+        msg.setMsg(chatMsg);
+        WebSocketManager.getInstance().sendMsg(msg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
@@ -299,7 +303,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setType(MessageType.IMAGE);
         chatMsg.setData(photoString.getBytes(Charset.forName("UTF-8")));
         chatMsg.setSendtime(new Date());
-        WebSocketManager.getInstance().sendMsg(chatMsg);
+        Msg<ChatMsg> msg = new Msg<>();
+        msg.setMsgType(MessageType.CHATTYPE);
+        msg.setMsg(chatMsg);
+        WebSocketManager.getInstance().sendMsg(msg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 
@@ -315,7 +322,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatMsg.setType(MessageType.LOCATION);
         chatMsg.setData(locaphotoString.getBytes(Charset.forName("UTF-8")));
         chatMsg.setSendtime(new Date());
-        WebSocketManager.getInstance().sendMsg(chatMsg);
+        Msg<ChatMsg> msg = new Msg<>();
+        msg.setMsgType(MessageType.CHATTYPE);
+        msg.setMsg(chatMsg);
+        WebSocketManager.getInstance().sendMsg(msg);
         ConversationManager.getInstance().sendMsg(chatMsg);
     }
 }

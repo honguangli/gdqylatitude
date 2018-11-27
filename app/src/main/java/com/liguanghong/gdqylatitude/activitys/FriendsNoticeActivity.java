@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.FriendsNoticeAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.NoticesManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.MessageType;
@@ -51,8 +52,8 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        lv_friend_apply = (ListView)findViewById(R.id.lv_friend_notice);
-        backtrack = (ImageView)findViewById(R.id.backtrack);
+        lv_friend_apply = findViewById(R.id.lv_friend_notice);
+        backtrack = findViewById(R.id.backtrack);
 
         backtrack.setOnClickListener(this);
         lv_friend_apply.setOnItemClickListener(this);
@@ -70,10 +71,8 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
                 }
             }
         };
-        getData();
-        friendsNoticeAdapter = new FriendsNoticeAdapter(getApplicationContext());
+        friendsNoticeAdapter = new FriendsNoticeAdapter(this);
         lv_friend_apply.setAdapter(friendsNoticeAdapter);
-        friendsNoticeAdapter.notifyDataSetChanged();
     }
 
     //按钮点击监听
@@ -95,44 +94,6 @@ public class FriendsNoticeActivity extends BaseActivity implements View.OnClickL
 
     public static Handler getFriendsNoticeHandler(){
         return friendsNoticeHandler;
-    }
-
-    private void getData(){
-        final RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("status", "")
-                .build();
-        HttpUtil.postEnqueue("notice/findnotices", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("通知管理", "查询通知失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        if(result.isSuccess()){
-                            List<NoticeMsg> list = JSONArray.parseArray(result.getData().toString(), NoticeMsg.class);
-                            for(NoticeMsg noticeMsg : list){
-                                if(noticeMsg.getNoticetype() > 14 && noticeMsg.getNoticetype() < 18)
-                                    NoticesManager.getInstance().addFriendNotice(noticeMsg);
-                                else
-                                    NoticesManager.getInstance().addGroupNotice(noticeMsg);
-                            }
-                            friendsNoticeHandler.sendEmptyMessage(222);
-                        } else{
-
-                        }
-                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
 }

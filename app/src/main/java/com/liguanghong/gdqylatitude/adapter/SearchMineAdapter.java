@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.util.List;
 
@@ -48,7 +50,8 @@ public class SearchMineAdapter extends BaseAdapter {
         TextView tv_friend_name = v.findViewById(R.id.tv_friend_name);
         TextView tv_friend_from = v.findViewById(R.id.tv_friend_from);
 
-        search_friend_icon.setImageResource(R.drawable.dynamic_background);
+        byte[] friendHead = Base64.decode(list.get(i).getFriend().getHeadportrait(), Base64.DEFAULT);
+        search_friend_icon.setImageBitmap(ImageUtils.getPicFromBytes(friendHead,null));
         tv_friend_name.setText(list.get(i).getFriend().getLogname());
         tv_friend_from.setText("来自分组："+FriendsManager.getInstance().getFriendsSetNameByID(list.get(i).getFriendid()));
         return v;

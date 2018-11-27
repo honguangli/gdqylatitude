@@ -31,6 +31,8 @@ import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
+import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
@@ -140,6 +142,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         id_current_gray = R.drawable.map;
 
         getMyGroups();
+        getNotices();
 
     }
 
@@ -248,5 +251,48 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         });
 
     }
+
+    /**
+     * 获取通知
+     */
+    private void getNotices(){
+        final RequestBody requestBody = new FormBody.Builder()
+                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                .add("status", "")
+                .build();
+        HttpUtil.postEnqueue("notice/findnotices", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("通知管理", "查询通知失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            List<NoticeMsg> list = JSONArray.parseArray(result.getData().toString(), NoticeMsg.class);
+                            for(NoticeMsg noticeMsg : list){
+                                if(noticeMsg.getNoticetype() >= MessageType.LOGOUT && noticeMsg.getNoticetype() <= MessageType.FRIENDOFFLINE)
+                                    NoticesManager.getInstance().addSystemNotice(noticeMsg);
+                                else if(noticeMsg.getNoticetype() >= MessageType.FRIENDAPPLY && noticeMsg.getNoticetype() <= MessageType.FRIENDAGREED)
+                                    NoticesManager.getInstance().addFriendNotice(noticeMsg);
+                                else if(noticeMsg.getNoticetype() >= MessageType.GROUPAPPLY && noticeMsg.getNoticetype() <= MessageType.GROUPAGREED)
+                                    NoticesManager.getInstance().addGroupNotice(noticeMsg);
+                            }
+                        } else{
+
+                        }
+                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage() + result.getData().toString());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 
 }

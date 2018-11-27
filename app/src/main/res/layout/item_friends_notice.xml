@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="70dp"
+    android:paddingTop="10dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_friend_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
         android:src="@drawable/dynamic_mine_light"/>
@@ -33,10 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请求加为好友"
-            android:textSize="16sp"
+            android:lines="1"
+            android:maxLength="8"
+            android:textSize="14sp"
             android:textColor="@color/Gainsboro" />
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/tv_friend_argee"
@@ -45,11 +47,16 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="13dp"
         android:gravity="center"
         android:text="同意"
         android:textColor="@color/colorWhite"
         android:background="@drawable/title_5_radius"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/iv_friend_icon"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorF5"/>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.util.List;
 
@@ -49,11 +51,15 @@ public class SearchAllAdapter<T> extends BaseAdapter {
         CircleImageView search_friend_icon = v.findViewById(R.id.search_friend_icon);
         TextView tv_friend_name = v.findViewById(R.id.tv_friend_name);
 
-        search_friend_icon.setImageResource(R.drawable.dynamic_background);
-        if(selectUser)
-            tv_friend_name.setText(((User)list.get(i)).getLogname());
-        else
+        if(selectUser) {
+            tv_friend_name.setText(((User) list.get(i)).getLogname());
+            byte[] friendHead = Base64.decode(((User)list.get(i)).getHeadportrait(), Base64.DEFAULT);
+            search_friend_icon.setImageBitmap(ImageUtils.getPicFromBytes(friendHead,null));
+        } else{
             tv_friend_name.setText(((Groupchat)list.get(i)).getGroupname());
+            byte[] groupHead = Base64.decode(((Groupchat)list.get(i)).getHeadportrait(), Base64.DEFAULT);
+            search_friend_icon.setImageBitmap(ImageUtils.getPicFromBytes(groupHead,null));
+        }
         return v;
     }
 

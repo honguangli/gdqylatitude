@@ -29,8 +29,11 @@ import com.liguanghong.gdqylatitude.adapter.DialogFriendsSetAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.unity.Msg;
+import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
@@ -160,7 +163,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             //好友
             friend = (Friend)this.getIntent().getSerializableExtra("userinfo");
 
-            tv_information_markname.setText(friend.getRemark() == null ? "还没备注？点我设置" : friend.getRemark());
+            tv_information_markname.setText(null == friend.getRemark() ? "还没备注？点我设置" : friend.getRemark());
             tv_information_groupname.setText(FriendsManager.getInstance().getFriendsSetNameByID(friend.getFriend().getUserid()));
 
             dialogFriendsSetAdapter = new DialogFriendsSetAdapter(getApplicationContext(), friend.getFriend().getUserid());
@@ -362,71 +365,56 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      * 好友申请
      */
     private void friendNotice(){
-        RequestBody requestBody = new FormBody.Builder()
-                .add("noticetype", MessageType.FRIENDAPPLY + "")
-                .add("senderid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("receiverid", friend.getFriendid() + "")
-                .add("status", 1+"")
-                .build();
-        HttpUtil.postEnqueue("notice/createnotice", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("通知管理", "发送好友申请失败");
-            }
+        NoticeMsg<User> noticeMsg = new NoticeMsg<>();
+        noticeMsg.setNoticetype(MessageType.FRIENDAPPLY);
+        noticeMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
+        noticeMsg.setReceiverid(friend.getFriendid());
+        noticeMsg.setStatus(1);
+        noticeMsg.setExtra("请求加为好友");
+        Msg<NoticeMsg> msg = new Msg<>();
+        msg.setMsgType(MessageType.NOTICETYPE);
+        msg.setMsg(noticeMsg);
+        WebSocketManager.getInstance().sendMsg(msg);
 
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        if(result.isSuccess()){
-                            userInfoHandler.sendEmptyMessage(3);
-                        } else{
-
-                        }
-                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-    }
-
-    /**
-     * 添加好友操作
-     */
-    private void addFriend(){
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("targetuserid", friend.getFriendid() + "")
-                .build();
-        HttpUtil.postEnqueue("user/addfriend", requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("好友管理", "添加好友失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    try {
-                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        if(result.isSuccess()){
-                            FriendsManager.getInstance().addFriend(friend);
-                            userInfoHandler.sendEmptyMessage(3);
-                        } else{
-
-                        }
-                        Log.i("好友管理",  result.isSuccess() + "," + result.getMessage());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
+//        RequestBody requestBody = new FormBody.Builder()
+//                .add("noticetype", MessageType.FRIENDAPPLY + "")
+//                .add("senderid", UserManager.getInstance().getAppUser().getUserid() + "")
+//                .add("receiverid", friend.getFriendid() + "")
+//                .add("status", 1+"")
+//                .build();
+//        HttpUtil.postEnqueue("notice/createnotice", requestBody, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.i("通知管理", "发送好友申请失败");
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) {
+//                if(response.isSuccessful()){
+//                    try {
+//                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+//                        if(result.isSuccess()){
+//                            userInfoHandler.sendEmptyMessage(3);
+//                            NoticeMsg<User> noticeMsg = new NoticeMsg<>();
+//                            noticeMsg.setNoticetype(MessageType.FRIENDAPPLY);
+//                            noticeMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
+//                            noticeMsg.setReceiverid(friend.getFriendid());
+//                            noticeMsg.setStatus(1);
+//                            Msg<NoticeMsg> msg = new Msg<>();
+//                            msg.setMsgType(MessageType.NOTICETYPE);
+//                            msg.setMsg(noticeMsg);
+//                            WebSocketManager.getInstance().sendMsg(msg);
+//                        } else{
+//
+//                        }
+//                        Log.i("通知管理",  result.isSuccess() + "," + result.getMessage());
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
     /**
