@@ -202,6 +202,9 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
         if (etUsername.getText().toString().trim().equals("")){
             Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG).show();
             return false;
+        }else if (etPassword.getText().toString().trim().equals("")){
+            Toast.makeText(this,"密码不能为空",Toast.LENGTH_LONG).show();
+            return false;
         }else if (etSex.getText().toString().trim().equals("")){
             Toast.makeText(this,"性别不能为空",Toast.LENGTH_LONG).show();
             return false;
@@ -236,12 +239,14 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
      */
     private void editTextEnabled(boolean enabled,int textcolor){
         etUsername.setEnabled(enabled);
+        etPassword.setEnabled(enabled);
         etSex.setEnabled(enabled);
         etRealname.setEnabled(enabled);
         etPhone.setEnabled(enabled);
         etEmail.setEnabled(enabled);
 
         etUsername.setTextColor(textcolor);
+        etPassword.setTextColor(textcolor);
         etSex.setTextColor(textcolor);
         etRealname.setTextColor(textcolor);
         etPhone.setTextColor(textcolor);
