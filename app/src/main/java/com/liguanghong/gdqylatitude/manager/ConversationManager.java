@@ -138,6 +138,21 @@ public class ConversationManager {
         }
         return -1;
     }
+
+    /**
+     * 移除会话
+     * @param targetID
+     * @param isSingle
+     */
+    public void removeConversation(Integer targetID, boolean isSingle){
+        for (Map.Entry<ChatMapKey, List<ChatMsg>> entry : getMsgMap().entrySet()) {
+            ChatMapKey entryKey = entry.getKey();
+            if(entryKey.isSingle() == isSingle && entryKey.getTargetID().equals(targetID)){
+                getMsgMap().remove(entryKey);
+            }
+        }
+    }
+
     /**
      * 提醒UI做改变
      */
