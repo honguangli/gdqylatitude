@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.manager;
 
 import android.util.Log;
 
+import com.liguanghong.gdqylatitude.activitys.FriendsNoticeActivity;
 import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class NoticesManager {
     public void setFriendNotices(List<NoticeMsg> list){
         if(list != null)
             friendNotices = list;
+        notifyDataSetChanged();
     }
 
     /**
@@ -89,7 +91,8 @@ public class NoticesManager {
      * @param noticeMsg
      */
     public void addFriendNotice(NoticeMsg noticeMsg){
-       friendNotices.add(noticeMsg);
+        friendNotices.add(noticeMsg);
+        notifyDataSetChanged();
     }
 
     /**
@@ -111,6 +114,7 @@ public class NoticesManager {
                 msg.setNoticetype(status);
             }
         }
+        notifyDataSetChanged();
     }
 
     /**
@@ -125,6 +129,7 @@ public class NoticesManager {
      */
     public void clearFriendNotices(){
         friendNotices.clear();
+        notifyDataSetChanged();
     }
 
     /**
@@ -134,4 +139,10 @@ public class NoticesManager {
         groupNotices.clear();
     }
 
+    /**
+     * 提醒UI改变
+     */
+    public void notifyDataSetChanged(){
+        FriendsNoticeActivity.getFriendsNoticeHandler().sendEmptyMessage(200);
+    }
 }

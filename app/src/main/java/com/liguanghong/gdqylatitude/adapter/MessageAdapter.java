@@ -83,6 +83,8 @@ public class MessageAdapter extends BaseAdapter {
                 tv_message.setText(new String(chatMsg.getData(), "utf-8"));
             else if(chatMsg.getType().equals(MessageType.IMAGE))
                 tv_message.setText("[图片]");
+            else if(chatMsg.getType().equals(MessageType.LOCATION))
+                tv_message.setText("[位置]");
             SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd HH:mm");
             tv_time.setText(dateformat.format(chatMsg.getSendtime()));
             //tv_message_number.setText(list.size() + "");
