@@ -123,6 +123,7 @@ public class MapFragment extends BaseFragment {
         //启动定位
         mLocationClient.start();
         //声明集群管理器
+
         mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
         mBaiduMap.setOnMarkerClickListener(mClusterManager);
@@ -134,27 +135,22 @@ public class MapFragment extends BaseFragment {
                 }
             }
         });
-        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+        /*mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override
             public void onMapStatusChangeStart(MapStatus mapStatus) {
-
             }
-
             @Override
             public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
-
             }
-
             @Override
             public void onMapStatusChange(MapStatus mapStatus) {
 
             }
-
             @Override
             public void onMapStatusChangeFinish(MapStatus mapStatus) {
                 mBaiduMap.hideInfoWindow();
             }
-        });
+        });*/
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
@@ -245,6 +241,7 @@ public class MapFragment extends BaseFragment {
         }).start();
     }
 
+
     public static LatLng getLocation(){
         return new LatLng(latitude, longitude);
     }
@@ -273,6 +270,7 @@ public class MapFragment extends BaseFragment {
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("statu","")
                 .add("required", "")
+                .add("page","")
                 .build();
         HttpUtil.postEnqueue("user/findall", requestBody, new Callback() {
             @Override
@@ -285,7 +283,9 @@ public class MapFragment extends BaseFragment {
                 if(response.isSuccessful()){
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        List<User> userList = JSONArray.parseArray(((JSONArray)result.getData()).toJSONString(), User.class);
+                        //List<User> userList = JSONArray.parseArray(((JSONArray)result.getData()).toJSONString(), User.class);
+                        JSONObject list = JSONObject.parseObject(result.getData().toString());
+                        List<User> userList = JSONArray.parseArray(((JSONArray)list.get("list")).toJSONString(), User.class);
                         setOptions(userList);
                     }catch (Exception e){
                         e.printStackTrace();
@@ -342,13 +342,14 @@ public class MapFragment extends BaseFragment {
         mClusterManager.clearItems();
         for (int i = 0; i < userList.size(); i++) {
             try {
-                Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
+                //Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
                 LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());//得到每个用户的定位
                 List<MyItem> items = new ArrayList<MyItem>();  //集合
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("info", (User)userList.get(i));//用户
                 items.add(new MyItem(latLng,bundle));
                 mClusterManager.addItems(items);
+                Log.i("测试qqqwwwwwwwwwwwwwww", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
             } catch (NullPointerException e) {
                 Log.i("地图标记操作", "解析标记错误，用户userid：" + userList.get(i).getUserid());
                 e.printStackTrace();
@@ -383,7 +384,7 @@ public class MapFragment extends BaseFragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span= 1500;
+        int span= 0;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
@@ -581,7 +582,7 @@ public class MapFragment extends BaseFragment {
         }
     }
 
-    class MyItem implements ClusterItem {
+   public class MyItem implements ClusterItem {
         private final LatLng mPosition;
         private Bundle buns;
         public MyItem(LatLng latLng) {
