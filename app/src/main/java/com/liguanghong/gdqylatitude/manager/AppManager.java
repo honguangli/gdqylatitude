@@ -3,6 +3,7 @@ package com.liguanghong.gdqylatitude.manager;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Stack;
 
@@ -46,6 +47,7 @@ public class AppManager {
         if (activityStack == null) {
             activityStack = new Stack<Activity>();
         }
+        Log.i("新建activity", "name: " + activity.getClass());
         activityStack.add(activity);
     }
 
@@ -94,7 +96,10 @@ public class AppManager {
     public void finishActivity(Class<?> cls) {
         for (Activity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
+                activityStack.remove(activity);
+                activity.finish();
+                activity = null;
+                break;
             }
         }
     }

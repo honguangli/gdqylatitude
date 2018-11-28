@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.fragment;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ import okhttp3.Response;
 public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
-    private ImageView toCenter;
+    private ImageView btnCenter;
     private BaiduMap mBaiduMap;
 
     private ClusterManager<MyItem> mClusterManager;
@@ -87,8 +88,8 @@ public class MapFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        toCenter = view.findViewById(R.id.btn_center);
-        toCenter.setOnClickListener(new View.OnClickListener() {
+        btnCenter = view.findViewById(R.id.btn_center);
+        btnCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newLatLngZoom(mBaiduMap, new LatLng(latitude, longitude), 18);
@@ -130,29 +131,8 @@ public class MapFragment extends BaseFragment {
             @Override
             public void onTouch(MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-
+                    mBaiduMap.hideInfoWindow();
                 }
-            }
-        });
-        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
-
-            }
-
-            @Override
-            public void onMapStatusChange(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeFinish(MapStatus mapStatus) {
-                mBaiduMap.hideInfoWindow();
             }
         });
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
@@ -232,17 +212,7 @@ public class MapFragment extends BaseFragment {
                 return false;
             }
         });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    getData();
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        getData();
     }
 
     public static LatLng getLocation(){
@@ -273,6 +243,7 @@ public class MapFragment extends BaseFragment {
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("statu","")
                 .add("required", "")
+                .add("page", 1+"")
                 .build();
         HttpUtil.postEnqueue("user/findall", requestBody, new Callback() {
             @Override
@@ -285,7 +256,8 @@ public class MapFragment extends BaseFragment {
                 if(response.isSuccessful()){
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                        List<User> userList = JSONArray.parseArray(((JSONArray)result.getData()).toJSONString(), User.class);
+                        JSONObject list = JSONObject.parseObject(result.getData().toString());
+                        List<User> userList = JSONArray.parseArray(((JSONArray)list.get("list")).toJSONString(), User.class);
                         setOptions(userList);
                     }catch (Exception e){
                         e.printStackTrace();
@@ -339,16 +311,15 @@ public class MapFragment extends BaseFragment {
      */
     private void setOptions(List<User> userList){
         //清空标记点
-        mClusterManager.clearItems();
+        //mClusterManager.clearItems();
         for (int i = 0; i < userList.size(); i++) {
             try {
                 Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
                 LatLng latLng = new LatLng(userList.get(i).getLatitude(), userList.get(i).getLongitude());//得到每个用户的定位
-                List<MyItem> items = new ArrayList<MyItem>();  //集合
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("info", (User)userList.get(i));//用户
-                items.add(new MyItem(latLng,bundle));
-                mClusterManager.addItems(items);
+                MyItem items = new MyItem(latLng,bundle);
+                mClusterManager.addItem(items);
             } catch (NullPointerException e) {
                 Log.i("地图标记操作", "解析标记错误，用户userid：" + userList.get(i).getUserid());
                 e.printStackTrace();

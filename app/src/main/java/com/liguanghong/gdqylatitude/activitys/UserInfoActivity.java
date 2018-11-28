@@ -27,6 +27,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.DialogFriendsSetAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.fragment.MessageFragment;
+import com.liguanghong.gdqylatitude.manager.AppManager;
+import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
@@ -139,6 +142,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     case 4://删除好友
                         bottomDialog.cancel();
                         finish();
+                        AppManager.getInstance().finishActivity(ChatActivity.class);
                         break;
                 }
             }
@@ -371,8 +375,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         noticeMsg.setReceiverid(friend.getFriendid());
         noticeMsg.setStatus(1);
         noticeMsg.setExtra("请求加为好友");
+        noticeMsg.setData(UserManager.getInstance().getAppUser());
         Msg<NoticeMsg> msg = new Msg<>();
-        msg.setMsgType(MessageType.NOTICETYPE);
+        msg.setMsgType(MessageType.NOTICEFRIENDTYPE);
         msg.setMsg(noticeMsg);
         WebSocketManager.getInstance().sendMsg(msg);
 
@@ -439,6 +444,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         if(result.isSuccess()){
                             FriendsManager.getInstance().deleteFriend(friend.getFriendid());
                             userInfoHandler.sendEmptyMessage(4);
+                            ConversationManager.getInstance().removeConversation(friend.getFriendid(), true);
+                            MessageFragment.getMessageHandler().sendEmptyMessage(222);
                         } else{
 
                         }
