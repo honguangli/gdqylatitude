@@ -109,6 +109,7 @@ public class NoticesManager {
      * @param status
      */
     public void changeFriendNoticeStatus(Integer friendid, Integer status){
+        Log.i("ceshi", friendid+":"+status);
         for(NoticeMsg msg : friendNotices){
             if(msg.getSenderid().equals(friendid)){
                 msg.setNoticetype(status);

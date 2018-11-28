@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,9 +20,11 @@ import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.manager.FriendsManager;
 import com.liguanghong.gdqylatitude.manager.NoticesManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.MessageType;
+import com.liguanghong.gdqylatitude.unity.Msg;
 import com.liguanghong.gdqylatitude.unity.NoticeMsg;
 import com.liguanghong.gdqylatitude.unity.User;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
@@ -39,6 +43,16 @@ import okhttp3.Response;
 
 public class FriendsNoticeAdapter extends BaseAdapter {
     Context context;
+    Handler handler = new Handler(){
+        public void handleMessage(Message message){
+            switch (message.what){
+                case 200:
+                    setText();
+                    break;
+            }
+        }
+    };
+    TextView tv_friend_argee;
 
     public FriendsNoticeAdapter(Context context) {
         this.context = context;
@@ -67,7 +81,7 @@ public class FriendsNoticeAdapter extends BaseAdapter {
         ImageView iv_friend_icon = v.findViewById(R.id.iv_friend_icon);
         TextView tv_friend_name = v.findViewById(R.id.tv_friend_name);
         TextView tv_friend_notice = v.findViewById(R.id.tv_friend_notice);
-        TextView tv_friend_argee = v.findViewById(R.id.tv_friend_argee);
+        tv_friend_argee = v.findViewById(R.id.tv_friend_argee);
 
         NoticeMsg noticeMsg = (NoticeMsg)getItem(i);
         final User user = JSONObject.parseObject(noticeMsg.getData().toString(), User.class);
@@ -120,8 +134,19 @@ public class FriendsNoticeAdapter extends BaseAdapter {
                             friend.setFriendid(user.getUserid());
                             friend.setFriend(user);
                             FriendsManager.getInstance().addFriend(friend);
-
+                            handler.sendEmptyMessage(200);
                             NoticesManager.getInstance().changeFriendNoticeStatus(friend.getFriendid(), MessageType.FRIENDAGREED);
+                            NoticeMsg<User> noticeMsg = new NoticeMsg<>();
+                            noticeMsg.setNoticetype(MessageType.FRIENDAGREED);
+                            noticeMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
+                            noticeMsg.setReceiverid(friend.getFriendid());
+                            noticeMsg.setStatus(2);
+                            noticeMsg.setExtra("同意加为好友");
+                            noticeMsg.setData(UserManager.getInstance().getAppUser());
+                            Msg<NoticeMsg> msg = new Msg<>();
+                            msg.setMsgType(MessageType.NOTICEFRIENDTYPE);
+                            msg.setMsg(noticeMsg);
+                            WebSocketManager.getInstance().sendMsg(msg);
                         } else{
 
                         }
@@ -133,6 +158,14 @@ public class FriendsNoticeAdapter extends BaseAdapter {
                 }
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setText(){
+        tv_friend_argee.setBackground(null);
+        tv_friend_argee.setTextColor(Color.parseColor("#25C6FC"));
+        tv_friend_argee.setText("已同意");
+        notifyDataSetChanged();
     }
 
 }
