@@ -28,7 +28,7 @@
                     android:layout_height="140dp"
                     android:background="@drawable/dynamic_background"/>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_headphoto1"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -90,6 +90,7 @@
 
             <!-- 图片 -->
             <ImageView
+                android:id="@+id/write_messge"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_centerVertical="true"
