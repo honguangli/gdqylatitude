@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -9,13 +11,18 @@ import android.widget.RelativeLayout;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.DynamicFriendsAdapter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.view.FadingScrollView;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DynamicFriendsActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView backtrack;
+    private ImageView backtrack,write_messge;
+    private CircleImageView img_headphoto1;
     private RelativeLayout topPanel;
     private FadingScrollView fadingScrollView;
     private ListView listView;
@@ -34,7 +41,12 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         backtrack = findViewById(R.id.backtrack);
+        write_messge = findViewById(R.id.write_messge);
+        img_headphoto1 = findViewById(R.id.img_headphoto1);
         topPanel = findViewById(R.id.topPanel);
+
+        byte[] b = Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), Base64.DEFAULT);
+        img_headphoto1.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
         //topPanel.setAlpha(0); //设置标题栏的透明度
 
         fadingScrollView = findViewById(R.id.nac_root);
@@ -43,6 +55,7 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
         fadingScrollView.setFadingHeightView(findViewById(R.id.nac_image)); //图片及其高度
 
         backtrack.setOnClickListener(this);
+        write_messge.setOnClickListener(this);
     }
 
     @Override
@@ -60,8 +73,11 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id)
-        {
+        switch (id) {
+            case R.id.write_messge:
+                Intent intent = new Intent(DynamicFriendsActivity.this,DynamicPublicActivity.class);
+                startActivity(intent);
+                break;
             case R.id.backtrack:
                 finish();
                 break;
