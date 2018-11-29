@@ -144,6 +144,6 @@ public class NoticesManager {
      * 提醒UI改变
      */
     public void notifyDataSetChanged(){
-        FriendsNoticeActivity.getFriendsNoticeHandler().sendEmptyMessage(200);
+        FriendsNoticeActivity.getFriendsNoticeHandler().sendEmptyMessage(222);
     }
 }

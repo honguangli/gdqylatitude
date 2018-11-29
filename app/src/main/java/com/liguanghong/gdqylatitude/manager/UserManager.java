@@ -48,16 +48,16 @@ public class UserManager {
      */
     public User getAppUser() {
         if(appUser == null){
-            String logname = sharedPreferences.getString("logname", null);
-            String password = sharedPreferences.getString("password", null);
-            if(null == logname || null == password){
-                return null;
-            } else {
-                User user = new User();
-                user.setLogname(logname);
-                user.setPassword(password);
-                return user;
-            }
+//            String logname = sharedPreferences.getString("logname", null);
+//            String password = sharedPreferences.getString("password", null);
+//            if(null == logname || null == password){
+//                return null;
+//            } else {
+//                User user = new User();
+//                user.setLogname(logname);
+//                user.setPassword(password);
+//                return user;
+//            }
         }
         return appUser;
     }
@@ -68,10 +68,10 @@ public class UserManager {
      */
     public void addAppUser(User newUser){
         appUser = newUser;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("logname", appUser.getLogname());
-        editor.putString("password", appUser.getPassword());
-        editor.commit();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("logname", appUser.getLogname());
+//        editor.putString("password", appUser.getPassword());
+//        editor.commit();
     }
 
     /**
@@ -79,9 +79,9 @@ public class UserManager {
      */
     public void removeAppUser(){
         appUser = null;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.commit();
     }
 
 }

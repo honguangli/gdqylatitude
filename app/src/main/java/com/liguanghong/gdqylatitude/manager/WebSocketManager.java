@@ -97,7 +97,7 @@ public class WebSocketManager extends WebSocketClient{
             } else if(noticeMsg.getNoticetype().equals(MessageType.FRIENDAGREED)){
                 //好友申请被接受
                 Friend friend = new Friend();
-                User user = (User)noticeMsg.getData();
+                User user = JSONObject.parseObject(noticeMsg.getData().toString(), User.class);
                 friend.setFriendid(user.getUserid());
                 friend.setFriend(user);
                 FriendsManager.getInstance().addFriend(friend);

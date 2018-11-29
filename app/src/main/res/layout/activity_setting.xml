@@ -1,8 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".activitys.SettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/colorTitle"
+        android:orientation="horizontal">
+
+        <!-- 返回 -->
+        <ImageView
+            android:id="@+id/setting_backtrack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/toleft_gray"/>
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
+
+    </RelativeLayout>
+
+    <!-- 界面主要内容容器 -->
+    <RelativeLayout
+        android:id="@+id/contentPanel"
+        android:layout_below="@id/topPanel"
+        android:layout_above="@id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <!-- 好友上线提醒 -->
+        <RelativeLayout
+            android:id="@+id/setting_friend"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/colorWhite">
+
+            <TextView
+                android:id="@+id/friend_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="好友上线提醒"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+            <com.liguanghong.gdqylatitude.view.SwitchView
+                android:id="@+id/switchview_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+        <!-- 位置更新 -->
+        <RelativeLayout
+            android:id="@+id/setting_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setting_friend"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/colorWhite">
+
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:text="位置更新间隔"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/location_timeinterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="1秒"/>
+
+
+        </RelativeLayout>
+
+        <!-- 退出 -->
+        <RelativeLayout
+            android:id="@+id/setting_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setting_location"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/colorWhite">
+
+
+            <TextView
+                android:id="@+id/exit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:text="退出登录"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

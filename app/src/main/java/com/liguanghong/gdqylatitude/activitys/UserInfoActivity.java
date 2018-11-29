@@ -426,6 +426,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      * 删除好友操作
      */
     private void deleteFriend(){
+
         RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
                 .add("targetuserid", friend.getFriendid() + "")

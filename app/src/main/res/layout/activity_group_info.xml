@@ -143,9 +143,10 @@
             <TextView
                 android:id="@+id/group_notice"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/tv_nottce"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
                 android:text="这是群公告！这是群公告！这是群公告！"
                 android:textColor="@color/colorBF"
                 android:textSize="16sp"/>

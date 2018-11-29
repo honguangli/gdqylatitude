@@ -274,35 +274,35 @@ public class MapFragment extends BaseFragment {
         } else{
             setLatitude(latitude);
             setLongitude(longitude);
-            RequestBody requestBody = new FormBody.Builder()
-                    .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                    .add("latitude",latitude + "")
-                    .add("longitude", longitude + "")
-                    .build();
-            HttpUtil.postEnqueue("user/updatelocation", requestBody, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.i("定位管理", "更新定位：连接失败");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if(response.isSuccessful()){
-                        try {
-                            JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-                            if(result.isSuccess()){
-
-                            } else{
-
-                            }
-                            Log.i("定位管理", "更新定位：" + result.isSuccess() + "-" + result.getMessage());
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-            });
+//            RequestBody requestBody = new FormBody.Builder()
+//                    .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+//                    .add("latitude",latitude + "")
+//                    .add("longitude", longitude + "")
+//                    .build();
+//            HttpUtil.postEnqueue("user/updatelocation", requestBody, new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    Log.i("定位管理", "更新定位：连接失败");
+//                }
+//
+//                @Override
+//                public void onResponse(Call call, Response response) throws IOException {
+//                    if(response.isSuccessful()){
+//                        try {
+//                            JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+//                            if(result.isSuccess()){
+//
+//                            } else{
+//
+//                            }
+//                            Log.i("定位管理", "更新定位：" + result.isSuccess() + "-" + result.getMessage());
+//                        }catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                }
+//            });
         }
     }
 
@@ -311,7 +311,7 @@ public class MapFragment extends BaseFragment {
      */
     private void setOptions(List<User> userList){
         //清空标记点
-        //mClusterManager.clearItems();
+        mClusterManager.clearItems();
         for (int i = 0; i < userList.size(); i++) {
             try {
                 Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
