@@ -104,9 +104,9 @@ public class DynamicPublicAdpter extends BaseAdapter {
             viewHolder.btdel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (file.exists()) {
-                        file.delete();
-                    }
+//                    if (file.exists()) {
+////                        file.delete();
+////                    }
                     datas.remove(position);
                     notifyDataSetChanged();
                 }

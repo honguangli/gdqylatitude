@@ -63,7 +63,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
             if (data != null) {
                 //List<String> photo = (List<String>) data.getSerializableExtra("photo");
                 String photo = (String)data.getExtras().get("photo");
-                System.out.println("ppppppppppppp"+photo);
+                //System.out.println("ppppppppppppp"+photo);
                 photoPath(photo);
             }
         }
@@ -92,7 +92,9 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent photo=new Intent(DynamicPublicActivity.this,SelectPhotoActivity.class);
-        startActivityForResult(photo,10);
+        if (datas.size()==i){
+            Intent photo=new Intent(DynamicPublicActivity.this,SelectPhotoActivity.class);
+            startActivityForResult(photo,10);
+        }
     }
 }
