@@ -258,7 +258,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void getNotices(){
         final RequestBody requestBody = new FormBody.Builder()
                 .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("status", "")
+                .add("status", 1+"")
                 .build();
         HttpUtil.postEnqueue("notice/findnotices", requestBody, new Callback() {
             @Override

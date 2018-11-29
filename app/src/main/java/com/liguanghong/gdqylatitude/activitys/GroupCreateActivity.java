@@ -25,6 +25,7 @@ import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
+import java.security.acl.Group;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -94,10 +95,10 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.btn_submit:               //确认创建
                 String groupName = ed_chatname.getText().toString();
-                if(groupName != null && !groupName.trim().equals("")){
+                if(groupName != null && !groupName.trim().equals("") && groupPic != null){
                     createGroup(groupName.trim(),groupPic);
+                    finish();
                 }
-                finish();
                 break;
 
             case R.id.backtrack:
@@ -118,7 +119,6 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void createGroup(String groupName,String headportrait){
-        Log.i("测试", headportrait);
         RequestBody requestBody = new FormBody.Builder()
                 .add("ownerid", UserManager.getInstance().getAppUser().getUserid()+"")
                 .add("groupname", groupName)
@@ -140,6 +140,9 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             groupCreateHandler.sendEmptyMessage(200);
+                            Groupchat groupchat = JSONObject.parseObject(result.getData().toString(), Groupchat.class);
+                            GroupManager.getInstance().addGroup(groupchat);
+                            GroupActivity.groupHandler.sendEmptyMessage(200);
                         } else{
                             Message message = new Message();
                             message.what = 400;

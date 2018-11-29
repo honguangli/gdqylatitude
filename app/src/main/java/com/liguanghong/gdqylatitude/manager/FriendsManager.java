@@ -88,7 +88,7 @@ public class FriendsManager {
         List<Friend> list = getFriendsBySetName(setName);
         int count = 0;
         for(Friend friend : list){
-            if(friend.getFriend().getStatu().equals(2)){
+            if(friend.getFriend().getStatu() != null && friend.getFriend().getStatu().equals(2)){
                 count++;
             }
         }

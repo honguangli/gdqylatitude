@@ -8,9 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.User;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MapUsersInfoAdapter extends BaseAdapter {
     private Context context;
@@ -43,6 +47,9 @@ public class MapUsersInfoAdapter extends BaseAdapter {
         textView_name=v.findViewById(R.id.tv_map_user_name);
         textView_id=v.findViewById(R.id.tv_map_user_id);
         textView_name.setText(list.get(i).getLogname());
+        CircleImageView map_user_icon = v.findViewById(R.id.map_user_icon);
+        byte[] my = android.util.Base64.decode(list.get(i).getHeadportrait(), android.util.Base64.DEFAULT);
+        map_user_icon.setImageBitmap(ImageUtils.getPicFromBytes(my,null));
         String ID=Integer.toString(list.get(i).getUserid());
         textView_id.setText("("+ID+")");
         return v;

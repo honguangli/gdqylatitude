@@ -137,7 +137,7 @@ public class FriendsNoticeAdapter extends BaseAdapter {
                             handler.sendEmptyMessage(200);
                             NoticesManager.getInstance().changeFriendNoticeStatus(friend.getFriendid(), MessageType.FRIENDAGREED);
                             NoticeMsg<User> noticeMsg = new NoticeMsg<>();
-                            noticeMsg.setNoticetype(MessageType.FRIENDAGREED);
+                            noticeMsg.setNoticetype(23);
                             noticeMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
                             noticeMsg.setReceiverid(friend.getFriendid());
                             noticeMsg.setStatus(2);
