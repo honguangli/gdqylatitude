@@ -184,7 +184,7 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements
     }*/
 
     protected String getClusterText(int bucket) {
-        if (bucket < BUCKETS[0]) {
+        if (bucket <= BUCKETS[0]) {
             return String.valueOf(bucket);
         }
         return String.valueOf(bucket) + "+";

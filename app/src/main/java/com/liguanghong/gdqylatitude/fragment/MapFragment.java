@@ -311,7 +311,7 @@ public class MapFragment extends BaseFragment {
      */
     private void setOptions(List<User> userList){
         //清空标记点
-        //mClusterManager.clearItems();
+        mClusterManager.clearItems();
         for (int i = 0; i < userList.size(); i++) {
             try {
                 Log.i("测试", userList.get(i).getUserid() + " :" + userList.get(i).getLogname());
@@ -354,7 +354,7 @@ public class MapFragment extends BaseFragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span= 1500;
+        int span= 0;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
