@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.adapter.DynamicPublicAdpter;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +30,9 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
     private List<Map<String, Object>> datas;
     private DynamicPublicAdpter dynamicPublicAdpter;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,9 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         backtrack = findViewById(R.id.backtrack);
         menu = findViewById(R.id.menu);
         gridView = findViewById(R.id.gridView);
@@ -61,10 +70,12 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
         if (requestCode == 10 && resultCode == 20) {
             // 从相册返回的数据
             if (data != null) {
-                //List<String> photo = (List<String>) data.getSerializableExtra("photo");
-                String photo = (String)data.getExtras().get("photo");
-                //System.out.println("ppppppppppppp"+photo);
-                photoPath(photo);
+                List<String> photo = (List<String>) data.getSerializableExtra("photo");
+                for (int i =0; i < photo.size();i++){
+                    String path = photo.get(i);
+                    photoPath(path);
+                }
+
             }
         }
     }
@@ -93,6 +104,10 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (datas.size()==i){
+            SelectPhotoActivity.isMultiSelect = false;
+            editor.putBoolean("isMultiSelect",SelectPhotoActivity.isMultiSelect);
+            editor.commit();
+
             Intent photo=new Intent(DynamicPublicActivity.this,SelectPhotoActivity.class);
             startActivityForResult(photo,10);
         }

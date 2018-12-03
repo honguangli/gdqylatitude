@@ -1,14 +1,17 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.SelectPhotoActivity;
 import com.liguanghong.gdqylatitude.util.SelectPhotoLoaderUtil;
 
 import java.util.LinkedList;
@@ -23,13 +26,19 @@ public  class ChatPhotoAdapter extends BaseAdapter {
     private static List<String> mSelectImg=new LinkedList<>();
     private int lastPosition;//定义一个标记为最后选择的位置
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    private boolean MultiSelect;
+
     public ChatPhotoAdapter(Context context, List<String> mDatas, String dirPath) {
         this.context = context;
         this.mDirPath=dirPath;
         this.mImgPaths=mDatas;
         mInflater=LayoutInflater.from(context);
         lastPosition = -1;
-
+        sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+        MultiSelect = sharedPreferences.getBoolean("isMultiSelect",SelectPhotoActivity.isMultiSelect);
     }
 
     @Override
@@ -66,18 +75,44 @@ public  class ChatPhotoAdapter extends BaseAdapter {
         }
 
         final String filePath=mDirPath+"/"+mImgPaths.get(position);
+        vh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
         mSelectImg.remove(filePath);
         SelectPhotoLoaderUtil.getInStance(3, SelectPhotoLoaderUtil.Type.LIFO)
                 .loadImage(mDirPath+"/"+mImgPaths.get(position),vh.mImg);
 
-        if (lastPosition == position) {//最后选择的位置
-            mSelectImg.add(filePath);
-            vh.mImg.setColorFilter(Color.parseColor("#77000000"));
-            vh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
-        } else {
-            mSelectImg.remove(filePath);
-            vh.mImg.setColorFilter(null);
-            vh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
+        if (MultiSelect == true){
+            if (lastPosition == position) {//最后选择的位置
+                mSelectImg.add(filePath);
+                vh.mImg.setColorFilter(Color.parseColor("#77000000"));
+                vh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
+            } else {
+                mSelectImg.remove(filePath);
+                vh.mImg.setColorFilter(null);
+                vh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
+            }
+        }else {
+            final ViewHolder finalVh = vh;
+            vh.mImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //已经被选择
+                    if (mSelectImg.contains(filePath)){
+                        mSelectImg.remove(filePath);
+                        finalVh.mImg.setColorFilter(null);
+                        finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
+                    }else{
+                        if (mSelectImg.size()<9){
+                            //未被选中
+                            mSelectImg.add(filePath);
+                            finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
+                            finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
+                        }else {
+                            Toast.makeText(context,"只能选择9张图片",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }
+            });
         }
 
         return convertView;

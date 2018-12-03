@@ -59,7 +59,7 @@ public class DynamicPublicAdpter extends BaseAdapter {
     @Override
     public int getCount() {
         int count = datas == null ? 1 : datas.size() + 1;
-        if (count >= maxImages) {
+        if (count > maxImages) {
             return datas.size();
         } else {
             return count;
@@ -104,9 +104,6 @@ public class DynamicPublicAdpter extends BaseAdapter {
             viewHolder.btdel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (file.exists()) {
-////                        file.delete();
-////                    }
                     datas.remove(position);
                     notifyDataSetChanged();
                 }
@@ -114,7 +111,7 @@ public class DynamicPublicAdpter extends BaseAdapter {
         } else {
 
             Glide.with(context)
-                    .load(R.drawable.image_add)
+                    .load(R.drawable.phone)
                     .priority(Priority.HIGH)
                     .centerCrop()
                     .into(viewHolder.ivimage);

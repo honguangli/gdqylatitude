@@ -1,7 +1,9 @@
 package com.liguanghong.gdqylatitude.activitys;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,9 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
     private String headPic;
     private int resultCode = AppManager.NOTCHANGE;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,9 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         etUsername = findViewById(R.id.personalinfo_et_username);
         etPassword = findViewById(R.id.personalinfo_et_password);
         etSex = findViewById(R.id.personalinfo_et_sex);
@@ -139,6 +147,10 @@ public class UserInfoMineActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.personalinfo_iv_touxiang:
+                SelectPhotoActivity.isMultiSelect = true;
+                editor.putBoolean("isMultiSelect",SelectPhotoActivity.isMultiSelect);
+                editor.commit();
+
                 Intent photo=new Intent(UserInfoMineActivity.this,SelectPhotoActivity.class);
                 startActivityForResult(photo,10);
                 break;

@@ -37,6 +37,7 @@ import com.liguanghong.gdqylatitude.view.SelectPhotoDirPopupWindow;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -63,6 +64,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    public static boolean isMultiSelect;    //用于判断是否多选图片
 
 
     @Override
@@ -94,7 +96,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                                     int position, long arg3) {
                 adapter.setSeclection(position);//传值更新
                 adapter.notifyDataSetChanged();
-                Log.i("jkl","position==="+position);
             }
         });
     }
@@ -138,8 +139,14 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tv_send:          //发送
+                boolean  Multiselect = sharedPreferences.getBoolean("isMultiSelect",isMultiSelect);
+                Intent intent =new Intent();
                 if (mCurrentDir!=null){ photoPaths  = adapter.selectPhoto(); }
-                Intent intent =new Intent().putExtra("photo", photoPaths.get(0));
+                if (Multiselect == true){
+                    intent.putExtra("photo", photoPaths.get(0));
+                }else {
+                    intent.putExtra("photo", (Serializable) photoPaths);
+                }
                 setResult(20, intent);
                 finish();
                 break;

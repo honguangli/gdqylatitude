@@ -210,6 +210,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.hint_tv_pic:                  //调用相册
+
+                SelectPhotoActivity.isMultiSelect = true;
+                editor.putBoolean("isMultiSelect",SelectPhotoActivity.isMultiSelect);
+                editor.commit();
+
                 Intent photo=new Intent(ChatActivity.this,SelectPhotoActivity.class);
                 startActivityForResult(photo,10);
                 break;
