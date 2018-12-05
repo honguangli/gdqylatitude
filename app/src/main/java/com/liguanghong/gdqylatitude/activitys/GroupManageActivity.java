@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,16 +11,23 @@ import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Groupchat;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupManageActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView backtrack;                            //返回群组信息界面
     private TextView menu;                                    //完成
+    private CircleImageView ivTouxiang;
     private EditText et_group_name;                         //群组名
     private EditText et_group_messges;                      //群公告
     private RelativeLayout rl_group_member_manage;                 //群成员管理
     private RelativeLayout rl_group_sign_manage;                 //签到管理
     private RelativeLayout rl_group_dissolve;               //解散群组
+    private Groupchat groupchat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,7 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
         rl_group_member_manage = (RelativeLayout)findViewById(R.id.rl_group_member_manage);
         rl_group_sign_manage = (RelativeLayout) findViewById(R.id.rl_group_sign_manage);
         rl_group_dissolve = (RelativeLayout) findViewById(R.id.rl_group_dissolve);
+        ivTouxiang = findViewById(R.id.personalinfo_iv_touxiang);
 
 
         backtrack.setOnClickListener(this);
@@ -51,7 +60,12 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-
+        groupchat = (Groupchat)getIntent().getSerializableExtra("groupchat");
+        //获取用户的个人信息
+        byte[] b = Base64.decode(groupchat.getHeadportrait(), Base64.DEFAULT);
+        ivTouxiang.setImageBitmap(ImageUtils.getPicFromBytes(b,null));
+        et_group_name.setText(groupchat.getGroupname());
+        et_group_messges.setText(groupchat.getAnnouncement());
     }
 
     @Override
@@ -70,6 +84,7 @@ public class GroupManageActivity extends BaseActivity implements View.OnClickLis
             case R.id.rl_group_member_manage:
                 //启动群成员界面
                 Intent intent = new Intent(this, GroupMemberManageActivity.class);
+                intent.putExtra("groupid", groupchat.getGroupid());
                 intent.putExtra("permission", true);
                 startActivity(intent);
                 break;

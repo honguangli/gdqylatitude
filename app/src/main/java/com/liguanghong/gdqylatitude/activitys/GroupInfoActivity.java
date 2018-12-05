@@ -168,7 +168,9 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
         switch (id){
             case R.id.rly_manage:
                 //启动群管理界面
-                startActivity(new Intent(this, GroupManageActivity.class));
+                Intent mintent = new Intent(this, GroupManageActivity.class);
+                mintent.putExtra("groupchat", groupchat);
+                startActivity(mintent);
                 break;
 
             case R.id.RelativeLayout_number:

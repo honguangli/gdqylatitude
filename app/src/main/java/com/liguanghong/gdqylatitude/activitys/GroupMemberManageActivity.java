@@ -31,6 +31,7 @@ import okhttp3.Response;
 
 public class GroupMemberManageActivity extends BaseActivity implements View.OnClickListener {
 
+    private TextView title;
     private ImageView backtrack;
     private TextView menu;
 
@@ -47,6 +48,7 @@ public class GroupMemberManageActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void initView() {
+        title = findViewById(R.id.title);
         backtrack = findViewById(R.id.backtrack);
 
         backtrack.setOnClickListener(this);
@@ -67,6 +69,8 @@ public class GroupMemberManageActivity extends BaseActivity implements View.OnCl
         Intent intent = getIntent();
         groupid = intent.getIntExtra("groupid", -1);
         permission = intent.getBooleanExtra("permission", false);
+        if(permission)
+            title.setText("群成员管理");
 
         listView = findViewById(R.id.listView);
         groupLeaguerManageAdapter = new GroupMemberManageAdapter(this, permission);

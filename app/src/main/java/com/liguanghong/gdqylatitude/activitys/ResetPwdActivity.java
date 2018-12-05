@@ -52,7 +52,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
         etEmail = findViewById(R.id.resetpassword_et_email);
         etSecuritycode = findViewById(R.id.resetpassword_et_securitycode);
         etNewpassword = findViewById(R.id.resetpassword_et_password);
-        etSureNewpassword = findViewById(R.id.register_et_ensurepassword);
+        etSureNewpassword = findViewById(R.id.resetpassword_et_ensurepassword);
         ivBacktrack = findViewById(R.id.resetpassword_backtrack);
         tvSecuritycode = findViewById(R.id.resetpassword_tv_securitycode);
         btnAgree = findViewById(R.id.resetpassword_btn_argee);
@@ -91,7 +91,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                 }else{
                     if(isEmail(etEmail.getText().toString())){
                         Toast.makeText(this,"邮箱输入正确",Toast.LENGTH_SHORT).show();
-
+                        getCheck(etEmail.getText().toString());
                     }else{
                         Toast.makeText(this,"邮箱格式错误，请重新输入！",Toast.LENGTH_SHORT).show();
                     }
@@ -100,7 +100,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.resetpassword_btn_argee:
                 if ((etNewpassword.getText().toString()).equals(etSureNewpassword.getText().toString())){
-                    resetPwd(etEmail.getText().toString(),etNewpassword.getText().toString());
+                    //resetPwd(etEmail.getText().toString(),etNewpassword.getText().toString());
 
                 }else{
                     Toast.makeText(this,"密码不一致，请重新输入！",Toast.LENGTH_SHORT).show();
@@ -127,21 +127,15 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
     /**
      * 重置密码操作
      * @param email
-     * @param password
      */
-    public static void resetPwd(final String email, String password){
+    public static void getCheck(String email){
         RequestBody requestBody = new FormBody.Builder()
                 .add("email",email)
-                .add("password", password)
                 .build();
-        HttpUtil.postEnqueue("user/signin", requestBody, new Callback() {
+        HttpUtil.postEnqueue("user/getcheck", requestBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("重置密码操作",  "重置密码失败");
-                Message message = new Message();
-                message.what = 404;
-                message.obj = "重置密码失败";
-                resetpwdHandler.sendMessage(message);
             }
 
             @Override
@@ -151,17 +145,8 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
                             //重置成功
-                            User user = ((JSONObject)result.getData()).toJavaObject(User.class);
-                            //添加到用户管理
-                            UserManager.getInstance().addAppUser(user);
-                            //UserManager.addSocketClient();
-                            resetpwdHandler.sendEmptyMessage(200);
                         } else{
                             //重置失败
-                            Message message = new Message();
-                            message.what = 0;
-                            message.obj = result.getMessage();
-                            resetpwdHandler.sendMessage(message);
                         }
                         Log.i("重置密码操作",  result.isSuccess() + "," + result.getMessage());
                     } catch (Exception e){

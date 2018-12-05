@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="群成员管理"
+            android:text="群成员"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
