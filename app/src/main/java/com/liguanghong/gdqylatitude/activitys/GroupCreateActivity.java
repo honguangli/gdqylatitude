@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +47,9 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
     private Handler groupCreateHandler;
     String groupPic;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,9 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         backtrack_create = (ImageView)findViewById(R.id.backtrack);
         bt_add = findViewById(R.id.bt_add);
         rly_add_newgroup = (RelativeLayout)findViewById(R.id.add);
@@ -89,6 +97,10 @@ public class GroupCreateActivity extends BaseActivity implements View.OnClickLis
         int id = view.getId();
         switch (id){
             case R.id.add:         //选择头像
+                SelectPhotoActivity.isMultiSelect = true;
+                editor.putBoolean("isMultiSelect",SelectPhotoActivity.isMultiSelect);
+                editor.commit();
+
                 Intent selectHead = new Intent(GroupCreateActivity.this,SelectPhotoActivity.class);
                 startActivityForResult(selectHead,10);
                 break;
