@@ -124,7 +124,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
         }else{
             aboutScanPhoto();
         }
-
     }
 
 
@@ -139,16 +138,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tv_send:          //发送
-                boolean  Multiselect = sharedPreferences.getBoolean("isMultiSelect",isMultiSelect);
-                Intent intent =new Intent();
-                if (mCurrentDir!=null){ photoPaths  = adapter.selectPhoto(); }
-                if (Multiselect == true){
-                    intent.putExtra("photo", photoPaths.get(0));
-                }else {
-                    intent.putExtra("photo", (Serializable) photoPaths);
-                }
-                setResult(20, intent);
-                finish();
+                selectPic();
                 break;
 
             case R.id.backtrack:            //返回
@@ -164,6 +154,30 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                     finish();
                 }
                 break;
+        }
+    }
+
+    private void selectPic(){
+        if (ChatPhotoAdapter.mSelectImg.size()>=1){
+            boolean  Multiselect = sharedPreferences.getBoolean("isMultiSelect",isMultiSelect);
+            Intent intent =new Intent();
+            if (mCurrentDir!=null){ photoPaths  = adapter.selectPhoto(); }
+            if (Multiselect == true){
+                intent.putExtra("photo", photoPaths.get(0));
+                setResult(20, intent);
+                finish();
+            }else {
+                Intent data = getIntent();
+                int size = (int)data.getExtras().get("size");
+                System.out.println("size"+size);
+                if (((size + ChatPhotoAdapter.mSelectImg.size())>=0) && ((size + ChatPhotoAdapter.mSelectImg.size())<4)){
+                    intent.putExtra("photo", (Serializable) photoPaths);
+                    setResult(20, intent);
+                    finish();
+                }else {
+                    Toast.makeText(SelectPhotoActivity.this,"图片总数不能超过3张",Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 

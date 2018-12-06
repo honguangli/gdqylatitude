@@ -18,16 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 public class DynamicPublicAdpter extends BaseAdapter {
-    private List<Map<String, Object>> datas;
+    private List<String> datas;
     private Context context;
     private LayoutInflater inflater;
     /**
      * 可以动态设置最多上传几张，之后就不显示+号了，用户也无法上传了
      * 默认9张
      */
-    private int maxImages = 9;
+    private int maxImages = 3;
 
-    public DynamicPublicAdpter(List<Map<String, Object>> datas, Context context) {
+    public DynamicPublicAdpter(List<String> datas, Context context) {
         this.datas = datas;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -76,7 +76,7 @@ public class DynamicPublicAdpter extends BaseAdapter {
         return 0;
     }
 
-    public void notifyDataSetChanged(List<Map<String, Object>> datas) {
+    public void notifyDataSetChanged(List<String> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
 
@@ -95,7 +95,7 @@ public class DynamicPublicAdpter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (datas != null && position < datas.size()) {
-            final File file = new File(datas.get(position).get("path").toString());
+            final File file = new File(datas.get(position));
             Glide.with(context)
                     .load(file)
                     .priority(Priority.HIGH)

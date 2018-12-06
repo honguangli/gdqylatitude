@@ -9,8 +9,6 @@ public class Dynamic {
 
     private String text;
 
-    private Date postedtime;
-
     private Double latitude;
 
     private Double longitude;
@@ -53,14 +51,6 @@ public class Dynamic {
 
     public void setText(String text) {
         this.text = text == null ? null : text.trim();
-    }
-
-    public Date getPostedtime() {
-        return postedtime;
-    }
-
-    public void setPostedtime(Date postedtime) {
-        this.postedtime = postedtime;
     }
 
     public Double getLatitude() {
