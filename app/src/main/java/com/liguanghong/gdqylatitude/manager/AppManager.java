@@ -21,6 +21,7 @@ public class AppManager {
     public static final int NOTCHANGE = 444;
     public static final int ERROR = 500;
     public static final int UPDATEUSER = 10080;
+    public static final int UPDATEGROUP = 10081;
     public static final int GETPHONT = 200;
 
     private AppManager() {

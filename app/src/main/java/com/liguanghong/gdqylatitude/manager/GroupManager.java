@@ -2,6 +2,7 @@ package com.liguanghong.gdqylatitude.manager;
 
 import android.util.Log;
 
+import com.liguanghong.gdqylatitude.activitys.GroupActivity;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 
 import java.util.ArrayList;
@@ -103,6 +104,22 @@ public class GroupManager {
     public void removeGroup(Groupchat newGroup){
         Log.i("群组管理器", "删除群聊：群ID=" + newGroup.getGroupid() + "，群名=" + newGroup.getGroupname());
         groupchatList.remove(newGroup);
+    }
+
+    public void updateGroup(Groupchat groupchat){
+        for(Groupchat group : groupchatList){
+            if(group.getGroupid().equals(groupchat.getGroupid())){
+                groupchatList.remove(group);
+                break;
+            }
+        }
+        groupchatList.add(groupchat);
+        notifyDataSetChanged();
+    }
+
+    public void notifyDataSetChanged(){
+        if(GroupActivity.groupHandler != null)
+            GroupActivity.groupHandler.sendEmptyMessage(200);
     }
 
 }

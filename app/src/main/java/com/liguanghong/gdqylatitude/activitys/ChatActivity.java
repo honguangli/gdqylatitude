@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.adapter.ChatAdapter;
+import com.liguanghong.gdqylatitude.manager.AppManager;
 import com.liguanghong.gdqylatitude.manager.ConversationManager;
 import com.liguanghong.gdqylatitude.manager.WebSocketManager;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
@@ -179,7 +181,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 if(!isSingle){
                     Intent intent = new Intent(this, GroupInfoActivity.class);
                     intent.putExtra("groupinfo", groupchat);
-                    startActivity(intent);
+                    startActivityForResult(intent,AppManager.UPDATEGROUP);
                 } else{
                     Intent intent = new Intent(this, UserInfoActivity.class);
                     intent.putExtra("userinfo", friend);
@@ -268,6 +270,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         }else if (requestCode == 15 && resultCode == 25) {
             res = data.getByteArrayExtra("bitmap");
             sendLocation(ImageUtils.bitmapToString(getPicFromBytes(res,null)));
+        }
+        else if(requestCode == AppManager.UPDATEGROUP && resultCode == AppManager.SUCCESS){
+            groupchat = (Groupchat)data.getSerializableExtra("groupinfo");
+            tv_friendName.setText(groupchat.getGroupname());
         }
     }
 
