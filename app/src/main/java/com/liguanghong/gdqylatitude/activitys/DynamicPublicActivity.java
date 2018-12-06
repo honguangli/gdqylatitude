@@ -123,7 +123,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
         int id = view.getId();
         switch (id){
             case R.id.menu:             //发表
-                dialog = new LoadingDialog(this,"玩命更新中...");
+                dialog = new LoadingDialog(this,"玩命发送中...");
                 dialog.show();
                 if (photo.size()==1){
                     SendDynamic(et_send_messges.getText().toString().trim(),
