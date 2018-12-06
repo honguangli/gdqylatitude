@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
 import com.liguanghong.gdqylatitude.base.BaseActivity;
+import com.liguanghong.gdqylatitude.manager.AppManager;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.User;
@@ -144,7 +146,7 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                            List<User> list = JSONArray.parseArray(result.getData().toString(), User.class);
+                                 List<User> list = JSONArray.parseArray(result.getData().toString(), User.class);
                             Message message = new Message();
                             message.what = 200;
                             message.obj = list;
@@ -170,7 +172,7 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
                 //启动群管理界面
                 Intent mintent = new Intent(this, GroupManageActivity.class);
                 mintent.putExtra("groupchat", groupchat);
-                startActivity(mintent);
+                startActivityForResult(mintent, AppManager.UPDATEGROUP);
                 break;
 
             case R.id.RelativeLayout_number:
@@ -186,6 +188,9 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.backtrack:
                 //销毁当前界面，返回群聊天界面
+                Intent nintent = new Intent(this, GroupInfoActivity.class);
+                nintent.putExtra("groupinfo", groupchat);
+                setResult(AppManager.SUCCESS, nintent);
                 finish();
                 break;
 
@@ -299,6 +304,26 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
      */
     private void quitGroup(){
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == AppManager.UPDATEGROUP && resultCode == AppManager.SUCCESS){
+            groupchat = (Groupchat)data.getSerializableExtra("groupinfo");
+            topPanel.setBackground(new BitmapDrawable(ImageUtils.getPicFromBytes(Base64.decode(groupchat.getHeadportrait(), Base64.DEFAULT),null)));
+            group_name.setText("群聊名称：" + groupchat.getGroupname());
+            group_id.setText("ID："+groupchat.getGroupid());
+            group_memberNum.setText("共" + groupchat.getGroupnum() + "人");
+            group_messges.setText(groupchat.getAnnouncement());
+
+            if(groupchat.getOwnerid().equals(UserManager.getInstance().getAppUser().getUserid())){
+                rly_manage.setVisibility(View.VISIBLE);
+            } else{
+                rly_manage.setVisibility(View.GONE);
+            }
+            setUserItem(groupchat.getGroupid(), 4);
+        }
     }
 
 }
