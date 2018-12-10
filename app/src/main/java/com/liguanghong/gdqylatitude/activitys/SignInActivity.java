@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +49,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private ImageView ivPassword;
     private static Handler loginHandler;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +64,17 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE); //获取editor对象
+        editor = sharedPreferences.edit();//获取编辑器
+
         et_name =findViewById(R.id.login_et_name);
         et_password = findViewById(R.id.login_et_password);
         btn_login = findViewById(R.id.login_btn_login);
         toRegister = findViewById(R.id.to_register);
         forgotPassword = findViewById(R.id.forgotpassword);
         ivPassword = findViewById(R.id.login_iv_password);
+
+        et_name.setText(sharedPreferences.getString("userName",et_name.getText().toString()));
 
         btn_login.setOnClickListener(this);
         toRegister.setOnClickListener(this);
@@ -92,6 +102,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.login_btn_login:
+                editor.putString("userName",et_name.getText().toString());
+                editor.commit();
                 signIn(et_name.getText().toString(), et_password.getText().toString());
                 break;
             case R.id.to_register:

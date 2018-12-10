@@ -23,7 +23,7 @@ public  class ChatPhotoAdapter extends BaseAdapter {
     private String mDirPath;
     private List<String> mImgPaths;
     private LayoutInflater mInflater;
-    private static List<String> mSelectImg=new LinkedList<>();
+    public static List<String> mSelectImg=new LinkedList<>();
     private int lastPosition;//定义一个标记为最后选择的位置
 
     SharedPreferences sharedPreferences;
@@ -101,13 +101,13 @@ public  class ChatPhotoAdapter extends BaseAdapter {
                         finalVh.mImg.setColorFilter(null);
                         finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
                     }else{
-                        if (mSelectImg.size()<9){
+                        if (mSelectImg.size()<3){
                             //未被选中
                             mSelectImg.add(filePath);
                             finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
                             finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
                         }else {
-                            Toast.makeText(context,"只能选择9张图片",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,"只能选择3张图片",Toast.LENGTH_LONG).show();
                         }
 
                     }
