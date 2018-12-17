@@ -174,7 +174,7 @@
         <LinearLayout
             android:id="@+id/LinearLayout_synthesize"
             android:layout_width="match_parent"
-            android:layout_height="173dp"
+            android:layout_height="103dp"
             android:layout_below="@id/lv_remark_and_set"
             android:layout_marginTop="20dp"
             android:background="@color/colorWhite"
@@ -243,10 +243,12 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/colorF5"/>
+                android:background="@color/colorF5"
+                android:visibility="gone"/>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="70dp"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/tv_information_photo"
                     android:layout_width="wrap_content"
