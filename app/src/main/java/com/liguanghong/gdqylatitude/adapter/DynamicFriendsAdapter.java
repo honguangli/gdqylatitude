@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
@@ -72,23 +74,16 @@ public class DynamicFriendsAdapter extends BaseAdapter {
         item_name = v.findViewById(R.id.tv_friendName);
         tv_content2 = v.findViewById(R.id.tv_content);
         tv_time = v.findViewById(R.id.tv_time);
-
         try{
             byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
+            byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
+            byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
             if (!pic.equals("")){
                 img_photo1.setImageBitmap(ImageUtils.getPicFromBytes(pic,null));
             }
-        }catch (NullPointerException e){
-        }
-        try{
-            byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
             if (!pic2.equals("")){
                 img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
             }
-        }catch (NullPointerException e){
-        }
-        try{
-            byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
             if (!pic3.equals("")){
                 img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
             }

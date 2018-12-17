@@ -148,6 +148,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
                                 ImageUtils.filePathToString(photo.get(1)),
                                 ImageUtils.filePathToString(photo.get(2)));
                     }
+                    setResult(20);
                     finish();
                 }
 
