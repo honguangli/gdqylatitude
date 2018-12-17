@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MapUsersInfoAdapter extends BaseAdapter {
     private Context context;
-    private List<User> list;
+    private static List<User> list;
 
     private TextView textView_name,textView_id;
 
@@ -51,7 +51,7 @@ public class MapUsersInfoAdapter extends BaseAdapter {
         byte[] my = android.util.Base64.decode(list.get(i).getHeadportrait(), android.util.Base64.DEFAULT);
         map_user_icon.setImageBitmap(ImageUtils.getPicFromBytes(my,null));
         String ID=Integer.toString(list.get(i).getUserid());
-        textView_id.setText("("+ID+")");
+        textView_id.setText("(ID:"+ID+")");
         return v;
     }
 }

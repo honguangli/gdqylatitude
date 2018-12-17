@@ -1,5 +1,10 @@
 package com.liguanghong.gdqylatitude.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
@@ -81,4 +86,24 @@ public class HttpUtil {
                 .build();
         okHttpClient.newCall(request).enqueue(callback);
     }
+
+    /**
+     * 检测网络状态是否联通
+     *
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            if (null != info && info.isConnected() && info.isAvailable()) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e("HttpUtil", "current network is not available");
+            return false;
+        }
+        return false;
+    }
+
 }

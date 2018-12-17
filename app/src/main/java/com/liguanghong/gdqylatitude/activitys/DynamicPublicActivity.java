@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.R;
@@ -48,7 +49,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
     private EditText et_send_messges;
 
     private GridView gridView;
-    private ArrayList<String> photo;
+    public static ArrayList<String> photo;
     private DynamicPublicAdpter dynamicPublicAdpter;
 
     private static Handler userinfoHandler;
@@ -123,24 +124,33 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
         int id = view.getId();
         switch (id){
             case R.id.menu:             //发表
-                dialog = new LoadingDialog(this,"玩命发送中...");
-                dialog.show();
-                if (photo.size()==1){
-                    SendDynamic(et_send_messges.getText().toString().trim(),
-                            ImageUtils.filePathToString(photo.get(0)),
-                            "",
-                            "");
-                }else if (photo.size()==2){
-                    SendDynamic(et_send_messges.getText().toString().trim(),
-                            ImageUtils.filePathToString(photo.get(0)),
-                            ImageUtils.filePathToString(photo.get(1)),
-                            "");
-                }else if (photo.size()==3){
-                    SendDynamic(et_send_messges.getText().toString().trim(),
-                            ImageUtils.filePathToString(photo.get(0)),
-                            ImageUtils.filePathToString(photo.get(1)),
-                            ImageUtils.filePathToString(photo.get(2)));
+                if (photo.size() != 0 || et_send_messges.getText().toString().length() != 0){
+                    dialog = new LoadingDialog(this,"玩命发送中...");
+                    dialog.show();
+                    if (photo.size()==0){
+                        SendDynamic(et_send_messges.getText().toString().trim(),
+                                "",
+                                "",
+                                "");
+                    }else if (photo.size()==1){
+                        SendDynamic(et_send_messges.getText().toString().trim(),
+                                ImageUtils.filePathToString(photo.get(0)),
+                                "",
+                                "");
+                    }else if (photo.size()==2){
+                        SendDynamic(et_send_messges.getText().toString().trim(),
+                                ImageUtils.filePathToString(photo.get(0)),
+                                ImageUtils.filePathToString(photo.get(1)),
+                                "");
+                    }else if (photo.size()==3){
+                        SendDynamic(et_send_messges.getText().toString().trim(),
+                                ImageUtils.filePathToString(photo.get(0)),
+                                ImageUtils.filePathToString(photo.get(1)),
+                                ImageUtils.filePathToString(photo.get(2)));
+                    }
+                    finish();
                 }
+
                 break;
 
             case R.id.backtrack:
