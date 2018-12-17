@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/dynamic_icon"
-                    android:text="动态"
+                    android:text="好友动态"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
 
@@ -150,11 +150,45 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/dynamic_mine_icon"
-                    android:text="相册"
+                    android:text="我的动态"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
 
             </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- 轨迹 -->
+        <RelativeLayout
+            android:id="@+id/guard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dynamic_panel"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/guard_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/guard"/>
+
+            <TextView
+                android:id="@+id/guard_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/guard_icon"
+                android:text="守护模式"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
 
         </RelativeLayout>
 
@@ -163,7 +197,7 @@
             android:id="@+id/setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dynamic_panel"
+            android:layout_below="@id/guard"
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -186,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/setting_icon"
-                android:text="设置"
+                android:text="通用设置"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"/>
 

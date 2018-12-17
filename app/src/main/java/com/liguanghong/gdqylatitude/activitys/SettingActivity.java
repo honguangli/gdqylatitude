@@ -19,7 +19,7 @@ import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.view.SwitchView;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener{
-    private RelativeLayout rlyLocation,rlyFriend,rlyGuard,rlyExit;
+    private RelativeLayout rlyLocation,rlyFriend,rlyExit;
     private TextView tvTimeinterval;
     private ImageView ivBacktrack;
     private SwitchView swFriend;
@@ -46,13 +46,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         rlyLocation = findViewById(R.id.setting_location);
         rlyFriend = findViewById(R.id.setting_friend);
-        rlyGuard = findViewById(R.id.setting_guard);
         rlyExit = findViewById(R.id.setting_exit);
         ivBacktrack = findViewById(R.id.setting_backtrack);
         tvTimeinterval = findViewById(R.id.location_timeinterval);
         swFriend = findViewById(R.id.switchview_friend);
 
-        rlyGuard.setOnClickListener(this);
         rlyExit.setOnClickListener(this);
         rlyFriend.setOnClickListener(this);
         rlyLocation.setOnClickListener(this);
@@ -96,9 +94,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 Toast.makeText(this,"开关状态："+isOpened,Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.setting_guard:
-
-                break;
             case R.id.setting_exit:
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
@@ -108,16 +103,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
         }
-    }
-
-    private void show(){
-
-    }
-
-    private void to(){
-        Intent intent = new Intent(this, GuardActivity.class);
-        intent.putExtra("entityName", "test3");
-        startActivity(intent);
     }
 
 }
