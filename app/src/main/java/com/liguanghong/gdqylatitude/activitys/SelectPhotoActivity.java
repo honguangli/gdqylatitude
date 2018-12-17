@@ -174,8 +174,6 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                     intent.putExtra("photo", (Serializable) photoPaths);
                     setResult(20, intent);
                     finish();
-                }else {
-                    Toast.makeText(SelectPhotoActivity.this,"图片总数不能超过3张",Toast.LENGTH_LONG).show();
                 }
             }
         }

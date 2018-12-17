@@ -7,14 +7,16 @@
     <RelativeLayout
         android:id="@+id/r2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp">
 
         <RelativeLayout
             android:id="@+id/r2_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_headphoto"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -84,6 +86,8 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="2dp"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/dynamic_mine_light" />
 
                 <ImageView
@@ -91,6 +95,8 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="2dp"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/dynamic_mine_light" />
 
                 <ImageView
@@ -98,44 +104,19 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/dynamic_mine_light" />
             </LinearLayout>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/r2_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/r2_3"
-            android:layout_marginTop="5dp">
-
-            <ImageView
-                android:id="@+id/img_location"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/location"
-                />
-
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_location"
-                android:layout_marginLeft="10dp"
-                android:text="广轻（广州校区）"
-                android:layout_centerVertical="true"
-                android:textSize="16sp"
-                android:textColor="@color/colorBF"/>
-        </RelativeLayout>
 
 
         <LinearLayout
             android:id="@+id/r2_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/r2_4"
+            android:layout_below="@id/r2_3"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:orientation="horizontal">

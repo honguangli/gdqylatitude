@@ -42,7 +42,6 @@
             android:layout_centerVertical="true"
             android:paddingRight="20dp"
             android:gravity="center"
-            android:text="12"
             android:textColor="@color/colorWhite"/>
 
 

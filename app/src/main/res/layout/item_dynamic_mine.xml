@@ -12,10 +12,11 @@
         <RelativeLayout
             android:id="@+id/r2_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp">
 
-            <ImageView
-                android:id="@+id/img_headphoto3"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_headphoto"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
@@ -24,7 +25,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_headphoto3"
+                android:layout_toRightOf="@+id/img_headphoto"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
@@ -53,7 +54,7 @@
             android:layout_below="@+id/r2_1">
 
             <TextView
-                android:id="@+id/tv_content2"
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -84,6 +85,7 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="2dp"
                     android:src="@drawable/dynamic_mine_light"
                     />
 
@@ -92,6 +94,7 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="2dp"
                     android:src="@drawable/dynamic_mine_light"
                     />
 
@@ -103,94 +106,6 @@
                     android:src="@drawable/dynamic_mine_light"
                     />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/l2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/l1">
-                <ImageView
-                    android:id="@+id/img_photo4"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-
-                <ImageView
-                    android:id="@+id/img_photo5"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-
-                <ImageView
-                    android:id="@+id/img_photo6"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/l3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/l2">
-                <ImageView
-                    android:id="@+id/img_photo7"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-
-                <ImageView
-                    android:id="@+id/img_photo8"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-
-                <ImageView
-                    android:id="@+id/img_photo9"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
-                    />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/r2_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/r2_3"
-            android:layout_marginTop="5dp">
-
-            <ImageView
-                android:id="@+id/img_location2"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/location"
-                />
-
-            <TextView
-                android:id="@+id/tv_location2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_location2"
-                android:layout_marginLeft="10dp"
-                android:text="广轻（广州校区）"
-                android:layout_centerVertical="true"
-                android:textSize="16sp"
-                android:textColor="@color/colorBF"/>
         </RelativeLayout>
 
 
@@ -198,7 +113,7 @@
             android:id="@+id/r2_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/r2_4"
+            android:layout_below="@id/r2_3"
             android:layout_alignParentRight="true"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
