@@ -23,8 +23,8 @@ import java.util.List;
 public class MapUsersInfoActivity extends BaseActivity implements View.OnClickListener{
     private ImageView backtrack_info;
     private ListView listView;
-    MapUsersInfoAdapter mapUsersInfoAdapter;
-    List<User> list;
+    private static MapUsersInfoAdapter mapUsersInfoAdapter;
+    private static List<User> list = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +36,13 @@ public class MapUsersInfoActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         backtrack_info = findViewById(R.id.backtrack);
-        String ss = getIntent().getStringExtra("user");
-        list= JSONArray.parseArray(ss, User.class);
-        mapUsersInfoAdapter = new MapUsersInfoAdapter(this,list);
+        mapUsersInfoAdapter = new MapUsersInfoAdapter(this, list);
         listView = findViewById(R.id.map_user_lv);
         listView.setAdapter(mapUsersInfoAdapter);
         backtrack_info.setOnClickListener(this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Intent intent = new Intent(,UserInfoActivity.class);
                 Intent intent = new Intent(MapUsersInfoActivity.this,UserInfoActivity.class);
                 Friend friend = FriendsManager.getInstance().getFriendByID(list.get(i).getUserid());
                 if(friend != null){
@@ -57,7 +54,6 @@ public class MapUsersInfoActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("userinfo", list.get(i));
                     intent.putExtra("hide", true);
                 }
-
                 startActivity(intent);
             }
         });
@@ -76,4 +72,10 @@ public class MapUsersInfoActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
     }
+
+    public static void setList(List<User> userList){
+        list.clear();
+        list.addAll(userList);
+    }
+
 }
