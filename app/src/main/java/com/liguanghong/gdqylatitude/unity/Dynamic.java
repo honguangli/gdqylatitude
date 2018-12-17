@@ -29,6 +29,16 @@ public class Dynamic {
 
     private byte[] pic3;
 
+    private Date postedtime;
+
+    public Date getPostedtime() {
+        return postedtime;
+    }
+
+    public void setPostedtime(Date postedtime) {
+        this.postedtime = postedtime;
+    }
+
     public Integer getDynamicid() {
         return dynamicid;
     }

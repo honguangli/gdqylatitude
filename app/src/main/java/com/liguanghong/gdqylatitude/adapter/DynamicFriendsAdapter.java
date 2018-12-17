@@ -1,6 +1,8 @@
 package com.liguanghong.gdqylatitude.adapter;
 
 import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.manager.UserManager;
+import com.liguanghong.gdqylatitude.unity.Dynamic;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DynamicFriendsAdapter extends BaseAdapter {
 
-    private ArrayList<String> list;
+    private List<Dynamic> list;
     private Context context;
 
     private ImageView img_headphoto3;               //头像
@@ -26,8 +33,9 @@ public class DynamicFriendsAdapter extends BaseAdapter {
     private ImageView img_share2;                   //转发
     private TextView item_name;                     //用户名
     private TextView tv_content2;                   //发送的内容
+    private TextView tv_time;
 
-    public DynamicFriendsAdapter(Context context, ArrayList<String> list){
+    public DynamicFriendsAdapter(Context context, List<Dynamic> list){
         this.context = context;
         this.list = list;
     }
@@ -58,11 +66,38 @@ public class DynamicFriendsAdapter extends BaseAdapter {
         img_praise2 = v.findViewById(R.id.img_praise);
         img_comment = v.findViewById(R.id.img_comment);
         img_share2 = v.findViewById(R.id.img_share);
-
         item_name = v.findViewById(R.id.tv_friendName);
         tv_content2 = v.findViewById(R.id.tv_content);
-        item_name.setText(list.get(i));
+        tv_time = v.findViewById(R.id.tv_time);
 
+        try{
+            byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
+            Log.i("pic",""+pic);
+            if (!pic.equals("")){
+                img_photo1.setImageBitmap(ImageUtils.getPicFromBytes(pic,null));
+            }
+        }catch (NullPointerException e){
+        }
+        try{
+            byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
+            Log.i("pic2",""+pic2);
+            if (!pic2.equals("")){
+                img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
+            }
+        }catch (NullPointerException e){
+        }
+        try{
+            byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
+            Log.i("pic3",""+pic3);
+            if (!pic3.equals("")){
+                img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
+            }
+        }catch (NullPointerException e){
+        }
+        item_name.setText(list.get(i).getUserid().toString());
+        tv_content2.setText(list.get(i).getText());
+        SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd HH:mm");
+        tv_time.setText(dateformat.format(list.get(i).getPostedtime()));
         return v;
     }
 }
