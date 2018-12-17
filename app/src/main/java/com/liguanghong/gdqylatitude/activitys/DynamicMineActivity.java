@@ -108,6 +108,7 @@ public class DynamicMineActivity extends BaseActivity implements View.OnClickLis
 
                         if(result.isSuccess()){
                             list= JSONArray.parseArray(result.getData().toString(),Dynamic.class);
+                            Log.i("qq",list.size()+"");
                             dynamicHandler.sendEmptyMessage(200);
                         } else{
                             //登录失败

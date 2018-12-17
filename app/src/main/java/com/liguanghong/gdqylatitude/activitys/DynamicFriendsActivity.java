@@ -48,7 +48,9 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     private FadingScrollView fadingScrollView;
     private ListView listView;
     private static List<Dynamic> list;
+    private static List<User> userlist;
     DynamicFriendsAdapter dynamicFriendsAdapter;
+    private static Handler dynamicinfoHandler;
     private static Handler dynamicHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +85,26 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initData() {
         list=new ArrayList<>();
+        userlist = new ArrayList<>();
         dynamicHandler = new Handler(){
             public void handleMessage(Message message){
                 switch (message.what){
                     case 200:
-                        dynamicFriendsAdapter = new DynamicFriendsAdapter(DynamicFriendsActivity.this,list);
+                        for (int i=0; i<list.size();i++){
+                            Log.i("ww",list.get(i).getUserid()+"");
+                            dynamicfriendsinfo(list.get(i).getUserid());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        dynamicinfoHandler = new Handler(){
+            public void handleMessage(Message message){
+                switch (message.what){
+                    case 200:
+                        dynamicFriendsAdapter = new DynamicFriendsAdapter(DynamicFriendsActivity.this,list,userlist);
                         listView = findViewById(R.id.lv);
                         listView.setAdapter(dynamicFriendsAdapter);
                         dynamicFriendsAdapter.notifyDataSetChanged();
@@ -132,7 +149,6 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
                 if(response.isSuccessful()){
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
-
                         if(result.isSuccess()){
                             list= JSONArray.parseArray(result.getData().toString(),Dynamic.class);
                             dynamicHandler.sendEmptyMessage(200);
@@ -144,6 +160,48 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
                             dynamicHandler.sendMessage(message);
                         }
                         Log.i("获取动态",  result.isSuccess() + "," + result.getMessage());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+    public static void dynamicfriendsinfo(Integer dynamicid){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userid",dynamicid.toString())
+                .build();
+        HttpUtil.postEnqueue("user/find", requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("获取动态",  "获取动态连接失败");
+                Message message = new Message();
+                message.what = 404;
+                message.obj = "获取动态连接失败";
+                dynamicinfoHandler.sendMessage(message);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    try {
+                        JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
+                        if(result.isSuccess()){
+                            User user = JSONObject.parseObject(result.getData().toString(), User.class);
+                            userlist.add(user);
+                            Log.i("qq",userlist.size()+"");
+                            Log.i("cc",userlist+"");
+                            if (userlist.size()==list.size()){
+                                dynamicinfoHandler.sendEmptyMessage(200);
+                            }
+                        } else{
+                            Message message = new Message();
+                            message.what = 0;
+                            message.obj = result.getMessage();
+                            dynamicinfoHandler.sendMessage(message);
+                        }
+                        Log.i("获取用户",  result.isSuccess() + "," + result.getMessage());
                     } catch (Exception e){
                         e.printStackTrace();
                     }
