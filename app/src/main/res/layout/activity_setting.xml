@@ -112,37 +112,12 @@
 
         </RelativeLayout>
 
-        <!-- 轨迹 -->
-        <RelativeLayout
-            android:id="@+id/setting_guard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/setting_location"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:background="@color/colorWhite">
-
-
-            <TextView
-                android:id="@+id/guard"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true"
-                android:text="轨迹"
-                android:gravity="center_vertical"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"/>
-
-
-        </RelativeLayout>
-
         <!-- 退出 -->
         <RelativeLayout
             android:id="@+id/setting_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/setting_guard"
+            android:layout_below="@+id/setting_location"
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:background="@color/colorWhite">

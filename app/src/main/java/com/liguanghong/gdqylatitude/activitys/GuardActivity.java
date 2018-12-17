@@ -2,21 +2,16 @@ package com.liguanghong.gdqylatitude.activitys;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ZoomControls;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -29,26 +24,12 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.trace.LBSTraceClient;
-import com.baidu.trace.api.analysis.DrivingBehaviorRequest;
-import com.baidu.trace.api.analysis.DrivingBehaviorResponse;
-import com.baidu.trace.api.analysis.HarshAccelerationPoint;
-import com.baidu.trace.api.analysis.HarshBreakingPoint;
-import com.baidu.trace.api.analysis.HarshSteeringPoint;
-import com.baidu.trace.api.analysis.OnAnalysisListener;
-import com.baidu.trace.api.analysis.SpeedingInfo;
-import com.baidu.trace.api.analysis.SpeedingPoint;
-import com.baidu.trace.api.analysis.StayPoint;
-import com.baidu.trace.api.analysis.StayPointRequest;
-import com.baidu.trace.api.analysis.StayPointResponse;
-import com.baidu.trace.api.track.DistanceResponse;
 import com.baidu.trace.api.track.HistoryTrackRequest;
 import com.baidu.trace.api.track.HistoryTrackResponse;
-import com.baidu.trace.api.track.LatestPointResponse;
 import com.baidu.trace.api.track.OnTrackListener;
 import com.baidu.trace.api.track.SupplementMode;
 import com.baidu.trace.api.track.TrackPoint;
 import com.baidu.trace.model.CoordType;
-import com.baidu.trace.model.Point;
 import com.baidu.trace.model.ProcessOption;
 import com.baidu.trace.model.SortType;
 import com.baidu.trace.model.StatusCodes;
@@ -60,7 +41,6 @@ import com.liguanghong.gdqylatitude.util.MapUtil;
 import com.liguanghong.gdqylatitude.view.DateDialog;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,6 +58,7 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
     private DateDialog dateDialog = null;
     private Button startTimeBtn = null;
     private Button endTimeBtn = null;
+    private Button search;
     private LBSTraceClient mTraceClient;
 
     private AtomicInteger mSequenceGenerator = new AtomicInteger();
@@ -88,12 +69,6 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
     private long endTime = CommonUtil.getCurrentTime();
 
     private void Init(){
-
-//设置轨迹查询起止时间
-// 开始时间(单位：秒)
-        long startTime = 1544064619;
-// 结束时间(单位：秒)
-        long endTime = 1544151019;
 // 设置开始时间
         historyTrackRequest.setStartTime(startTime);
 // 设置结束时间
@@ -126,6 +101,7 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
 
             }else if (0 == toal){
                 Log.i("轨迹记录", "数量：空");
+                mBaiduMap.clear();
             }else {
                 List<TrackPoint> points = response.getTrackPoints();
 
@@ -268,6 +244,8 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
         startTimeBtn = findViewById(R.id.start_time);
         endTimeBtn = findViewById(R.id.end_time);
         startTimeBtn.setOnClickListener(this);
+        search = findViewById(R.id.search);
+        search.setOnClickListener(this);
         long nowTime = System.currentTimeMillis();
         startTimeBtn.setText("开始："+simpleDateFormat.format(nowTime));
         endTimeBtn.setOnClickListener(this);
@@ -283,6 +261,14 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
         mBaiduMap = mMapView.getMap();
         mTraceClient = new LBSTraceClient(getApplicationContext());
         historyTrackRequest = new HistoryTrackRequest(mSequenceGenerator.incrementAndGet(), serviceId, entityName);
+        ProcessOption processOption = new ProcessOption();//纠偏选项
+        processOption.setRadiusThreshold(0);
+        processOption.setTransportMode(TransportMode.riding);
+        processOption.setNeedDenoise(true);//去噪处理
+        processOption.setNeedMapMatch(true);//绑路处理
+        processOption.setNeedVacuate(true);//抽稀处理
+        historyTrackRequest.setProcessOption(processOption);//设置参数
+        historyTrackRequest.setProcessed(true);
         Init();
     }
 
@@ -298,6 +284,9 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.end_time:
                 onEndTime();
+                break;
+            case R.id.search:
+                requery();
                 break;
         }
     }
@@ -342,6 +331,11 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
             dateDialog.setCallback(endTimeCallback);
         }
         dateDialog.show();
+    }
+
+    private void requery(){
+        Log.i("GPS", "starttime："+startTime+" , endtime："+endTime);
+        Init();
     }
 
 }
