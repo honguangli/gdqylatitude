@@ -33,6 +33,16 @@
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
+        <!-- 图片 -->
+        <ImageView
+            android:id="@+id/write_messge"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/camera"/>
+
     </RelativeLayout>
 
 

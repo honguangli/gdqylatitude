@@ -1,5 +1,7 @@
 package com.liguanghong.gdqylatitude.activitys;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,10 +19,12 @@ import com.liguanghong.gdqylatitude.base.BaseActivity;
 import com.liguanghong.gdqylatitude.manager.UserManager;
 import com.liguanghong.gdqylatitude.unity.Dynamic;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
+import com.liguanghong.gdqylatitude.util.ImageUtils;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Call;
@@ -31,7 +35,7 @@ import okhttp3.Response;
 
 public class DynamicMineActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView backtrack;
+    private ImageView backtrack,write_messge;
     private ListView listView;
     public static List<Dynamic> list;
     DynamicMineAdapter dynamicMineAdapter;
@@ -50,9 +54,10 @@ public class DynamicMineActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView() {
         backtrack = findViewById(R.id.backtrack);
+        write_messge = findViewById(R.id.write_messge);
 
         backtrack.setOnClickListener(this);
-
+        write_messge.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +67,7 @@ public class DynamicMineActivity extends BaseActivity implements View.OnClickLis
             public void handleMessage(Message message){
                 switch (message.what){
                     case 200:
+                        Collections.reverse(list);
                         dynamicMineAdapter = new DynamicMineAdapter(DynamicMineActivity.this,list);
                         listView = findViewById(R.id.lv_dynamic_mine);
                         listView.setAdapter(dynamicMineAdapter);
@@ -78,8 +84,13 @@ public class DynamicMineActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id)
-        {
+        switch (id) {
+            case R.id.write_messge:
+                Intent intent = new Intent(DynamicMineActivity.this,DynamicPublicActivity.class);
+                startActivityForResult(intent,10);
+                //startActivity(intent);
+                break;
+
             case R.id.backtrack:
                 finish();
                 break;
@@ -125,5 +136,11 @@ public class DynamicMineActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10 && resultCode == 20) {
+            dynamicfriends();
+        }
     }
 }
