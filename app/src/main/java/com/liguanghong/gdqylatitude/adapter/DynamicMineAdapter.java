@@ -80,18 +80,20 @@ public class DynamicMineAdapter extends BaseAdapter {
         tv_time.setText(dateformat.format(list.get(i).getPostedtime()));
 
         try{
-            byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
-            byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
-            byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
-
-            if (!pic.equals("")){
+            if (list.get(i).getPic() != null){
+                byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
                 img_photo1.setImageBitmap(ImageUtils.getPicFromBytes(pic,null));
-            }
-            if (!pic2.equals("")){
-                img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
-            }
-            if (!pic3.equals("")){
-                img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
+                if (list.get(i).getPic2() != null){
+                    byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
+                    img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
+                    if (list.get(i).getPic3() != null){
+                        byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
+                        img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
+                    }
+                }
+            } else{
+                RelativeLayout relativeLayout = v.findViewById(R.id.r2_3);
+                relativeLayout.setVisibility(View.GONE);
             }
         }catch (NullPointerException e){
         }
