@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.liguanghong.gdqylatitude.R;
+import com.liguanghong.gdqylatitude.activitys.DynamicPublicActivity;
 import com.liguanghong.gdqylatitude.activitys.SelectPhotoActivity;
 import com.liguanghong.gdqylatitude.util.SelectPhotoLoaderUtil;
 
@@ -102,14 +103,17 @@ public  class ChatPhotoAdapter extends BaseAdapter {
                         finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle);
                     }else{
                         if (mSelectImg.size()<3){
-                            //未被选中
-                            mSelectImg.add(filePath);
-                            finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
-                            finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
+                            if ((DynamicPublicActivity.photo.size()+mSelectImg.size())<3){
+                                //未被选中
+                                mSelectImg.add(filePath);
+                                finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
+                                finalVh.mSelect.setBackgroundResource(R.drawable.select_pic_circle_check);
+                            }else {
+                                Toast.makeText(context,"图片选择总数超过3张",Toast.LENGTH_LONG).show();
+                            }
                         }else {
                             Toast.makeText(context,"只能选择3张图片",Toast.LENGTH_LONG).show();
                         }
-
                     }
                 }
             });

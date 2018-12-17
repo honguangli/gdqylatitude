@@ -49,7 +49,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
     private EditText et_send_messges;
 
     private GridView gridView;
-    private ArrayList<String> photo;
+    public static ArrayList<String> photo;
     private DynamicPublicAdpter dynamicPublicAdpter;
 
     private static Handler userinfoHandler;
