@@ -152,10 +152,8 @@ public class MapFragment extends BaseFragment {
                     getUserInfoPanel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), MapUsersInfoActivity.class);
-                            String ss = JSONObject.toJSONString(list);
-                            intent.putExtra("user", ss);
-                            startActivity(intent);
+                            MapUsersInfoActivity.setList(list);
+                            startActivity(new Intent(getActivity(), MapUsersInfoActivity.class));
                         }
                     });
 
@@ -354,7 +352,7 @@ public class MapFragment extends BaseFragment {
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span= 0;
+        int span = 3000;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
