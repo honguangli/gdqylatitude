@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liguanghong.gdqylatitude.R;
@@ -72,33 +74,26 @@ public class DynamicMineAdapter extends BaseAdapter {
         byte[] head = Base64.decode(UserManager.getInstance().getAppUser().getHeadportrait(), Base64.DEFAULT);
         img_headphoto3.setImageBitmap(ImageUtils.getPicFromBytes(head,null));
 
-//        item_name.setText(list.get(i).getUserid().toString());
         item_name.setText(UserManager.getInstance().getAppUser().getLogname());
         tv_content2.setText(list.get(i).getText());
         SimpleDateFormat dateformat=new SimpleDateFormat("MM-dd HH:mm");
         tv_time.setText(dateformat.format(list.get(i).getPostedtime()));
 
         try{
-            byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
-            Log.i("pic",""+pic);
-            if (!pic.equals("")){
+            if (list.get(i).getPic() != null){
+                byte[] pic = Base64.decode(list.get(i).getPic(), Base64.DEFAULT);
                 img_photo1.setImageBitmap(ImageUtils.getPicFromBytes(pic,null));
-            }
-        }catch (NullPointerException e){
-        }
-        try{
-            byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
-            Log.i("pic2",""+pic2);
-            if (!pic2.equals("")){
-                img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
-            }
-        }catch (NullPointerException e){
-        }
-        try{
-            byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
-            Log.i("pic3",""+pic3);
-            if (!pic3.equals("")){
-                img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
+                if (list.get(i).getPic2() != null){
+                    byte[] pic2 = Base64.decode(list.get(i).getPic2(), Base64.DEFAULT);
+                    img_photo2.setImageBitmap(ImageUtils.getPicFromBytes(pic2,null));
+                    if (list.get(i).getPic3() != null){
+                        byte[] pic3 = Base64.decode(list.get(i).getPic3(), Base64.DEFAULT);
+                        img_photo3.setImageBitmap(ImageUtils.getPicFromBytes(pic3,null));
+                    }
+                }
+            } else{
+                RelativeLayout relativeLayout = v.findViewById(R.id.r2_3);
+                relativeLayout.setVisibility(View.GONE);
             }
         }catch (NullPointerException e){
         }

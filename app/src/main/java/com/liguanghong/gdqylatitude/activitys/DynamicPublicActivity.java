@@ -128,26 +128,38 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
                     dialog = new LoadingDialog(this,"玩命发送中...");
                     dialog.show();
                     if (photo.size()==0){
-                        SendDynamic(et_send_messges.getText().toString().trim(),
-                                "",
-                                "",
-                                "");
+
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                                .add("text",et_send_messges.getText().toString().trim())
+                                .build();
+                        SendDynamic(requestBody);
                     }else if (photo.size()==1){
-                        SendDynamic(et_send_messges.getText().toString().trim(),
-                                ImageUtils.filePathToString(photo.get(0)),
-                                "",
-                                "");
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                                .add("text",et_send_messges.getText().toString().trim())
+                                .add("pic", ImageUtils.filePathToString(photo.get(0)))
+                                .build();
+                        SendDynamic(requestBody);
                     }else if (photo.size()==2){
-                        SendDynamic(et_send_messges.getText().toString().trim(),
-                                ImageUtils.filePathToString(photo.get(0)),
-                                ImageUtils.filePathToString(photo.get(1)),
-                                "");
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                                .add("text",et_send_messges.getText().toString().trim())
+                                .add("pic", ImageUtils.filePathToString(photo.get(0)))
+                                .add("pic2", ImageUtils.filePathToString(photo.get(1)))
+                                .build();
+                        SendDynamic(requestBody);
                     }else if (photo.size()==3){
-                        SendDynamic(et_send_messges.getText().toString().trim(),
-                                ImageUtils.filePathToString(photo.get(0)),
-                                ImageUtils.filePathToString(photo.get(1)),
-                                ImageUtils.filePathToString(photo.get(2)));
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
+                                .add("text",et_send_messges.getText().toString().trim())
+                                .add("pic", ImageUtils.filePathToString(photo.get(0)))
+                                .add("pic2", ImageUtils.filePathToString(photo.get(1)))
+                                .add("pic3", ImageUtils.filePathToString(photo.get(2)))
+                                .build();
+                        SendDynamic(requestBody);
                     }
+                    setResult(20);
                     finish();
                 }
 
@@ -175,14 +187,7 @@ public class DynamicPublicActivity extends BaseActivity implements View.OnClickL
     /**
      * 发送动态
      */
-    private void SendDynamic(String messges,String pic,String pic2,String pic3){
-        RequestBody requestBody = new FormBody.Builder()
-                .add("userid", UserManager.getInstance().getAppUser().getUserid() + "")
-                .add("text",messges)
-                .add("pic",pic)
-                .add("pic2",pic2)
-                .add("pic3",pic3)
-                .build();
+    private void SendDynamic(RequestBody requestBody){
 
         HttpUtil.postEnqueue("dynamic/public", requestBody, new Callback() {
             @Override

@@ -69,12 +69,13 @@
         <RelativeLayout
             android:id="@+id/r2_3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@id/r2_2"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="12dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp">
+            android:layout_marginRight="12dp"
+            >
 
             <LinearLayout
                 android:id="@+id/l1"

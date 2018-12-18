@@ -42,7 +42,7 @@ import okhttp3.Response;
 
 public class DynamicFriendsActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView backtrack,write_messge;
+    private ImageView backtrack;
     private CircleImageView img_headphoto1;
     private RelativeLayout topPanel;
     private FadingScrollView fadingScrollView;
@@ -65,7 +65,7 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         backtrack = findViewById(R.id.backtrack);
-        write_messge = findViewById(R.id.write_messge);
+
         img_headphoto1 = findViewById(R.id.img_headphoto1);
         topPanel = findViewById(R.id.topPanel);
 
@@ -79,7 +79,7 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
         fadingScrollView.setFadingHeightView(findViewById(R.id.nac_image)); //图片及其高度
 
         backtrack.setOnClickListener(this);
-        write_messge.setOnClickListener(this);
+
     }
 
     @Override
@@ -121,10 +121,6 @@ public class DynamicFriendsActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.write_messge:
-                Intent intent = new Intent(DynamicFriendsActivity.this,DynamicPublicActivity.class);
-                startActivity(intent);
-                break;
             case R.id.backtrack:
                 finish();
                 break;

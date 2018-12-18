@@ -380,6 +380,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         msg.setMsgType(MessageType.NOTICEFRIENDTYPE);
         msg.setMsg(noticeMsg);
         WebSocketManager.getInstance().sendMsg(msg);
+        userInfoHandler.sendEmptyMessage(3);
 
 //        RequestBody requestBody = new FormBody.Builder()
 //                .add("noticetype", MessageType.FRIENDAPPLY + "")
