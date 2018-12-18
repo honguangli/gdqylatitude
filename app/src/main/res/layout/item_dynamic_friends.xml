@@ -87,8 +87,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dynamic_mine_light" />
+                    android:scaleType="fitXY" />
 
                 <ImageView
                     android:id="@+id/img_photo2"
@@ -96,16 +95,14 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dynamic_mine_light" />
+                    android:scaleType="fitXY" />
 
                 <ImageView
                     android:id="@+id/img_photo3"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dynamic_mine_light" />
+                    android:scaleType="fitXY" />
             </LinearLayout>
 
         </RelativeLayout>

@@ -46,9 +46,9 @@ public class GroupNoticeActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         list = new ArrayList<>();
-        for (int i = 0;i < 3 ;i++){
-            list.add("小明");
-        }
+//        for (int i = 0;i < 3 ;i++){
+//            list.add("小明");
+//        }
 
         group_noticeAdapter = new GroupNoticeAdapter(getApplicationContext(),list);
         lv_group_apply.setAdapter(group_noticeAdapter);
