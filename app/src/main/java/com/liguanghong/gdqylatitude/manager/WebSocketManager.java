@@ -1,9 +1,12 @@
 package com.liguanghong.gdqylatitude.manager;
 
+import android.os.Message;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liguanghong.gdqylatitude.activitys.HomeActivity;
+import com.liguanghong.gdqylatitude.activitys.SettingActivity;
+import com.liguanghong.gdqylatitude.fragment.MessageFragment;
 import com.liguanghong.gdqylatitude.unity.ChatMsg;
 import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
@@ -82,6 +85,12 @@ public class WebSocketManager extends WebSocketClient{
                 HomeActivity.getHomeHandler().sendEmptyMessage(222);
             } else if(noticeMsg.getNoticetype().equals(MessageType.FRIENDONLINE)){
                 //好友上线通知
+                if(SettingActivity.isOpened){
+                    Message m = new Message();
+                    m.what = 666;
+                    m.obj = noticeMsg.getSenderid();
+                    HomeActivity.getHomeHandler().sendMessage(m);
+                }
                 FriendsManager.getInstance().setFriendsStatus(noticeMsg.getSenderid(), 2);
             } else if(noticeMsg.getNoticetype().equals(MessageType.FRIENDOFFLINE)){
                 //好友下线通知
@@ -101,6 +110,11 @@ public class WebSocketManager extends WebSocketClient{
                 friend.setFriendid(user.getUserid());
                 friend.setFriend(user);
                 FriendsManager.getInstance().addFriend(friend);
+            } else if(noticeMsg.getNoticetype().equals(MessageType.FRIENDDELETE)){
+                //删除好友
+                FriendsManager.getInstance().deleteFriend(noticeMsg.getSenderid());
+                ConversationManager.getInstance().removeConversation(noticeMsg.getSenderid(), true);
+                MessageFragment.getMessageHandler().sendEmptyMessage(222);
             }
         } else if(MessageType.NOTICEGROUPTYPE.equals(msgType)){
             NoticeMsg noticeMsg = object.getObject("msg", NoticeMsg.class);

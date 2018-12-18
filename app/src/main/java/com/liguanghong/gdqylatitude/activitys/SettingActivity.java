@@ -26,7 +26,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private AlertDialog refreshTimeDialog;
     private static int time;//更新时间间隔
-    private boolean isOpened;//是否提醒好友上线
+    public static boolean isOpened = false;//是否提醒好友上线
     private static String [] timeValue = new String[4];
     private AlertDialog.Builder refreshTimeBuilder;
     private GPSTrace gps;
@@ -50,6 +50,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ivBacktrack = findViewById(R.id.setting_backtrack);
         tvTimeinterval = findViewById(R.id.location_timeinterval);
         swFriend = findViewById(R.id.switchview_friend);
+        swFriend.setOpened(isOpened);
 
         rlyExit.setOnClickListener(this);
         rlyFriend.setOnClickListener(this);
@@ -87,12 +88,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.switchview_friend:
                 isOpened = swFriend.isOpened();
-                if(isOpened){
-                    gps.startService();
-                } else{
-                    gps.stopService();
-                }
-                Toast.makeText(this,"开关状态："+isOpened,Toast.LENGTH_SHORT).show();
+                if(isOpened)
+                    Toast.makeText(this,"已开启好友上线提醒："+isOpened,Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this,"已关闭好友上线提醒："+isOpened,Toast.LENGTH_SHORT).show();
                 break;
             case R.id.setting_exit:
                 startActivity(new Intent(this, SignInActivity.class));

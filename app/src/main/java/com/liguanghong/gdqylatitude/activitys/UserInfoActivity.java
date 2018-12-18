@@ -448,6 +448,16 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                             userInfoHandler.sendEmptyMessage(4);
                             ConversationManager.getInstance().removeConversation(friend.getFriendid(), true);
                             MessageFragment.getMessageHandler().sendEmptyMessage(222);
+                            NoticeMsg<User> noticeMsg = new NoticeMsg<>();
+                            noticeMsg.setNoticetype(MessageType.FRIENDDELETE);
+                            noticeMsg.setSenderid(UserManager.getInstance().getAppUser().getUserid());
+                            noticeMsg.setReceiverid(friend.getFriendid());
+                            noticeMsg.setStatus(1);
+                            noticeMsg.setData(UserManager.getInstance().getAppUser());
+                            Msg<NoticeMsg> msg = new Msg<>();
+                            msg.setMsgType(MessageType.NOTICEFRIENDTYPE);
+                            msg.setMsg(noticeMsg);
+                            WebSocketManager.getInstance().sendMsg(msg);
                         } else{
 
                         }

@@ -6,10 +6,12 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -33,6 +35,7 @@ import com.liguanghong.gdqylatitude.unity.Friend;
 import com.liguanghong.gdqylatitude.unity.Groupchat;
 import com.liguanghong.gdqylatitude.unity.MessageType;
 import com.liguanghong.gdqylatitude.unity.NoticeMsg;
+import com.liguanghong.gdqylatitude.util.DensityUtil;
 import com.liguanghong.gdqylatitude.util.HttpUtil;
 import com.liguanghong.gdqylatitude.util.JsonResult;
 
@@ -125,6 +128,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         //强制登出
                         logout();
                         break;
+                    case 666:
+                        //好友上线提醒
+                        Toast toast = Toast.makeText(HomeActivity.this,
+                                FriendsManager.getInstance().getFriendByID((Integer)message.obj).getFriend().getLogname()+" 上线了",
+                                Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, DensityUtil.dp2px(HomeActivity.this, 42));
+                        toast.show();
                 }
             }
         };
@@ -293,6 +303,5 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
-
 
 }

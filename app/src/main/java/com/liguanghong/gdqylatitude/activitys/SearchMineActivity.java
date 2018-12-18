@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -90,6 +91,15 @@ public class SearchMineActivity extends BaseActivity implements View.OnClickList
         friendsListView.setAdapter(searchMineAdapter);
 
         searchGroupList = new ArrayList<>();
+
+        friendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(SearchMineActivity.this, UserInfoActivity.class);
+                intent.putExtra("userinfo", searchFriendList.get(i));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

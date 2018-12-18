@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -101,6 +102,7 @@ public class GuardActivity extends BaseActivity implements View.OnClickListener 
 
             }else if (0 == toal){
                 Log.i("轨迹记录", "数量：空");
+                Toast.makeText(GuardActivity.this,"所选时间段未有出行轨迹",Toast.LENGTH_SHORT).show();
                 mBaiduMap.clear();
             }else {
                 List<TrackPoint> points = response.getTrackPoints();

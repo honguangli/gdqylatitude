@@ -322,7 +322,6 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
             } else{
                 rly_manage.setVisibility(View.GONE);
             }
-            setUserItem(groupchat.getGroupid(), 4);
         }
     }
 

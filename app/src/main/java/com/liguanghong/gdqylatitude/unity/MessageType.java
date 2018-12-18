@@ -23,6 +23,7 @@ public class MessageType {
 	public static final Integer FRIENDAPPLY = 21;	//好友申请
 	public static final Integer FRIENDDENIED = 22;	//好友申请被拒绝
 	public static final Integer FRIENDAGREED = 23;	//好友申请被同意
+	public static final Integer FRIENDDELETE = 24; //删除好友
 	//通知类消息 -- 群聊通知类
 	public static final Integer NOTICEGROUPTYPE = 30;
 	public static final Integer GROUPAPPLY = 31;			//群聊加入申请
