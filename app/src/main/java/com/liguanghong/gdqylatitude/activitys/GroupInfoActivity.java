@@ -146,7 +146,7 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
                     try {
                         JsonResult<Object> result = JSONObject.parseObject(response.body().string(), JsonResult.class);
                         if(result.isSuccess()){
-                                 List<User> list = JSONArray.parseArray(result.getData().toString(), User.class);
+                            List<User> list = JSONArray.parseArray(result.getData().toString(), User.class);
                             Message message = new Message();
                             message.what = 200;
                             message.obj = list;
@@ -322,6 +322,7 @@ public class GroupInfoActivity extends BaseActivity implements View.OnClickListe
             } else{
                 rly_manage.setVisibility(View.GONE);
             }
+            setUserItem(groupchat.getGroupid(), 4);
         }
     }
 
