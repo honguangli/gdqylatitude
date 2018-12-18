@@ -86,7 +86,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
-                    android:src="@drawable/dynamic_mine_light"
+
                     />
 
                 <ImageView
@@ -95,7 +95,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginRight="2dp"
-                    android:src="@drawable/dynamic_mine_light"
+
                     />
 
                 <ImageView
@@ -103,7 +103,7 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/dynamic_mine_light"
+
                     />
             </LinearLayout>
         </RelativeLayout>
